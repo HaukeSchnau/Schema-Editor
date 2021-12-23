@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import Schema from "./schema";
 import { useLocalObservable } from "mobx-react";
 import { makeAutoObservable } from "mobx";
-import useAutoSave from "../hooks/useAutoSave";
+import Schema from "./schema";
 
-export default class RootStore {
+export class RootStore {
   loadedSchema = new Schema();
 
   constructor() {

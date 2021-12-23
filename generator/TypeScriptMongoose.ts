@@ -1,7 +1,7 @@
+import p from "path";
 import Model from "../model/model";
 import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
-import p from "path";
 import { pluralize } from "./stringUtil";
 
 const propTypeMap = {
@@ -19,12 +19,14 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
   }
 
   buildProp(prop: Property) {
-    const propTypeStr =
-      typeof prop.type === "string"
-        ? propTypeMap[prop.type]
-        : prop.type.hasDatabaseCollection
-        ? `{ type: ObjectId, ref: "${prop.type.name}" }`
-        : this.generateModelSchema(prop.type);
+    let propTypeStr: string;
+    if (typeof prop.type === "string") {
+      propTypeStr = propTypeMap[prop.type];
+    } else if (prop.type.hasDatabaseCollection) {
+      propTypeStr = `{ type: ObjectId, ref: "${prop.type.name}" }`;
+    } else {
+      propTypeStr = this.generateModelSchema(prop.type);
+    }
 
     const arrayedPropType = prop.array ? `[${propTypeStr}]` : propTypeStr;
 

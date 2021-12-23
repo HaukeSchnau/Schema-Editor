@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
-import { StoreProvider } from "../model/rootStore";
 import Modal from "react-modal";
 import { configure } from "mobx";
+import App from "./App";
+import { StoreProvider } from "../model/rootStore";
 
 Modal.setAppElement("#__modal");
 

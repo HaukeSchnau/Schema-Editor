@@ -1,3 +1,4 @@
+import React from "react";
 import { observer } from "mobx-react";
 import Model from "../../model/model";
 import Property from "../../model/property";
@@ -14,7 +15,9 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
         className="heading"
         value={model.name}
         placeholder="(kein Name)"
-        onChange={(e) => (model.name = e.target.value)}
+        onChange={(e) => {
+          model.name = e.target.value;
+        }}
       />
       <ul>
         {model.properties.map((prop, i) => (
@@ -26,6 +29,7 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
         ))}
       </ul>
       <button
+        type="button"
         className="raised"
         onClick={() => model.properties.push(new Property("prop"))}
       >

@@ -7,7 +7,7 @@ export default function useInterval(
 ) {
   const handle = useRef<number | null>();
   useEffect(() => {
-    handle.current = setInterval(cb, interval);
+    handle.current = window.setInterval(cb, interval);
     return () => {
       if (handle.current) clearInterval(handle.current);
     };

@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect } from "react";
 
 export default function useClickAway(
   refs: RefObject<HTMLElement | null>[],

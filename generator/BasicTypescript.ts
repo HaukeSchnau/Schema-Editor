@@ -1,7 +1,7 @@
+import p from "path";
 import Model from "../model/model";
 import Property, { DataType } from "../model/property";
 import CodeGenerator from "./CodeGenerator";
-import p from "path";
 
 const propTypeMap = {
   Mixed: "unknown",

@@ -1,6 +1,6 @@
 import fs from "fs/promises";
-import Schema from "../model/schema";
 import { deserialize } from "serializr";
+import Schema from "../model/schema";
 import BasicTypescript from "./BasicTypescript";
 import CodeGenerator from "./CodeGenerator";
 import TypeScriptMongooseGenerator from "./TypeScriptMongoose";

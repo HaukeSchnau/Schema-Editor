@@ -1,7 +1,7 @@
 import fs from "fs/promises";
+import p from "path";
 import Model from "../model/model";
 import Schema from "../model/schema";
-import p from "path";
 
 export default class CodeGenerator {
   outDir: string;
@@ -13,15 +13,15 @@ export default class CodeGenerator {
   async generate(schema: Schema) {
     await fs.mkdir(this.outDir, { recursive: true });
     await Promise.all(
-      schema.models.map((model) => {
+      schema.models.map(async (model) => {
         const filePath = p.join(this.outDir, this.getFileName(model));
         const str = this.generateModel(model);
-        if (str) fs.writeFile(filePath, str);
+        if (str) await fs.writeFile(filePath, str);
       })
     );
   }
 
-  generateModel(model: Model): string | null {
+  generateModel(_model: Model): string | null {
     return "";
   }
 

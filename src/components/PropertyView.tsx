@@ -1,5 +1,5 @@
+import React, { useRef, useState } from "react";
 import { observer } from "mobx-react";
-import { useRef, useState } from "react";
 import Property, { PRIMITIVES } from "../../model/property";
 import { useStore } from "../../model/rootStore";
 import useClickAway from "../../hooks/useClickAway";
@@ -25,7 +25,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
       prop.optional ? "?" : ""
     }`;
     if (prop.key) return <u>{formatted}</u>;
-    else return formatted;
+    return formatted;
   };
 
   const typeOptions = [...PRIMITIVES, ...models];
@@ -48,7 +48,9 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
               <input
                 type="checkbox"
                 checked={prop.array}
-                onChange={(e) => (prop.array = e.target.checked)}
+                onChange={(e) => {
+                  prop.array = e.target.checked;
+                }}
               />
               Array
             </label>
@@ -56,7 +58,9 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
               <input
                 type="checkbox"
                 checked={prop.optional}
-                onChange={(e) => (prop.optional = e.target.checked)}
+                onChange={(e) => {
+                  prop.optional = e.target.checked;
+                }}
               />
               Optional
             </label>
@@ -64,12 +68,14 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
               <input
                 type="checkbox"
                 checked={prop.key}
-                onChange={(e) => (prop.key = e.target.checked)}
+                onChange={(e) => {
+                  prop.key = e.target.checked;
+                }}
               />
               Schlüssel
             </label>
             <select
-              onChange={(e) => onChangeDataType(parseInt(e.target.value))}
+              onChange={(e) => onChangeDataType(parseInt(e.target.value, 10))}
             >
               {typeOptions.map((option, i) => (
                 <option
@@ -90,12 +96,14 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
           placeholder="(kein Name)"
           onChange={onChangeName}
         />
-        <button onClick={toggleTypeEditor} ref={buttonRef}>
+        <button type="button" onClick={toggleTypeEditor} ref={buttonRef}>
           <code>{renderPropType()}</code>
         </button>
       </div>
 
-      <button onClick={onDelete}>✕</button>
+      <button type="button" onClick={onDelete}>
+        ✕
+      </button>
     </li>
   );
 };

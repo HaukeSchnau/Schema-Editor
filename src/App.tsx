@@ -1,11 +1,10 @@
+import React from "react";
 import { observer } from "mobx-react";
+import { deserialize, serialize } from "serializr";
 import { useStore } from "../model/rootStore";
 import ModelView from "./components/ModelView";
 import useAutoSave from "../hooks/useAutoSave";
 import Schema from "../model/schema";
-import { plainToClass } from "class-transformer";
-import { deserialize, serialize } from "serializr";
-import { PRIMITIVES } from "../model/property";
 
 const App = () => {
   const store = useStore();
@@ -28,7 +27,7 @@ const App = () => {
     inputEl.type = "file";
     inputEl.accept = ".json";
     inputEl.click();
-    inputEl.addEventListener("change", (e) => {
+    inputEl.addEventListener("change", () => {
       const files = inputEl.files ?? [];
       const f = files[0];
       f.text().then((text) => {
@@ -44,7 +43,7 @@ const App = () => {
     const anchorEl = document.createElement("a");
     anchorEl.setAttribute(
       "href",
-      "data:application/json;charset=utf-8," + encodeURIComponent(json)
+      `data:application/json;charset=utf-8,${encodeURIComponent(json)}`
     );
     anchorEl.setAttribute("download", "schema.json");
     anchorEl.click();
@@ -55,17 +54,29 @@ const App = () => {
       <div className="head-row">
         <h1>Schema-Editor</h1>
         <div>
-          <button className="raised" onClick={() => openFilePicker()}>
+          <button
+            type="button"
+            className="raised"
+            onClick={() => openFilePicker()}
+          >
             Laden...
           </button>
-          <button className="raised" onClick={() => downloadSchema()}>
+          <button
+            type="button"
+            className="raised"
+            onClick={() => downloadSchema()}
+          >
             Speichern
           </button>
         </div>
       </div>
       <div className="head-row">
         <h2>Alle Models</h2>
-        <button className="raised" onClick={() => loadedSchema.addModel()}>
+        <button
+          type="button"
+          className="raised"
+          onClick={() => loadedSchema.addModel()}
+        >
           Neues Model
         </button>
       </div>

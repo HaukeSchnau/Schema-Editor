@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
-import { custom, object, reference, serializable } from "serializr";
-import Model from "./model";
+import { custom, serializable } from "serializr";
 import { v4 as uuid } from "uuid";
+import Model from "./model";
 
 export const PRIMITIVES = <const>[
   "string",

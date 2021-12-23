@@ -1,7 +1,7 @@
+import p from "path";
 import Model from "../model/model";
 import Property, { DataType } from "../model/property";
 import CodeGenerator from "./CodeGenerator";
-import p from "path";
 import { toSnakeCase } from "./stringUtil";
 
 const propTypeMap = {
@@ -47,7 +47,7 @@ export default class DartMobxGenerator extends CodeGenerator {
     const imports = this.buildImports(model);
 
     return `import 'package:mobx/mobx.dart';
-${imports.length ? imports.join("\n") + "\n" : ""}  
+${imports.length ? `${imports.join("\n")}\n` : ""}  
 part '${model.name}.g.dart';
 
 class ${model.name} = _${model.name} with _$${model.name};

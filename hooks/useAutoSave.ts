@@ -1,10 +1,9 @@
-import { plainToClass } from "class-transformer";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { deserialize, serialize } from "serializr";
 import useInterval from "./useInterval";
 
 type ClassConstructor<T> = {
-  new (...args: any[]): T;
+  new (..._args: any[]): T;
 };
 
 export default function useAutoSave<T>(
