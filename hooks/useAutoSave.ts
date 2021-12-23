@@ -9,7 +9,7 @@ type ClassConstructor<T> = {
 export default function useAutoSave<T>(
   name: string,
   cls: ClassConstructor<T>,
-  onLoad: (obj: T | null) => void,
+  onLoad: (_obj: T | null) => void,
   item?: T,
   interval = 1000
 ) {
