@@ -1,0 +1,99 @@
+body {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #22223b;
+  color: #f2e9e4;
+  padding: 2rem 12vw;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button {
+  border: 0;
+  outline: 0;
+  font-family: inherit;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.raised {
+  padding: 1rem 2rem;
+  background: #c9ada7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: #f2e9e4;
+  padding: 1rem 2rem;
+  color: #22223b;
+}
+
+input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  padding: 1rem 0;
+  font-family: inherit;
+  color: inherit;
+}
+
+input.heading {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overlay-wrapper {
+  position: relative;
+  align-self: stretch;
+}
+
+.overlay {
+  position: absolute;
+  background-color: #fff;
+  padding: 1rem 2rem;
+  top: 80%;
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+}
