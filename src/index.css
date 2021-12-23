@@ -39,11 +39,18 @@ button {
   font-size: 1rem;
   cursor: pointer;
   background-color: transparent;
+  color: inherit;
+  display: block;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 
 .raised {
   padding: 1rem 2rem;
   background: #c9ada7;
+  color: #111;
 }
 
 .grid {
@@ -96,4 +103,13 @@ li {
   display: flex;
   flex-direction: column;
   width: 15rem;
+}
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.mt-4 {
+  margin-top: 16px;
 }

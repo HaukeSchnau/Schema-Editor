@@ -4,7 +4,7 @@ import { makeAutoObservable } from "mobx";
 import Schema from "./schema";
 
 export class RootStore {
-  loadedSchema = new Schema();
+  loadedSchema: Schema | null = null;
 
   constructor() {
     makeAutoObservable(this);

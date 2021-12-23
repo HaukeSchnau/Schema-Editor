@@ -1,11 +1,25 @@
-import { useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import { deserialize, serialize } from "serializr";
-import { get, set } from "idb-keyval";
 import useInterval from "./useInterval";
 
 type ClassConstructor<T> = {
   new (..._args: any[]): T;
 };
+
+async function verifyPermission(fileHandle: FileSystemFileHandle) {
+  // Check if permission was already granted. If so, return true.
+  if ((await fileHandle.queryPermission({ mode: "readwrite" })) === "granted") {
+    return true;
+  }
+  // Request permission. If the user grants permission, return true.
+  if (
+    (await fileHandle.requestPermission({ mode: "readwrite" })) === "granted"
+  ) {
+    return true;
+  }
+  // The user didn't grant permission, so return false.
+  return false;
+}
 
 export default function useAutoSave<T>(
   name: string,
@@ -14,36 +28,39 @@ export default function useAutoSave<T>(
   item?: T,
   interval = 1000
 ) {
-  const fileHandle = useRef<FileSystemFileHandle | null>();
+  const fileHandle = useRef<FileSystemFileHandle | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
-  const load = (json: string | null | undefined) => {
+  const load = (json: string | null) => {
     onLoad(json ? deserialize(cls, JSON.parse(json)) : null);
   };
 
   const loadFile = async (handle: FileSystemFileHandle) => {
-    fileHandle.current = handle;
-    await set("file", handle);
-    const f = await handle.getFile();
-    const text = await f.text();
-    load(text);
+    if (await verifyPermission(handle)) {
+      fileHandle.current = handle;
+      const f = await handle.getFile();
+      setFile(f);
+      const text = await f.text();
+      load(text);
+    }
   };
 
-  useEffect(() => {
-    (async () => {
-      const handle = await get("file");
-      if (handle) loadFile(handle);
-    })();
-  }, []);
+  const saveFile = async (handle: FileSystemFileHandle | null) => {
+    if (!handle) return;
+    const writable = await handle.createWritable();
+    await writable?.write(JSON.stringify(serialize(item)));
+    await writable?.close();
+    const f = await handle.getFile();
+    setFile(f);
+  };
 
-  useInterval(
-    async () => {
-      const writable = await fileHandle.current?.createWritable();
-      await writable?.write(JSON.stringify(serialize(item)));
-      await writable?.close();
-    },
-    interval,
-    [item]
-  );
+  const reset = async () => {
+    fileHandle.current = null;
+    setFile(null);
+    load(null);
+  };
 
-  return loadFile;
+  useInterval(() => saveFile(fileHandle.current), interval, [item]);
+
+  return [loadFile, saveFile, reset, file];
 }

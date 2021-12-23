@@ -11,11 +11,14 @@ interface PropertyViewProps {
 
 const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
   const { loadedSchema } = useStore();
-  const { models } = loadedSchema;
   const [typeEditorOpen, setTypeEditorOpen] = useState(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   useClickAway([overlayRef, buttonRef], () => setTypeEditorOpen(false));
+
+  if (!loadedSchema)
+    throw new Error("Schema should not be null when rendering PropertyView");
+  const { models } = loadedSchema;
 
   const toggleTypeEditor = () => setTypeEditorOpen(!typeEditorOpen);
 
