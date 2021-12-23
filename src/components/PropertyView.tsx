@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { observer } from "mobx-react";
 import Property, { PRIMITIVES } from "../../model/property";
 import { useStore } from "../../model/rootStore";
-import useClickAway from "../../hooks/useClickAway";
+import useClickAway from "../hooks/useClickAway";
 
 interface PropertyViewProps {
   prop: Property;

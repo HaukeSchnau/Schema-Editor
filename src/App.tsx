@@ -1,16 +1,15 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { deserialize, serialize } from "serializr";
 import { useStore } from "../model/rootStore";
 import ModelView from "./components/ModelView";
-import useAutoSave from "../hooks/useAutoSave";
+import useAutoSave from "./hooks/useAutoSave";
 import Schema from "../model/schema";
 
 const App = () => {
   const store = useStore();
   const { loadedSchema } = store;
 
-  useAutoSave<Schema>(
+  const loadFile = useAutoSave<Schema>(
     "schema",
     Schema,
     (storedSchema) => {
@@ -22,31 +21,18 @@ const App = () => {
     store.loadedSchema
   );
 
-  const openFilePicker = () => {
-    const inputEl = document.createElement("input");
-    inputEl.type = "file";
-    inputEl.accept = ".json";
-    inputEl.click();
-    inputEl.addEventListener("change", () => {
-      const files = inputEl.files ?? [];
-      const f = files[0];
-      f.text().then((text) => {
-        const schema = deserialize(Schema, JSON.parse(text));
-        schema.link();
-        store.loadedSchema = schema;
-      });
+  const openFilePicker = async () => {
+    const [fileHandle] = await window.showOpenFilePicker({
+      types: [
+        {
+          description: "Schema Files",
+          accept: {
+            "application/json": [".json"],
+          },
+        },
+      ],
     });
-  };
-
-  const downloadSchema = () => {
-    const json = JSON.stringify(serialize(loadedSchema));
-    const anchorEl = document.createElement("a");
-    anchorEl.setAttribute(
-      "href",
-      `data:application/json;charset=utf-8,${encodeURIComponent(json)}`
-    );
-    anchorEl.setAttribute("download", "schema.json");
-    anchorEl.click();
+    loadFile(fileHandle);
   };
 
   return (
@@ -60,13 +46,6 @@ const App = () => {
             onClick={() => openFilePicker()}
           >
             Laden...
-          </button>
-          <button
-            type="button"
-            className="raised"
-            onClick={() => downloadSchema()}
-          >
-            Speichern
           </button>
         </div>
       </div>
