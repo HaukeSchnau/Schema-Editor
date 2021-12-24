@@ -1,4 +1,3 @@
-import p from "path";
 import Model from "../model/model";
 import Property, { DataType } from "../model/property";
 import CodeGenerator from "./CodeGenerator";
@@ -14,9 +13,12 @@ const propTypeMap = {
 };
 
 export default class DartMobxGenerator extends CodeGenerator {
-  constructor(outDir: string) {
-    super(p.join(outDir, "dartmobx"));
+  constructor() {
+    super();
+    this.baseDir = "dartmobx";
   }
+
+  static generatorName = "Dart mit MobX für Flutter";
 
   buildProp(prop: Property) {
     const basicPropType =

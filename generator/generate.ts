@@ -1,18 +1,8 @@
 import fs from "fs/promises";
 import { deserialize } from "serializr";
+import p from "path";
 import Schema from "../model/schema";
-import BasicTypescript from "./BasicTypescript";
-import CodeGenerator from "./CodeGenerator";
-import TypeScriptMongooseGenerator from "./TypeScriptMongoose";
-import DartMobxGenerator from "./DartMobx";
-
-const generators = new Map<string, typeof CodeGenerator>(
-  Object.entries({
-    tsbasic: BasicTypescript,
-    tsmongoose: TypeScriptMongooseGenerator,
-    dartmobx: DartMobxGenerator,
-  })
-);
+import Generators from "./Generators";
 
 (async () => {
   const filename = process.argv[2] || "schema.json";
@@ -25,11 +15,18 @@ const generators = new Map<string, typeof CodeGenerator>(
 
   await Promise.all(
     targets.map(async (target) => {
-      const Generator = generators.get(target);
+      const Generator = Generators.get(target);
       if (!Generator) throw new Error("Invalid target");
 
-      const generator = new Generator(outDir);
-      await generator.generate(schema);
+      const generator = new Generator();
+      const baseDir = p.join(outDir, generator.baseDir);
+      await fs.mkdir(baseDir, { recursive: true });
+      const generatedFiles = generator.generate(schema);
+      await Promise.all(
+        generatedFiles.map(async (file) => {
+          await fs.writeFile(p.join(baseDir, file.name), file.contents);
+        })
+      );
     })
   );
 })();

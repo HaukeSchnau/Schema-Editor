@@ -1,24 +1,29 @@
-import fs from "fs/promises";
-import p from "path";
 import Model from "../model/model";
 import Schema from "../model/schema";
 
+export type GeneratedFile = {
+  name: string;
+  contents: string;
+};
+
+function isNotNull(
+  arg: GeneratedFile | null
+): arg is Exclude<GeneratedFile, null> {
+  return arg !== null;
+}
+
 export default class CodeGenerator {
-  outDir: string;
+  baseDir = "";
 
-  constructor(outDir: string) {
-    this.outDir = outDir;
-  }
+  static generatorName = "Generator";
 
-  async generate(schema: Schema) {
-    await fs.mkdir(this.outDir, { recursive: true });
-    await Promise.all(
-      schema.models.map(async (model) => {
-        const filePath = p.join(this.outDir, this.getFileName(model));
-        const str = this.generateModel(model);
-        if (str) await fs.writeFile(filePath, str);
-      })
-    );
+  generate(schema: Schema): GeneratedFile[] {
+    const generatedFiles = schema.models.map((model) => {
+      const str = this.generateModel(model);
+      if (!str) return null;
+      return { name: this.getFileName(model), contents: str };
+    });
+    return generatedFiles.filter(isNotNull);
   }
 
   generateModel(_model: Model): string | null {

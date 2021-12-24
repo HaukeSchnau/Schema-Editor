@@ -62,5 +62,5 @@ export default function useAutoSave<T>(
 
   useInterval(() => saveFile(fileHandle.current), interval, [item]);
 
-  return [loadFile, saveFile, reset, file];
+  return { loadFile, saveFile, reset, file };
 }

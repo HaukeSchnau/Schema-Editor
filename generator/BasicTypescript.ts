@@ -1,4 +1,3 @@
-import p from "path";
 import Model from "../model/model";
 import Property, { DataType } from "../model/property";
 import CodeGenerator from "./CodeGenerator";
@@ -13,9 +12,12 @@ const propTypeMap = {
 };
 
 export default class BasicTypescriptGenerator extends CodeGenerator {
-  constructor(outDir: string) {
-    super(p.join(outDir, "base"));
+  constructor() {
+    super();
+    this.baseDir = "base";
   }
+
+  static generatorName = "Basic TypeScript";
 
   buildImport(type: DataType) {
     if (typeof type === "string") return null;

@@ -5,6 +5,9 @@ import { useStore } from "../model/rootStore";
 import ModelView from "./components/ModelView";
 import useAutoSave from "./hooks/useAutoSave";
 import Schema from "../model/schema";
+import Generators from "../generator/Generators";
+import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
+import CodeGenerator from "../generator/CodeGenerator";
 
 const filePickerOptions = {
   types: [
@@ -20,8 +23,9 @@ const filePickerOptions = {
 const App = () => {
   const store = useStore();
   const { loadedSchema } = store;
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-  const [loadFile, saveFile, reset, file] = useAutoSave<Schema | null>(
+  const { loadFile, saveFile, reset, file } = useAutoSave<Schema | null>(
     "schema",
     Schema,
     (storedSchema) => {
@@ -52,7 +56,6 @@ const App = () => {
         break;
       }
     }
-    console.log(existingEntryIndex);
     const newRecentFiles =
       existingEntryIndex !== -1
         ? [
@@ -61,7 +64,6 @@ const App = () => {
             ...recentFiles.slice(existingEntryIndex + 1),
           ]
         : [handle, ...recentFiles];
-    console.log(newRecentFiles.map((e) => e.name));
 
     set("recentFiles", newRecentFiles);
     setRecentFiles(newRecentFiles);
@@ -82,6 +84,32 @@ const App = () => {
     saveFile(handle);
   };
 
+  const generateCode = async (gens: string[]) => {
+    const rootDir = await window.showDirectoryPicker();
+    if (!loadedSchema) throw new Error("loadedSchema should not be null");
+    await Promise.all(
+      gens.map(async (generatorId) => {
+        const Generator = Generators.get(generatorId);
+        if (!Generator) return;
+        const generator = new Generator();
+        const generatedFiles = generator.generate(loadedSchema);
+        const baseDir = await rootDir.getDirectoryHandle(generator.baseDir, {
+          create: true,
+        });
+        await Promise.all(
+          generatedFiles.map(async (generatedFile) => {
+            const outFile = await baseDir.getFileHandle(generatedFile.name, {
+              create: true,
+            });
+            const writable = await outFile.createWritable();
+            await writable.write(generatedFile.contents);
+            await writable.close();
+          })
+        );
+      })
+    );
+  };
+
   return (
     <>
       <div className="head-row">
@@ -95,15 +123,26 @@ const App = () => {
             className="raised"
             onClick={() => openFilePicker()}
           >
-            Laden...
+            Datei Laden...
           </button>
-          <button
-            type="button"
-            className="raised"
-            onClick={() => openSaveDialog()}
-          >
-            Speichern unter...
-          </button>
+          {loadedSchema && (
+            <>
+              <button
+                type="button"
+                className="raised"
+                onClick={() => openSaveDialog()}
+              >
+                Speichern unter...
+              </button>
+              <button
+                type="button"
+                className="raised"
+                onClick={() => setModalOpen(true)}
+              >
+                Code generieren...
+              </button>
+            </>
+          )}
         </div>
       </div>
       {loadedSchema ? (
@@ -144,6 +183,11 @@ const App = () => {
           </ul>
         </>
       )}
+      <SelectGeneratorsModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setModalOpen(false)}
+        onGenerate={(gens) => generateCode(gens)}
+      />
     </>
   );
 };

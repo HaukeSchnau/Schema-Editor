@@ -1,4 +1,3 @@
-import p from "path";
 import Model from "../model/model";
 import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
@@ -14,9 +13,12 @@ const propTypeMap = {
 };
 
 export default class TypeScriptMongooseGenerator extends CodeGenerator {
-  constructor(outDir: string) {
-    super(p.join(outDir, "mongoose"));
+  constructor() {
+    super();
+    this.baseDir = "mongoose";
   }
+
+  static generatorName = "Mongoose mit TypeScript";
 
   buildProp(prop: Property) {
     let propTypeStr: string;
