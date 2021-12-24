@@ -31,7 +31,7 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
       <button
         type="button"
         className="raised"
-        onClick={() => model.properties.push(new Property("prop"))}
+        onClick={() => model.properties.push(new Property(""))}
       >
         + Eigenschaft hinzufügen
       </button>

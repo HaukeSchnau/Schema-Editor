@@ -92,17 +92,20 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
           </div>
         </div>
       )}
-      <div>
-        <input
-          style={{ width: "40%" }}
-          value={prop.name}
-          placeholder="(kein Name)"
-          onChange={onChangeName}
-        />
-        <button type="button" onClick={toggleTypeEditor} ref={buttonRef}>
-          <code>{renderPropType()}</code>
-        </button>
-      </div>
+      <input
+        style={{ width: "40%" }}
+        value={prop.name}
+        placeholder="(kein Name)"
+        onChange={onChangeName}
+      />
+      <button
+        type="button"
+        className="type"
+        onClick={toggleTypeEditor}
+        ref={buttonRef}
+      >
+        <code>{renderPropType()}</code>
+      </button>
 
       <button type="button" onClick={onDelete}>
         ✕

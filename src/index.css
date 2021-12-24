@@ -13,6 +13,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
 }
 
 h1 {
@@ -112,4 +113,14 @@ li {
 
 .mt-4 {
   margin-top: 16px;
+}
+
+.prop {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.prop .type {
+  flex-grow: 1;
+  text-align: start;
 }
