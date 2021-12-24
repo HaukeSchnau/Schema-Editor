@@ -14,7 +14,7 @@ const propTypeMap = {
 export default class BasicTypescriptGenerator extends CodeGenerator {
   constructor() {
     super();
-    this.baseDir = "base";
+    this.baseDir = "ts/base";
   }
 
   static generatorName = "Basic TypeScript";
@@ -48,7 +48,8 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
 
     return `${imports}${
       imports.length ? "\n\n" : ""
-    }export default interface Basic${model.name} {
+    }// Generated file. DO NOT EDIT!
+export default interface Basic${model.name} {
   ${model.properties.map(this.buildProp).join("\n  ")}
 }
 `;

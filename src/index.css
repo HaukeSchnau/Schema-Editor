@@ -75,6 +75,11 @@ input {
   color: inherit;
 }
 
+input[type="checkbox"] {
+  margin: 0.75rem 0;
+  margin-right: 0.5rem;
+}
+
 input.heading {
   font-weight: 600;
   font-size: 1.2rem;

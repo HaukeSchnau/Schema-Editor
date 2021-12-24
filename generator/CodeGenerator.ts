@@ -15,6 +15,8 @@ function isNotNull(
 export default class CodeGenerator {
   baseDir = "";
 
+  ignoreIfExists = false;
+
   static generatorName = "Generator";
 
   generate(schema: Schema): GeneratedFile[] {

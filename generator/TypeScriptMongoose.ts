@@ -15,7 +15,7 @@ const propTypeMap = {
 export default class TypeScriptMongooseGenerator extends CodeGenerator {
   constructor() {
     super();
-    this.baseDir = "mongoose";
+    this.baseDir = "ts/mongoose";
   }
 
   static generatorName = "Mongoose mit TypeScript";
@@ -59,6 +59,8 @@ import type Basic${model.name} from "../base/Basic${model.name}";`;
     return `${imports}
 
 const { Mixed, ObjectId } = Schema.Types;
+
+// Generated file. DO NOT EDIT!
 
 ${document}
     

@@ -15,13 +15,11 @@ export default class Schema {
   link() {
     this.models.forEach((model) =>
       model.properties.forEach((prop) => {
-        const linkedType = PRIMITIVES.find((prim) =>
-          prop.type === prim
-            ? prop.type
-            : this.models.find(
-                (modelCandidate) => modelCandidate.id === prop.type
-              ) ?? "string"
-        );
+        const linkedType = PRIMITIVES.find((prim) => prop.type === prim)
+          ? prop.type
+          : this.models.find(
+              (modelCandidate) => modelCandidate.id === prop.type
+            );
         if (linkedType) {
           prop.type = linkedType;
         }

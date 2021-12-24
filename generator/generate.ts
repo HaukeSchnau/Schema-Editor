@@ -1,8 +1,15 @@
-import fs from "fs/promises";
+import { promises as fs, constants as fsConstants } from "fs";
 import { deserialize } from "serializr";
 import p from "path";
 import Schema from "../model/schema";
 import Generators from "./Generators";
+
+function checkFileExists(file: string) {
+  return fs
+    .access(file, fsConstants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+}
 
 (async () => {
   const filename = process.argv[2] || "schema.json";
@@ -24,7 +31,9 @@ import Generators from "./Generators";
       const generatedFiles = generator.generate(schema);
       await Promise.all(
         generatedFiles.map(async (file) => {
-          await fs.writeFile(p.join(baseDir, file.name), file.contents);
+          const path = p.join(baseDir, file.name);
+          if (generator.ignoreIfExists && (await checkFileExists(path))) return;
+          await fs.writeFile(path, file.contents);
         })
       );
     })

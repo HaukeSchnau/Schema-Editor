@@ -93,9 +93,10 @@ const App = () => {
         if (!Generator) return;
         const generator = new Generator();
         const generatedFiles = generator.generate(loadedSchema);
-        const baseDir = await rootDir.getDirectoryHandle(generator.baseDir, {
-          create: true,
-        });
+        let baseDir = rootDir;
+        for (const subdir of generator.baseDir.split("/")) {
+          baseDir = await baseDir.getDirectoryHandle(subdir, { create: true });
+        }
         await Promise.all(
           generatedFiles.map(async (generatedFile) => {
             const outFile = await baseDir.getFileHandle(generatedFile.name, {

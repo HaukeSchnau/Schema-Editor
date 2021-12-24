@@ -12,13 +12,13 @@ const propTypeMap = {
   Date: "DateTime",
 };
 
-export default class DartMobxGenerator extends CodeGenerator {
+export default class BasicDartMobxGenerator extends CodeGenerator {
   constructor() {
     super();
-    this.baseDir = "dartmobx";
+    this.baseDir = "dart/gen";
   }
 
-  static generatorName = "Dart mit MobX für Flutter";
+  static generatorName = "Basic Dart-Klassen mit MobX für Flutter";
 
   buildProp(prop: Property) {
     const basicPropType =
@@ -39,6 +39,7 @@ export default class DartMobxGenerator extends CodeGenerator {
   }
 
   buildImports(model: Model) {
+    model.properties.map((prop) => prop.type).map(this.buildImport);
     const propTypes = [...new Set(model.properties.map((prop) => prop.type))];
     return propTypes
       .map((type) => this.buildImport(type))
@@ -47,20 +48,25 @@ export default class DartMobxGenerator extends CodeGenerator {
 
   generateModel(model: Model) {
     const imports = this.buildImports(model);
+    const name = `Basic${model.name}`;
+    const snakeName = toSnakeCase(name);
 
     return `import 'package:mobx/mobx.dart';
 ${imports.length ? `${imports.join("\n")}\n` : ""}  
-part '${model.name}.g.dart';
+part '${snakeName}.g.dart';
 
-class ${model.name} = _${model.name} with _$${model.name};
+class ${name} = _${name} with _$${name};
 
-abstract class _${model.name} with Store {
+// Generated file. DO NOT EDIT!
+abstract class _${name} with Store {
   ${model.properties.map(this.buildProp).join("\n\n  ")}
 }
 `;
   }
 
   getFileName(model: Model) {
-    return `${toSnakeCase(model.name)}.dart`;
+    const name = `Basic${model.name}`;
+    const snakeName = toSnakeCase(name);
+    return `${snakeName}.dart`;
   }
 }
