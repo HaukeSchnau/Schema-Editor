@@ -5,9 +5,8 @@ import { useStore } from "../model/rootStore";
 import ModelView from "./components/ModelView";
 import useAutoSave from "./hooks/useAutoSave";
 import Schema from "../model/schema";
-import Generators from "../generator/Generators";
 import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
-import CodeGenerator from "../generator/CodeGenerator";
+import generateInBrowser from "./generateInBrowser";
 
 const filePickerOptions = {
   types: [
@@ -84,33 +83,6 @@ const App = () => {
     saveFile(handle);
   };
 
-  const generateCode = async (gens: string[]) => {
-    const rootDir = await window.showDirectoryPicker();
-    if (!loadedSchema) throw new Error("loadedSchema should not be null");
-    await Promise.all(
-      gens.map(async (generatorId) => {
-        const Generator = Generators.get(generatorId);
-        if (!Generator) return;
-        const generator = new Generator();
-        const generatedFiles = generator.generate(loadedSchema);
-        let baseDir = rootDir;
-        for (const subdir of generator.baseDir.split("/")) {
-          baseDir = await baseDir.getDirectoryHandle(subdir, { create: true });
-        }
-        await Promise.all(
-          generatedFiles.map(async (generatedFile) => {
-            const outFile = await baseDir.getFileHandle(generatedFile.name, {
-              create: true,
-            });
-            const writable = await outFile.createWritable();
-            await writable.write(generatedFile.contents);
-            await writable.close();
-          })
-        );
-      })
-    );
-  };
-
   return (
     <>
       <div className="head-row">
@@ -163,6 +135,11 @@ const App = () => {
               <ModelView model={model} key={model.id} />
             ))}
           </div>
+          <SelectGeneratorsModal
+            isOpen={isModalOpen}
+            onRequestClose={() => setModalOpen(false)}
+            onGenerate={(gens) => generateInBrowser(loadedSchema, gens)}
+          />
         </>
       ) : (
         <>
@@ -184,11 +161,6 @@ const App = () => {
           </ul>
         </>
       )}
-      <SelectGeneratorsModal
-        isOpen={isModalOpen}
-        onRequestClose={() => setModalOpen(false)}
-        onGenerate={(gens) => generateCode(gens)}
-      />
     </>
   );
 };

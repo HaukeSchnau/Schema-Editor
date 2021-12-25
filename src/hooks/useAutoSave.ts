@@ -1,25 +1,11 @@
 import { useRef, useState } from "react";
 import { deserialize, serialize } from "serializr";
+import verifyPermission from "../verifyPermission";
 import useInterval from "./useInterval";
 
 type ClassConstructor<T> = {
   new (..._args: any[]): T;
 };
-
-async function verifyPermission(fileHandle: FileSystemFileHandle) {
-  // Check if permission was already granted. If so, return true.
-  if ((await fileHandle.queryPermission({ mode: "readwrite" })) === "granted") {
-    return true;
-  }
-  // Request permission. If the user grants permission, return true.
-  if (
-    (await fileHandle.requestPermission({ mode: "readwrite" })) === "granted"
-  ) {
-    return true;
-  }
-  // The user didn't grant permission, so return false.
-  return false;
-}
 
 export default function useAutoSave<T>(
   name: string,
