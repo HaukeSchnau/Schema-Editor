@@ -65,6 +65,7 @@ module.exports = {
     ],
     "no-await-in-loop": "off",
     "no-plusplus": "off",
+    "no-use-before-define": "off",
   },
   settings: {
     "import/resolver": {

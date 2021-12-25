@@ -9,6 +9,17 @@ body {
   padding: 2rem 12vw;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -55,8 +66,10 @@ button {
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* grid-template-columns: repeat(auto-fill, 1fr); */
   gap: 2rem;
 }
 
@@ -64,6 +77,9 @@ button {
   background-color: #f2e9e4;
   padding: 1rem 2rem;
   color: #22223b;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.16);
 }
 
 input {
@@ -106,9 +122,12 @@ li {
   background-color: #fff;
   padding: 1rem 2rem;
   top: 80%;
+  right: 0;
   display: flex;
   flex-direction: column;
   width: 15rem;
+  box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
 }
 
 .button-row {
@@ -118,16 +137,6 @@ li {
 
 .mt-4 {
   margin-top: 16px;
-}
-
-.prop {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.prop .type {
-  flex-grow: 1;
-  text-align: start;
 }
 
 .modal-overlay {
@@ -147,4 +156,29 @@ li {
   padding: 2rem;
   background-color: #f2e9e4;
   color: #111;
+}
+
+.input-row {
+  display: flex;
+  max-width: 100%;
+}
+
+.input-row input {
+  flex-grow: 1;
+}
+
+.right {
+  margin-left: auto;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+button.dense {
+  padding: 0.5rem 1rem;
+}
+
+button.type {
+  padding: 0 1rem;
 }

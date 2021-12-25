@@ -21,13 +21,13 @@ export default class Property {
   name: string;
 
   @serializable
-  optional?: boolean;
+  optional = false;
 
   @serializable
-  array?: boolean;
+  array = false;
 
   @serializable
-  key?: boolean;
+  key = false;
 
   @serializable(
     custom(

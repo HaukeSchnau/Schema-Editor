@@ -42,7 +42,21 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
   };
 
   return (
-    <li className="prop">
+    <li className="prop input-row">
+      <input
+        value={prop.name}
+        placeholder="(kein Name)"
+        onChange={onChangeName}
+        size={1}
+      />
+      <button
+        type="button"
+        className="type"
+        onClick={toggleTypeEditor}
+        ref={buttonRef}
+      >
+        <code>{renderPropType()}</code>
+      </button>
       {typeEditorOpen && (
         <div className="overlay-wrapper">
           <div className="overlay" ref={overlayRef}>
@@ -83,6 +97,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
               {typeOptions.map((option, i) => (
                 <option
                   value={i}
+                  selected={option === prop.type}
                   key={typeof option === "string" ? option : option.id}
                 >
                   {typeof option === "string" ? option : option.name}
@@ -92,21 +107,6 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
           </div>
         </div>
       )}
-      <input
-        style={{ width: "40%" }}
-        value={prop.name}
-        placeholder="(kein Name)"
-        onChange={onChangeName}
-      />
-      <button
-        type="button"
-        className="type"
-        onClick={toggleTypeEditor}
-        ref={buttonRef}
-      >
-        <code>{renderPropType()}</code>
-      </button>
-
       <button type="button" onClick={onDelete}>
         ✕
       </button>

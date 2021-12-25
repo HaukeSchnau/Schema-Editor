@@ -18,7 +18,7 @@ export default function useAutoSave<T>(
   const [file, setFile] = useState<File | null>(null);
 
   const load = (json: string | null) => {
-    onLoad(json ? deserialize(cls, JSON.parse(json)) : null);
+    onLoad(json ? deserialize<T>(cls, JSON.parse(json)) : null);
   };
 
   const loadFile = async (handle: FileSystemFileHandle) => {
@@ -32,9 +32,9 @@ export default function useAutoSave<T>(
   };
 
   const saveFile = async (handle: FileSystemFileHandle | null) => {
-    if (!handle) return;
+    if (!handle || !item) return;
     const writable = await handle.createWritable();
-    await writable?.write(JSON.stringify(serialize(item)));
+    await writable?.write(JSON.stringify(serialize<T>(cls, item), null, 2));
     await writable?.close();
     const f = await handle.getFile();
     setFile(f);

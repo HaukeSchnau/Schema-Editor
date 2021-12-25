@@ -18,7 +18,7 @@ function checkFileExists(file: string) {
 
   const json = await fs.readFile(filename, { encoding: "utf-8" });
   const schema = deserialize<Schema>(Schema, JSON.parse(json));
-  schema.link();
+  schema.root.link();
 
   await Promise.all(
     targets.map(async (target) => {

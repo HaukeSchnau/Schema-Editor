@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { get, set } from "idb-keyval";
+import { useDrop } from "react-dnd";
 import { useStore } from "../model/rootStore";
-import ModelView from "./components/ModelView";
 import useAutoSave from "./hooks/useAutoSave";
 import Schema from "../model/schema";
 import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
 import generateInBrowser from "./generateInBrowser";
+import ModelStage from "./components/ModelStage";
+import Model from "../model/model";
 
 const filePickerOptions = {
   types: [
@@ -24,12 +26,20 @@ const App = () => {
   const { loadedSchema } = store;
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
+  const [, drop] = useDrop(() => ({
+    accept: "model",
+    drop: (item: Model, monitor) => {
+      if (monitor.didDrop()) return;
+      loadedSchema?.root.addChild(item);
+    },
+  }));
+
   const { loadFile, saveFile, reset, file } = useAutoSave<Schema | null>(
     "schema",
     Schema,
     (storedSchema) => {
       if (storedSchema) {
-        storedSchema.link();
+        storedSchema.root.link();
         store.loadedSchema = storedSchema;
       } else {
         store.loadedSchema = new Schema();
@@ -84,7 +94,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div ref={drop}>
       <div className="head-row">
         <h1>{file?.name || "Schema-Editor"}</h1>
         <div className="button-row">
@@ -130,11 +140,7 @@ const App = () => {
               Neues Model
             </button>
           </div>
-          <div className="grid">
-            {loadedSchema.models.map((model) => (
-              <ModelView model={model} key={model.id} />
-            ))}
-          </div>
+          <ModelStage parent={loadedSchema.root} />
           <SelectGeneratorsModal
             isOpen={isModalOpen}
             onRequestClose={() => setModalOpen(false)}
@@ -161,7 +167,7 @@ const App = () => {
           </ul>
         </>
       )}
-    </>
+    </div>
   );
 };
 
