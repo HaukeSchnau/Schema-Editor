@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd";
 import { useStore } from "../model/rootStore";
 import useAutoSave from "./hooks/useAutoSave";
 import Schema from "../model/schema";
-import SelectGeneratorsModal from "./components/DialogModal";
+import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
 import generateInBrowser from "./generateInBrowser";
 import ModelStage from "./components/ModelStage";
 import Model from "../model/model";
