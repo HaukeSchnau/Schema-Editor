@@ -18,4 +18,12 @@ export default class Schema {
   get models() {
     return this.root.children;
   }
+
+  get allModels() {
+    return [
+      this.root,
+      ...this.root.children,
+      ...this.root.children.map((child) => child.allChildren),
+    ].flat();
+  }
 }

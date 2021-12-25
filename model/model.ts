@@ -105,4 +105,11 @@ export default class Model {
       ...(this.parent?.getAllParentProps() || []),
     ];
   }
+
+  get allChildren(): Model[] {
+    return [
+      ...this.children,
+      ...this.children.map((child) => child.allChildren),
+    ].flat();
+  }
 }

@@ -18,7 +18,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
 
   if (!loadedSchema)
     throw new Error("Schema should not be null when rendering PropertyView");
-  const { models } = loadedSchema;
+  const { allModels } = loadedSchema;
 
   const toggleTypeEditor = () => setTypeEditorOpen(!typeEditorOpen);
 
@@ -31,7 +31,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
     return formatted;
   };
 
-  const typeOptions = [...PRIMITIVES, ...models];
+  const typeOptions = [...PRIMITIVES, ...allModels];
 
   const onChangeDataType = (index: number) => {
     prop.type = typeOptions[index];
