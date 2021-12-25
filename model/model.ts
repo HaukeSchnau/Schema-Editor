@@ -93,4 +93,11 @@ export default class Model {
   get siblings() {
     return this.parent?.children ?? [];
   }
+
+  getAllParentProps(): Property[] {
+    return [
+      ...(this.parent?.properties || []),
+      ...(this.parent?.getAllParentProps() || []),
+    ];
+  }
 }

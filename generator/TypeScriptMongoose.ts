@@ -66,6 +66,10 @@ ${document}
     
 ${mongooseSchema}
 
+${model.name}Schema.set('toJSON', {
+  virtuals: true
+});
+
 export const ${pluralize(model.name)} = model<Basic${model.name}>("${
       model.name
     }", ${model.name}Schema);

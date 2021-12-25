@@ -20,12 +20,22 @@ export default class CodeGenerator {
   static generatorName = "Generator";
 
   generate(schema: Schema): GeneratedFile[] {
-    const generatedFiles = schema.models.map((model) => {
-      const str = this.generateModel(model);
-      if (!str) return null;
-      return { name: this.getFileName(model), contents: str };
-    });
-    return generatedFiles.filter(isNotNull);
+    return this.generateSubModels(schema.root);
+  }
+
+  generateSubModels(parent: Model): GeneratedFile[] {
+    return [
+      this.generateFile(parent),
+      ...parent.children.map((child) => this.generateSubModels(child)),
+    ]
+      .flat()
+      .filter(isNotNull);
+  }
+
+  generateFile(model: Model): GeneratedFile | null {
+    const str = this.generateModel(model);
+    if (!str) return null;
+    return { name: this.getFileName(model), contents: str };
   }
 
   generateModel(_model: Model): string | null {

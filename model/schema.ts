@@ -5,7 +5,7 @@ import Model from "./model";
 
 export default class Schema {
   @serializable(object(Model))
-  root = new Model("Root", uuid());
+  root = new Model("Entity", uuid());
 
   constructor() {
     makeAutoObservable(this);

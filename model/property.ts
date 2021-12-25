@@ -29,6 +29,9 @@ export default class Property {
   @serializable
   key = false;
 
+  @serializable
+  defaultValue: string | null = null;
+
   @serializable(
     custom(
       (type) => (typeof type === "string" ? type : type.id),
