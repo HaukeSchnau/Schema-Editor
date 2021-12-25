@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useDrop } from "react-dnd";
 import Model from "../../model/model";
@@ -6,6 +6,7 @@ import Property from "../../model/property";
 import PropertyView from "./PropertyView";
 import { useStore } from "../../model/rootStore";
 import ModelStage from "./ModelStage";
+import DialogModal from "./DialogModal";
 
 interface ModelViewProps {
   model: Model;
@@ -20,6 +21,8 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
       model.addChild(item);
     },
   }));
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const onDelete = () => {
     if (!loadedSchema) throw new Error("No schema loaded");
@@ -39,7 +42,11 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
           size={1}
         />
 
-        <button type="button" onClick={onDelete}>
+        <button
+          type="button"
+          className="icon"
+          onClick={() => setDeleteDialogOpen(true)}
+        >
           ✕
         </button>
       </div>
@@ -59,7 +66,19 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
       >
         + Eigenschaft hinzufügen
       </button>
-      <ModelStage parent={model} className="mt-4" />
+      <ModelStage parent={model} />
+      <DialogModal
+        isOpen={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={onDelete}
+        confirmText="Löschen"
+        heading={
+          <>
+            Möchtest du das Model {model.name} und all seine untergeordneten
+            Models wirklich löschen?
+          </>
+        }
+      />
     </div>
   );
 };

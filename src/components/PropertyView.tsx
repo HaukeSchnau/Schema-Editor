@@ -107,7 +107,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
           </div>
         </div>
       )}
-      <button type="button" onClick={onDelete}>
+      <button type="button" className="icon" onClick={onDelete}>
         ✕
       </button>
     </li>

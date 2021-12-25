@@ -6,12 +6,11 @@ import Draggable from "./Draggable";
 
 interface ModelStageProps {
   parent: Model;
-  className: string;
 }
 
-const ModelStage: React.FC<ModelStageProps> = ({ parent, className }) => {
+const ModelStage: React.FC<ModelStageProps> = ({ parent }) => {
   return (
-    <div className={`grid ${className ?? ""}`}>
+    <div className="grid mt-4">
       {parent.children.map((model) => (
         <Draggable type="model" key={model.id} item={model}>
           <ModelView model={model} />

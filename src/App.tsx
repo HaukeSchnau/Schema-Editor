@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd";
 import { useStore } from "../model/rootStore";
 import useAutoSave from "./hooks/useAutoSave";
 import Schema from "../model/schema";
-import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
+import SelectGeneratorsModal from "./components/DialogModal";
 import generateInBrowser from "./generateInBrowser";
 import ModelStage from "./components/ModelStage";
 import Model from "../model/model";
@@ -26,13 +26,16 @@ const App = () => {
   const { loadedSchema } = store;
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-  const [, drop] = useDrop(() => ({
-    accept: "model",
-    drop: (item: Model, monitor) => {
-      if (monitor.didDrop()) return;
-      loadedSchema?.root.addChild(item);
-    },
-  }));
+  const [, drop] = useDrop(
+    () => ({
+      accept: "model",
+      drop: (item: Model, monitor) => {
+        if (monitor.didDrop()) return;
+        loadedSchema?.root.addChild(item);
+      },
+    }),
+    [loadedSchema]
+  );
 
   const { loadFile, saveFile, reset, file } = useAutoSave<Schema | null>(
     "schema",

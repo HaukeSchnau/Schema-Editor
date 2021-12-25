@@ -66,6 +66,7 @@ module.exports = {
     "no-await-in-loop": "off",
     "no-plusplus": "off",
     "no-use-before-define": "off",
+    "react/require-default-props": "off",
   },
   settings: {
     "import/resolver": {

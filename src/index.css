@@ -59,7 +59,12 @@ button {
   text-decoration: underline;
 }
 
-.raised {
+button.secondary {
+  padding: 1rem 2rem;
+  color: #111;
+}
+
+button.raised {
   padding: 1rem 2rem;
   background: #c9ada7;
   color: #111;
@@ -69,7 +74,6 @@ button {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* grid-template-columns: repeat(auto-fill, 1fr); */
   gap: 2rem;
 }
 
@@ -133,6 +137,7 @@ li {
 .button-row {
   display: flex;
   gap: 1rem;
+  justify-content: flex-end;
 }
 
 .mt-4 {
@@ -156,11 +161,13 @@ li {
   padding: 2rem;
   background-color: #f2e9e4;
   color: #111;
+  border-radius: 16px;
 }
 
 .input-row {
   display: flex;
   max-width: 100%;
+  align-items: center;
 }
 
 .input-row input {
@@ -181,4 +188,15 @@ button.dense {
 
 button.type {
   padding: 0 1rem;
+}
+
+button.icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+button.icon:hover {
+  background-color: #c9ada7;
 }

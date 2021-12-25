@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import Modal from "react-modal";
 import Generators from "../../generator/Generators";
+import DialogModal from "./DialogModal";
 
 interface SelectGeneratorsModalProps {
   isOpen: boolean;
@@ -19,13 +19,13 @@ const SelectGeneratorsModal: React.FC<SelectGeneratorsModalProps> = ({
   useEffect(() => setSelectedGens([]), [isOpen]);
 
   return (
-    <Modal
+    <DialogModal
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      overlayClassName="modal-overlay"
-      className="modal-content"
+      onClose={onRequestClose}
+      heading="Für welche Plattformen möchtest du Code generieren?"
+      confirmText="Code generieren!"
+      onConfirm={() => onGenerate(selectedGens)}
     >
-      <h4>Für welche Plattformen möchtest du Code generieren?</h4>
       <ul>
         {Array.from(Generators.entries()).map(([id, Generator]) => (
           <li key={id}>
@@ -45,17 +45,7 @@ const SelectGeneratorsModal: React.FC<SelectGeneratorsModalProps> = ({
           </li>
         ))}
       </ul>
-      <button
-        className="raised"
-        type="submit"
-        onClick={() => {
-          onGenerate(selectedGens);
-          onRequestClose();
-        }}
-      >
-        Code Generieren!
-      </button>
-    </Modal>
+    </DialogModal>
   );
 };
 
