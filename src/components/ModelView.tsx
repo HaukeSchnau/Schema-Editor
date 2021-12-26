@@ -7,6 +7,7 @@ import PropertyView from "./PropertyView";
 import { useStore } from "../../model/rootStore";
 import ModelStage from "./ModelStage";
 import DialogModal from "./DialogModal";
+import Card from "./Card";
 
 interface ModelViewProps {
   model: Model;
@@ -30,7 +31,7 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
   };
 
   return (
-    <div ref={drop} className="card">
+    <Card ref={drop}>
       <div className="input-row">
         <input
           className="heading"
@@ -79,7 +80,7 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
           </>
         }
       />
-    </div>
+    </Card>
   );
 };
 
