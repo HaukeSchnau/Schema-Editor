@@ -6,6 +6,8 @@ import Schema from "./schema";
 export class RootStore {
   loadedSchema: Schema | null = null;
 
+  recentFiles: FileSystemDirectoryHandle[] = [];
+
   constructor() {
     makeAutoObservable(this);
   }

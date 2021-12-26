@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
-import { get, set } from "idb-keyval";
 import { useDrop } from "react-dnd";
 import { useStore } from "../model/rootStore";
 import useAutoSave from "./hooks/useAutoSave";
@@ -9,11 +8,14 @@ import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
 import generateInBrowser from "./generateInBrowser";
 import ModelStage from "./components/ModelStage";
 import Model from "../model/model";
+import useRecentFiles from "./hooks/useRecentFiles";
+import RecentFiles from "./components/RecentFiles";
 
 const App = () => {
   const store = useStore();
   const { loadedSchema } = store;
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const { saveToRecentFiles } = useRecentFiles();
 
   const [, drop] = useDrop(
     () => ({
@@ -39,38 +41,6 @@ const App = () => {
     },
     store.loadedSchema
   );
-
-  const [recentFiles, setRecentFiles] = useState<FileSystemDirectoryHandle[]>(
-    []
-  );
-
-  useEffect(() => {
-    (async () => {
-      const newRecentFiles = await get("recentFiles");
-      if (newRecentFiles) setRecentFiles(newRecentFiles);
-    })();
-  }, []);
-
-  const saveToRecentFiles = async (handle: FileSystemDirectoryHandle) => {
-    let existingEntryIndex = -1;
-    for (let i = 0; i < recentFiles.length; i++) {
-      if (await handle.isSameEntry(recentFiles[i])) {
-        existingEntryIndex = i;
-        break;
-      }
-    }
-    const newRecentFiles =
-      existingEntryIndex !== -1
-        ? [
-            handle,
-            ...recentFiles.slice(0, existingEntryIndex),
-            ...recentFiles.slice(existingEntryIndex + 1),
-          ]
-        : [handle, ...recentFiles];
-
-    set("recentFiles", newRecentFiles);
-    setRecentFiles(newRecentFiles);
-  };
 
   const openFilePicker = async () => {
     const folderHandle = await window.showDirectoryPicker();
@@ -134,24 +104,7 @@ const App = () => {
           />
         </>
       ) : (
-        <>
-          <h3 className="mt-4">Letzte Dateien</h3>
-          <ul>
-            {recentFiles.map((recentFile) => (
-              <button
-                key={recentFile.name + recentFile.kind}
-                className="link"
-                type="button"
-                onClick={() => {
-                  loadDirectory(recentFile);
-                  saveToRecentFiles(recentFile);
-                }}
-              >
-                {recentFile.name}
-              </button>
-            ))}
-          </ul>
-        </>
+        <RecentFiles onOpen={(folder) => loadDirectory(folder)} />
       )}
     </div>
   );
