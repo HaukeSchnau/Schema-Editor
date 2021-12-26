@@ -1,25 +1,33 @@
 import { makeAutoObservable } from "mobx";
-import { map, object, primitive, serializable } from "serializr";
+import { map, object, serializable } from "serializr";
 import { v4 as uuid } from "uuid";
 import Generators from "../generator/Generators";
 import Model from "./model";
+import GeneratorMetaData from "./generatorMetaData";
 
 export default class Schema {
   @serializable
   name = "Schema";
 
   @serializable(
-    map(primitive(), {
-      afterDeserialize: (callback, err, newValue) => {
+    map(object(GeneratorMetaData), {
+      afterDeserialize: (
+        callback,
+        err,
+        newValue: Map<string, GeneratorMetaData>
+      ) => {
         for (const [genId, Generator] of Generators.entries()) {
           if (!newValue.has(genId))
-            newValue.set(genId, Generator.defaultBaseDir);
+            newValue.set(
+              genId,
+              new GeneratorMetaData(Generator.defaultBaseDir, false)
+            );
         }
         callback(err, newValue);
       },
     })
   )
-  outDirs = new Map<string, string>();
+  generators = new Map<string, GeneratorMetaData>();
 
   @serializable(object(Model))
   root = new Model("Entity", uuid());

@@ -26,7 +26,7 @@ function checkFileExists(file: string) {
       if (!Generator) throw new Error("Invalid target");
 
       const generator = new Generator(
-        schema.outDirs.get(target) ?? Generator.defaultBaseDir
+        schema.generators.get(target)?.outDir ?? Generator.defaultBaseDir
       );
       const baseDir = p.join(outDir, generator.baseDir);
       await fs.mkdir(baseDir, { recursive: true });

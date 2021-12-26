@@ -99,6 +99,7 @@ const App = () => {
           </div>
           <ModelStage parent={loadedSchema.root} />
           <SelectGeneratorsModal
+            generatorsMetaData={loadedSchema.generators}
             isOpen={isModalOpen}
             onRequestClose={() => setModalOpen(false)}
             onGenerate={(gens) =>

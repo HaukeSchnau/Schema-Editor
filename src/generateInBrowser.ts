@@ -13,7 +13,7 @@ export default async (
       const Generator = Generators.get(generatorId);
       if (!Generator) return;
       const generator = new Generator(
-        schema.outDirs.get(generatorId) ?? Generator.defaultBaseDir
+        schema.generators.get(generatorId)?.outDir ?? Generator.defaultBaseDir
       );
       const generatedFiles = generator.generate(schema);
       let baseDir = rootDir;
