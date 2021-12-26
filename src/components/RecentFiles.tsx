@@ -1,6 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import useRecentFiles from "../hooks/useRecentFiles";
+import Card from "./Card";
 
 interface RecentFilesProps {
   onOpen: (_dir: FileSystemDirectoryHandle) => void;
@@ -12,19 +13,18 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ onOpen }) => {
   return (
     <>
       <h3 className="mt-4">Letzte Dateien</h3>
-      <ul>
+      <ul className="grid">
         {recentFiles.map((recentFile) => (
-          <button
-            key={recentFile.name + recentFile.kind}
-            className="link"
-            type="button"
+          <Card
+            key={recentFile.file.name}
             onClick={() => {
-              onOpen(recentFile);
-              saveToRecentFiles(recentFile);
+              onOpen(recentFile.file);
+              saveToRecentFiles(recentFile.file);
             }}
           >
-            {recentFile.name}
-          </button>
+            {recentFile.file.name}
+            {recentFile.lastOpened.toLocaleString()}
+          </Card>
         ))}
       </ul>
     </>

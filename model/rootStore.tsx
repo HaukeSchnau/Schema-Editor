@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { useLocalObservable } from "mobx-react";
 import { makeAutoObservable } from "mobx";
 import Schema from "./schema";
+import { RecentFile } from "../src/hooks/useRecentFiles";
 
 export class RootStore {
   loadedSchema: Schema | null = null;
 
-  recentFiles: FileSystemDirectoryHandle[] = [];
+  recentFiles: RecentFile[] = [];
 
   constructor() {
     makeAutoObservable(this);

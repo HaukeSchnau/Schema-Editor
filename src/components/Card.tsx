@@ -1,14 +1,18 @@
-import React, { Ref } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import cx from "classnames";
 
 interface CardProps {
-  ref?: Ref<HTMLDivElement>;
   onClick?: () => void;
   className?: string;
+  // eslint-disable-next-line react/no-unused-prop-types
+  ref?: React.Ref<HTMLDivElement>;
 }
 
-const Card: React.FC<CardProps> = ({ children, ref, onClick, className }) => {
+const Card: React.ComponentType<CardProps> = React.forwardRef<
+  HTMLDivElement,
+  CardProps
+>(({ children, onClick, className }, ref) => {
   if (onClick)
     return (
       <button type="button" className={cx("card", className)} onClick={onClick}>
@@ -21,6 +25,6 @@ const Card: React.FC<CardProps> = ({ children, ref, onClick, className }) => {
       {children}
     </div>
   );
-};
+});
 
 export default observer(Card);
