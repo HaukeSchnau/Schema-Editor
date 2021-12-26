@@ -37,7 +37,7 @@ const App = () => {
     [loadedSchema]
   );
 
-  const { loadFile, saveFile, reset, file } = useAutoSave<Schema | null>(
+  const { loadFile, saveFile, reset } = useAutoSave<Schema | null>(
     "schema",
     Schema,
     (storedSchema) => {
@@ -99,7 +99,18 @@ const App = () => {
   return (
     <div ref={drop}>
       <div className="head-row">
-        <h1>{file?.name || "Schema-Editor"}</h1>
+        {loadedSchema ? (
+          <input
+            className="h1 grow"
+            size={1}
+            value={loadedSchema.name}
+            onChange={(e) => {
+              loadedSchema.name = e.target.value;
+            }}
+          />
+        ) : (
+          <h1>Schema-Editor</h1>
+        )}
         <div className="button-row">
           <button type="button" className="raised" onClick={() => reset()}>
             Neues Schema

@@ -9,7 +9,9 @@ export default async (schema: Schema, gens: string[]) => {
     gens.map(async (generatorId) => {
       const Generator = Generators.get(generatorId);
       if (!Generator) return;
-      const generator = new Generator();
+      const generator = new Generator(
+        schema.outDirs.get(generatorId) ?? Generator.defaultBaseDir
+      );
       const generatedFiles = generator.generate(schema);
       let baseDir = rootDir;
       for (const subdir of generator.baseDir.split("/")) {

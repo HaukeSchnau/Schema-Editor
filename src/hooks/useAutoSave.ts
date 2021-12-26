@@ -15,7 +15,6 @@ export default function useAutoSave<T>(
   interval = 1000
 ) {
   const fileHandle = useRef<FileSystemFileHandle | null>(null);
-  const [file, setFile] = useState<File | null>(null);
 
   const load = (json: string | null) => {
     onLoad(json ? deserialize<T>(cls, JSON.parse(json)) : null);
@@ -25,7 +24,6 @@ export default function useAutoSave<T>(
     if (await verifyPermission(handle)) {
       fileHandle.current = handle;
       const f = await handle.getFile();
-      setFile(f);
       const text = await f.text();
       load(text);
     }
@@ -36,17 +34,14 @@ export default function useAutoSave<T>(
     const writable = await handle.createWritable();
     await writable?.write(JSON.stringify(serialize<T>(cls, item), null, 2));
     await writable?.close();
-    const f = await handle.getFile();
-    setFile(f);
   };
 
   const reset = async () => {
     fileHandle.current = null;
-    setFile(null);
     load(null);
   };
 
   useInterval(() => saveFile(fileHandle.current), interval, [item]);
 
-  return { loadFile, saveFile, reset, file };
+  return { loadFile, saveFile, reset };
 }

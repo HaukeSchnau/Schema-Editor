@@ -19,6 +19,12 @@ export default class CodeGenerator {
 
   static generatorName = "Generator";
 
+  static defaultBaseDir = "gen";
+
+  constructor(baseDir: string) {
+    this.baseDir = baseDir;
+  }
+
   generate(schema: Schema): GeneratedFile[] {
     return this.generateSubModels(schema.root);
   }

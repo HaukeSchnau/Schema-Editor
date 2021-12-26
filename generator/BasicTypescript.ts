@@ -12,12 +12,9 @@ const propTypeMap = {
 };
 
 export default class BasicTypescriptGenerator extends CodeGenerator {
-  constructor() {
-    super();
-    this.baseDir = "ts/base";
-  }
-
   static generatorName = "Basic TypeScript";
+
+  static defaultBaseDir = "ts/base";
 
   buildImport(type: DataType) {
     if (typeof type === "string") return null;

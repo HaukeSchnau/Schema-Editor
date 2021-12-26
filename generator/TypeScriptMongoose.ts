@@ -13,12 +13,9 @@ const propTypeMap = {
 };
 
 export default class TypeScriptMongooseGenerator extends CodeGenerator {
-  constructor() {
-    super();
-    this.baseDir = "ts/mongoose";
-  }
-
   static generatorName = "Mongoose mit TypeScript";
+
+  static defaultBaseDir = "ts/mongoose";
 
   buildProp(prop: Property) {
     let propTypeStr: string;
