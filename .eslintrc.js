@@ -4,6 +4,10 @@ module.exports = {
     es2021: true,
     node: true,
   },
+  globals: {
+    FileSystemDirectoryHandle: "readonly",
+    FileSystemFileHandle: "readonly",
+  },
   extends: [
     "plugin:react/recommended",
     "airbnb",
