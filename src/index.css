@@ -94,6 +94,11 @@ button.raised {
   transition: background-color 0.2s ease;
 }
 
+.card-title {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
 button.card:hover {
   background-color: #b9b1ad;
 }
@@ -154,6 +159,10 @@ li {
 
 .mt-4 {
   margin-top: 16px;
+}
+
+.mt-2 {
+  margin-top: 8px;
 }
 
 .modal-overlay {

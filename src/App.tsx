@@ -28,7 +28,7 @@ const App = () => {
     [loadedSchema]
   );
 
-  const { loadDirectory, parentDirectory } = useAutoSave<Schema | null>(
+  const { loadDirectory, parentDirectory, reset } = useAutoSave<Schema | null>(
     "schema",
     Schema,
     (storedSchema) => {
@@ -36,7 +36,7 @@ const App = () => {
         storedSchema.root.link();
         store.loadedSchema = storedSchema;
       } else {
-        store.loadedSchema = new Schema();
+        store.loadedSchema = null;
       }
     },
     store.loadedSchema
@@ -64,12 +64,15 @@ const App = () => {
           <h1>Schema-Editor</h1>
         )}
         <div className="button-row">
+          <button type="button" className="raised" onClick={() => reset()}>
+            Schließen
+          </button>
           <button
             type="button"
             className="raised"
             onClick={() => openFilePicker()}
           >
-            Ordner öffnen
+            Projekt öffnen...
           </button>
           {loadedSchema && (
             <button

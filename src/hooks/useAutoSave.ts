@@ -49,6 +49,7 @@ export default function useAutoSave<T>(
 
   const reset = async () => {
     fileHandle.current = null;
+    parentDirectory.current = null;
     load(null);
   };
 

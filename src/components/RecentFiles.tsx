@@ -13,7 +13,7 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ onOpen }) => {
   return (
     <>
       <h3 className="mt-4">Letzte Dateien</h3>
-      <ul className="grid">
+      <ul className="grid mt-4">
         {recentFiles.map((recentFile) => (
           <Card
             key={recentFile.file.name}
@@ -22,8 +22,10 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ onOpen }) => {
               saveToRecentFiles(recentFile.file);
             }}
           >
-            {recentFile.file.name}
-            {recentFile.lastOpened.toLocaleString()}
+            <div className="card-title">{recentFile.file.name}</div>
+            <div className="mt-2">
+              Zuletzt geöffnet: {recentFile.lastOpened.toLocaleString()}
+            </div>
           </Card>
         ))}
       </ul>
