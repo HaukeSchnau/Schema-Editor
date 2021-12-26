@@ -2,8 +2,11 @@ import Schema from "../model/schema";
 import Generators from "../generator/Generators";
 import verifyPermission from "./verifyPermission";
 
-export default async (schema: Schema, gens: string[]) => {
-  const rootDir = await window.showDirectoryPicker();
+export default async (
+  schema: Schema,
+  gens: string[],
+  rootDir: FileSystemDirectoryHandle
+) => {
   if (!(await verifyPermission(rootDir))) return;
   await Promise.all(
     gens.map(async (generatorId) => {

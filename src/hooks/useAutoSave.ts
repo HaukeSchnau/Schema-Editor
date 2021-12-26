@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { deserialize, serialize } from "serializr";
 import verifyPermission from "../verifyPermission";
 import useInterval from "./useInterval";
@@ -14,10 +14,21 @@ export default function useAutoSave<T>(
   item?: T,
   interval = 1000
 ) {
+  const parentDirectory = useRef<FileSystemDirectoryHandle | null>(null);
   const fileHandle = useRef<FileSystemFileHandle | null>(null);
 
   const load = (json: string | null) => {
     onLoad(json ? deserialize<T>(cls, JSON.parse(json)) : null);
+  };
+
+  const loadDirectory = async (
+    folder: FileSystemDirectoryHandle,
+    fileName = "schema.json"
+  ) => {
+    if (!(await verifyPermission(folder))) return;
+    parentDirectory.current = folder;
+    const schemaFile = await folder.getFileHandle(fileName, { create: true });
+    await loadFile(schemaFile);
   };
 
   const loadFile = async (handle: FileSystemFileHandle) => {
@@ -43,5 +54,10 @@ export default function useAutoSave<T>(
 
   useInterval(() => saveFile(fileHandle.current), interval, [item]);
 
-  return { loadFile, saveFile, reset };
+  return {
+    loadFile,
+    loadDirectory,
+    reset,
+    parentDirectory,
+  };
 }

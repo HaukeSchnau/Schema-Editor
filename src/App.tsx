@@ -10,17 +10,6 @@ import generateInBrowser from "./generateInBrowser";
 import ModelStage from "./components/ModelStage";
 import Model from "../model/model";
 
-const filePickerOptions = {
-  types: [
-    {
-      description: "Schema Files",
-      accept: {
-        "application/json": [".json"],
-      },
-    },
-  ],
-};
-
 const App = () => {
   const store = useStore();
   const { loadedSchema } = store;
@@ -37,7 +26,7 @@ const App = () => {
     [loadedSchema]
   );
 
-  const { loadFile, saveFile, reset } = useAutoSave<Schema | null>(
+  const { loadDirectory, parentDirectory } = useAutoSave<Schema | null>(
     "schema",
     Schema,
     (storedSchema) => {
@@ -51,7 +40,9 @@ const App = () => {
     store.loadedSchema
   );
 
-  const [recentFiles, setRecentFiles] = useState<FileSystemFileHandle[]>([]);
+  const [recentFiles, setRecentFiles] = useState<FileSystemDirectoryHandle[]>(
+    []
+  );
 
   useEffect(() => {
     (async () => {
@@ -60,7 +51,7 @@ const App = () => {
     })();
   }, []);
 
-  const saveToRecentFiles = async (handle: FileSystemFileHandle) => {
+  const saveToRecentFiles = async (handle: FileSystemDirectoryHandle) => {
     let existingEntryIndex = -1;
     for (let i = 0; i < recentFiles.length; i++) {
       if (await handle.isSameEntry(recentFiles[i])) {
@@ -82,18 +73,9 @@ const App = () => {
   };
 
   const openFilePicker = async () => {
-    const [fileHandle] = await window.showOpenFilePicker(filePickerOptions);
-    saveToRecentFiles(fileHandle);
-    loadFile(fileHandle);
-  };
-
-  const openSaveDialog = async () => {
-    const handle = await window.showSaveFilePicker({
-      ...filePickerOptions,
-      suggestedName: "schema.json",
-    });
-    saveToRecentFiles(handle);
-    saveFile(handle);
+    const folderHandle = await window.showDirectoryPicker();
+    saveToRecentFiles(folderHandle);
+    loadDirectory(folderHandle);
   };
 
   return (
@@ -112,33 +94,21 @@ const App = () => {
           <h1>Schema-Editor</h1>
         )}
         <div className="button-row">
-          <button type="button" className="raised" onClick={() => reset()}>
-            Neues Schema
-          </button>
           <button
             type="button"
             className="raised"
             onClick={() => openFilePicker()}
           >
-            Datei Laden...
+            Ordner öffnen
           </button>
           {loadedSchema && (
-            <>
-              <button
-                type="button"
-                className="raised"
-                onClick={() => openSaveDialog()}
-              >
-                Speichern unter...
-              </button>
-              <button
-                type="button"
-                className="raised"
-                onClick={() => setModalOpen(true)}
-              >
-                Code generieren...
-              </button>
-            </>
+            <button
+              type="button"
+              className="raised"
+              onClick={() => setModalOpen(true)}
+            >
+              Code generieren...
+            </button>
           )}
         </div>
       </div>
@@ -158,7 +128,9 @@ const App = () => {
           <SelectGeneratorsModal
             isOpen={isModalOpen}
             onRequestClose={() => setModalOpen(false)}
-            onGenerate={(gens) => generateInBrowser(loadedSchema, gens)}
+            onGenerate={(gens) =>
+              generateInBrowser(loadedSchema, gens, parentDirectory.current!)
+            }
           />
         </>
       ) : (
@@ -171,7 +143,7 @@ const App = () => {
                 className="link"
                 type="button"
                 onClick={() => {
-                  loadFile(recentFile);
+                  loadDirectory(recentFile);
                   saveToRecentFiles(recentFile);
                 }}
               >
