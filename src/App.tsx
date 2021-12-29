@@ -10,6 +10,7 @@ import ModelStage from "./components/ModelStage";
 import Model from "../model/model";
 import useRecentFiles from "./hooks/useRecentFiles";
 import RecentFiles from "./components/RecentFiles";
+import Header from "./components/Header";
 
 const App = () => {
   const store = useStore();
@@ -50,41 +51,29 @@ const App = () => {
 
   return (
     <div ref={drop}>
-      <div className="head-row">
-        {loadedSchema ? (
-          <input
-            className="h1 grow"
-            size={1}
-            value={loadedSchema.name}
-            onChange={(e) => {
-              loadedSchema.name = e.target.value;
-            }}
-          />
-        ) : (
-          <h1>Schema-Editor</h1>
-        )}
-        <div className="button-row">
-          <button type="button" className="raised" onClick={() => reset()}>
-            Schließen
-          </button>
-          <button
-            type="button"
-            className="raised"
-            onClick={() => openFilePicker()}
-          >
-            Projekt öffnen...
-          </button>
-          {loadedSchema && (
-            <button
-              type="button"
-              className="raised"
-              onClick={() => setModalOpen(true)}
-            >
-              Code generieren...
-            </button>
-          )}
-        </div>
-      </div>
+      <Header
+        title={loadedSchema ? loadedSchema.name : "Schema-Editor"}
+        editable={!!loadedSchema}
+        onChange={(newVal) => {
+          if (loadedSchema) loadedSchema.name = newVal;
+        }}
+        actions={[
+          {
+            label: "Schließen",
+            handler: reset,
+            disabled: !loadedSchema,
+          },
+          {
+            label: "Projekt öffnen...",
+            handler: openFilePicker,
+          },
+          {
+            label: "Code generieren...",
+            handler: () => setModalOpen(true),
+            disabled: !loadedSchema,
+          },
+        ]}
+      />
       {loadedSchema ? (
         <>
           <div className="head-row mt-4">
