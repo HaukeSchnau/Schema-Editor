@@ -121,4 +121,8 @@ export default class Model {
       ]),
     ];
   }
+
+  get allProps(): Property[] {
+    return [...this.properties, ...(this.parent?.allProps ?? [])];
+  }
 }

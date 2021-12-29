@@ -51,9 +51,11 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
     const { name } = model;
     const imports = buildImports(model);
     const snakeName = toSnakeCase(name);
+    const mobxImport = model.allProps.some((prop) => prop.array)
+      ? "import 'package:mobx/mobx.dart';\n"
+      : "";
 
-    return `import 'package:mobx/mobx.dart';
-import '../gen/basic_${snakeName}.dart';
+    return `${mobxImport}import '../gen/basic_${snakeName}.dart';
 ${imports.length ? `${imports.join("\n")}\n` : ""}  
 class ${name} extends Basic${name} {
   ${this.buildConstructor(model)}
