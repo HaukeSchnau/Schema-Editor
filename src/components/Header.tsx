@@ -35,7 +35,12 @@ const Header: React.FC<HeaderProps> = ({
       <div className="button-row">
         {actions.map((action) =>
           !action || action.disabled ? null : (
-            <button type="button" className="raised" onClick={action.handler}>
+            <button
+              key={action.label}
+              type="button"
+              className="raised"
+              onClick={action.handler}
+            >
               {action.label}
             </button>
           )

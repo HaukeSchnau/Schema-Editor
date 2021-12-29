@@ -8,9 +8,9 @@ type ClassConstructor<T> = {
 };
 
 export default function useAutoSave<T>(
-  name: string,
   cls: ClassConstructor<T>,
   onLoad: (_obj: T | null) => void,
+  createDefaultObject: (_parent: FileSystemDirectoryHandle) => T,
   item?: T,
   interval = 1000
 ) {
@@ -27,16 +27,14 @@ export default function useAutoSave<T>(
   ) => {
     if (!(await verifyPermission(folder))) return;
     parentDirectory.current = folder;
-    const schemaFile = await folder.getFileHandle(fileName, { create: true });
-    await loadFile(schemaFile);
-  };
 
-  const loadFile = async (handle: FileSystemFileHandle) => {
-    if (await verifyPermission(handle)) {
-      fileHandle.current = handle;
-      const f = await handle.getFile();
+    const file = await folder.getFileHandle(fileName, { create: true });
+    if (await verifyPermission(file)) {
+      fileHandle.current = file;
+      const f = await file.getFile();
       const text = await f.text();
-      load(text);
+      if (text) load(text);
+      else onLoad(createDefaultObject(folder));
     }
   };
 
@@ -56,7 +54,6 @@ export default function useAutoSave<T>(
   useInterval(() => saveFile(fileHandle.current), interval, [item]);
 
   return {
-    loadFile,
     loadDirectory,
     reset,
     parentDirectory,

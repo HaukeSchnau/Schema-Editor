@@ -31,7 +31,6 @@ const App = () => {
   );
 
   const { loadDirectory, parentDirectory, reset } = useAutoSave<Schema | null>(
-    "schema",
     Schema,
     (storedSchema) => {
       if (storedSchema) {
@@ -40,6 +39,11 @@ const App = () => {
       } else {
         store.loadedSchema = null;
       }
+    },
+    (parent: FileSystemDirectoryHandle) => {
+      const schema = new Schema();
+      schema.name = parent.name;
+      return schema;
     },
     store.loadedSchema
   );
