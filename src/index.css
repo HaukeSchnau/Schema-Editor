@@ -127,19 +127,25 @@ button.raised {
   background-color: #f2e9e4;
   padding: 1rem 2rem;
   color: #22223b;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.16);
   transition: background-color 0.2s ease;
 }
 
+.card.button:hover,
+.card.button:focus {
+  background-color: #b9b1ad;
+  outline: 0;
+}
+
 .card-title {
   font-weight: 500;
   font-size: 1.2rem;
-}
-
-button.card:hover {
-  background-color: #b9b1ad;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 input {
@@ -269,6 +275,7 @@ button.icon {
   height: 2rem;
   border-radius: 50%;
   transition: background-color 0.2s ease;
+  display: inline-block;
 }
 
 button.icon:hover {

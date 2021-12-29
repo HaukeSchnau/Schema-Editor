@@ -2,6 +2,7 @@ import { get, set } from "idb-keyval";
 import { toJS } from "mobx";
 import { useEffect } from "react";
 import { useStore } from "../../model/rootStore";
+import RecentFiles from "../components/RecentFiles";
 
 export type RecentFile = {
   file: FileSystemDirectoryHandle;
@@ -41,5 +42,24 @@ export default function useRecentFiles() {
     set("recentFiles", toJS(store.recentFiles));
   };
 
-  return { recentFiles: store.recentFiles, saveToRecentFiles, loadRecentFiles };
+  const removeFromRecentFiles = async (handle: FileSystemDirectoryHandle) => {
+    let existingEntryIndex = -1;
+    for (let i = 0; i < store.recentFiles.length; i++) {
+      if (await handle.isSameEntry(store.recentFiles[i].file)) {
+        existingEntryIndex = i;
+        break;
+      }
+    }
+    if (existingEntryIndex !== -1) {
+      store.recentFiles.splice(existingEntryIndex, 1);
+      set("recentFiles", toJS(store.recentFiles));
+    }
+  };
+
+  return {
+    recentFiles: store.recentFiles,
+    saveToRecentFiles,
+    removeFromRecentFiles,
+    loadRecentFiles,
+  };
 }

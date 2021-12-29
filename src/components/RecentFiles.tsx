@@ -8,7 +8,8 @@ interface RecentFilesProps {
 }
 
 const RecentFiles: React.FC<RecentFilesProps> = ({ onOpen }) => {
-  const { recentFiles, saveToRecentFiles } = useRecentFiles();
+  const { recentFiles, saveToRecentFiles, removeFromRecentFiles } =
+    useRecentFiles();
 
   return (
     <>
@@ -22,7 +23,19 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ onOpen }) => {
               saveToRecentFiles(recentFile.file);
             }}
           >
-            <div className="card-title">{recentFile.file.name}</div>
+            <div className="card-title">
+              {recentFile.file.name}
+              <button
+                type="button"
+                className="icon pull-right"
+                onClick={(e) => {
+                  removeFromRecentFiles(recentFile.file);
+                  e.stopPropagation();
+                }}
+              >
+                ✕
+              </button>
+            </div>
             <div className="mt-2">
               Zuletzt geöffnet: {recentFile.lastOpened.toLocaleString()}
             </div>

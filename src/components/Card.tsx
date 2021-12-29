@@ -15,9 +15,15 @@ const Card: React.ComponentType<CardProps> = React.forwardRef<
 >(({ children, onClick, className }, ref) => {
   if (onClick)
     return (
-      <button type="button" className={cx("card", className)} onClick={onClick}>
+      <div
+        role="button"
+        tabIndex={0}
+        onKeyPress={(e) => e.key === "Enter" && onClick()}
+        className={cx("card", "button", className)}
+        onClick={onClick}
+      >
         {children}
-      </button>
+      </div>
     );
 
   return (
