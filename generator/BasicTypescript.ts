@@ -23,8 +23,7 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
   }
 
   buildImports(model: Model) {
-    const propTypes = [...new Set(model.properties.map((prop) => prop.type))];
-    return propTypes
+    return model.uniquePropTypes
       .map((type) => this.buildImport(type))
       .filter((imp) => !!imp);
   }

@@ -18,7 +18,7 @@ export function buildImport(type: DataType) {
 }
 
 export function buildImports(model: Model) {
-  model.properties.map((prop) => prop.type).map((type) => buildImport(type));
-  const propTypes = [...new Set(model.properties.map((prop) => prop.type))];
-  return propTypes.map((type) => buildImport(type)).filter((imp) => !!imp);
+  return model.uniquePropTypes
+    .map((type) => buildImport(type))
+    .filter((imp) => !!imp);
 }

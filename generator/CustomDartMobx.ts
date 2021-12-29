@@ -21,11 +21,6 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
     return prop.array ? `ObservableList<${basicPropType}>` : basicPropType;
   }
 
-  buildProp(prop: Property) {
-    return `@observable
-  ${this.buildPropTypeString(prop)}${prop.optional ? "?" : ""} ${prop.name};`;
-  }
-
   buildParentConstructorArg(prop: Property) {
     const isOptional = prop.optional || prop.defaultValue;
     return `${!isOptional ? "required " : ""}${this.buildPropTypeString(prop)}${

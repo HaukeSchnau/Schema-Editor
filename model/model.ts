@@ -112,4 +112,13 @@ export default class Model {
       ...this.children.map((child) => child.allChildren),
     ].flat();
   }
+
+  get uniquePropTypes(): DataType[] {
+    return [
+      ...new Set([
+        ...this.properties.map((prop) => prop.type),
+        ...(this.parent?.uniquePropTypes ?? []),
+      ]),
+    ];
+  }
 }
