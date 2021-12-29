@@ -12,12 +12,13 @@ import useRecentFiles from "./hooks/useRecentFiles";
 import RecentFiles from "./components/RecentFiles";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Center from "./components/Center";
 
 const App = () => {
   const store = useStore();
   const { loadedSchema } = store;
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const { saveToRecentFiles } = useRecentFiles();
+  const { recentFiles, saveToRecentFiles } = useRecentFiles();
 
   const [, drop] = useDrop(
     () => ({
@@ -54,6 +55,48 @@ const App = () => {
     loadDirectory(folderHandle);
   };
 
+  let body = (
+    <Center>
+      <div className="empty-state-notice">
+        Du hast noch keine Projekte geöffnet. Fange jetzt an!
+      </div>
+      <button
+        type="button"
+        className="raised large mt-8"
+        onClick={openFilePicker}
+      >
+        Projekt öffnen...
+      </button>
+    </Center>
+  );
+  if (loadedSchema) {
+    body = (
+      <>
+        <header className="mt-4">
+          <h2>Alle Models</h2>
+          <button
+            type="button"
+            className="raised"
+            onClick={() => loadedSchema.addModel()}
+          >
+            Neues Model
+          </button>
+        </header>
+        <ModelStage parent={loadedSchema.root} />
+        <SelectGeneratorsModal
+          generatorsMetaData={loadedSchema.generators}
+          isOpen={isModalOpen}
+          onRequestClose={() => setModalOpen(false)}
+          onGenerate={(gens) =>
+            generateInBrowser(loadedSchema, gens, parentDirectory.current!)
+          }
+        />
+      </>
+    );
+  } else if (recentFiles.length) {
+    body = <RecentFiles onOpen={(folder) => loadDirectory(folder)} />;
+  }
+
   return (
     <div ref={drop} className="app">
       <Header
@@ -71,6 +114,7 @@ const App = () => {
           {
             label: "Projekt öffnen...",
             handler: openFilePicker,
+            disabled: !recentFiles.length && !loadedSchema,
           },
           {
             label: "Code generieren...",
@@ -79,33 +123,7 @@ const App = () => {
           },
         ]}
       />
-      <main>
-        {loadedSchema ? (
-          <>
-            <header className="mt-4">
-              <h2>Alle Models</h2>
-              <button
-                type="button"
-                className="raised"
-                onClick={() => loadedSchema.addModel()}
-              >
-                Neues Model
-              </button>
-            </header>
-            <ModelStage parent={loadedSchema.root} />
-            <SelectGeneratorsModal
-              generatorsMetaData={loadedSchema.generators}
-              isOpen={isModalOpen}
-              onRequestClose={() => setModalOpen(false)}
-              onGenerate={(gens) =>
-                generateInBrowser(loadedSchema, gens, parentDirectory.current!)
-              }
-            />
-          </>
-        ) : (
-          <RecentFiles onOpen={(folder) => loadDirectory(folder)} />
-        )}
-      </main>
+      <main>{body}</main>
       <Footer />
     </div>
   );

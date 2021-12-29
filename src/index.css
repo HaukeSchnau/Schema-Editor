@@ -100,14 +100,23 @@ button {
 }
 
 button.secondary {
-  padding: 1rem 2rem;
+  padding: 1em 2em;
   color: #111;
 }
 
 button.raised {
-  padding: 1rem 2rem;
-  background: #c9ada7;
+  padding: 1em 2em;
+  background-color: #c9ada7;
   color: #111;
+  transition: background-color 0.2s ease;
+}
+
+button.raised:hover {
+  background-color: #a8928d;
+}
+
+button.large {
+  font-size: 1.5rem;
 }
 
 .model-stage {
@@ -216,6 +225,10 @@ li {
   margin-left: 8px;
 }
 
+.mt-8 {
+  margin-top: 32px;
+}
+
 .mt-4 {
   margin-top: 16px;
 }
@@ -294,4 +307,19 @@ li.generator-config {
   background-color: rgba(0, 0, 0, 0.16);
   border-radius: 9999px;
   margin: 0.5rem 0;
+}
+
+.centered {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-state-notice {
+  font-size: 2rem;
+  max-width: 20rem;
+  text-align: center;
 }
