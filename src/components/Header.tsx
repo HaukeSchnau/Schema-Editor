@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({
   actions = [],
 }) => {
   return (
-    <div className="head-row">
+    <header>
       {editable ? (
         <input
           className="h1 grow"
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({
           )
         )}
       </div>
-    </div>
+    </header>
   );
 };
 

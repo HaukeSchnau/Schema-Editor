@@ -6,7 +6,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #22223b;
   color: #f2e9e4;
-  padding: 2rem 12vw;
 }
 
 html,
@@ -27,6 +26,52 @@ body,
   user-select: none;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.app > header {
+  padding: 0 12vw;
+  padding-top: 2rem;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+main {
+  flex-grow: 1;
+  padding: 0 12vw;
+  padding-bottom: 4rem;
+}
+
+footer {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 2rem 12vw;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer a {
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
 h1,
 .h1 {
   font-size: 3rem;
@@ -36,12 +81,6 @@ h1,
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-.head-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 button {

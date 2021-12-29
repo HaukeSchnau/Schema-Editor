@@ -10,6 +10,7 @@ import ModelStage from "./components/ModelStage";
 import Model from "../model/model";
 import useRecentFiles from "./hooks/useRecentFiles";
 import RecentFiles from "./components/RecentFiles";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 
 const App = () => {
@@ -50,7 +51,7 @@ const App = () => {
   };
 
   return (
-    <div ref={drop}>
+    <div ref={drop} className="app">
       <Header
         title={loadedSchema ? loadedSchema.name : "Schema-Editor"}
         editable={!!loadedSchema}
@@ -74,31 +75,34 @@ const App = () => {
           },
         ]}
       />
-      {loadedSchema ? (
-        <>
-          <div className="head-row mt-4">
-            <h2>Alle Models</h2>
-            <button
-              type="button"
-              className="raised"
-              onClick={() => loadedSchema.addModel()}
-            >
-              Neues Model
-            </button>
-          </div>
-          <ModelStage parent={loadedSchema.root} />
-          <SelectGeneratorsModal
-            generatorsMetaData={loadedSchema.generators}
-            isOpen={isModalOpen}
-            onRequestClose={() => setModalOpen(false)}
-            onGenerate={(gens) =>
-              generateInBrowser(loadedSchema, gens, parentDirectory.current!)
-            }
-          />
-        </>
-      ) : (
-        <RecentFiles onOpen={(folder) => loadDirectory(folder)} />
-      )}
+      <main>
+        {loadedSchema ? (
+          <>
+            <header className="mt-4">
+              <h2>Alle Models</h2>
+              <button
+                type="button"
+                className="raised"
+                onClick={() => loadedSchema.addModel()}
+              >
+                Neues Model
+              </button>
+            </header>
+            <ModelStage parent={loadedSchema.root} />
+            <SelectGeneratorsModal
+              generatorsMetaData={loadedSchema.generators}
+              isOpen={isModalOpen}
+              onRequestClose={() => setModalOpen(false)}
+              onGenerate={(gens) =>
+                generateInBrowser(loadedSchema, gens, parentDirectory.current!)
+              }
+            />
+          </>
+        ) : (
+          <RecentFiles onOpen={(folder) => loadDirectory(folder)} />
+        )}
+      </main>
+      <Footer />
     </div>
   );
 };
