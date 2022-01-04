@@ -31,7 +31,7 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
   buildConstructor(model: Model) {
     const parentProps = model.getAllParentProps();
     const allProps = [...model.properties, ...parentProps];
-    return `${model.name}(
+    return `_${model.name}(
       {${[...allProps.map((prop) => this.buildParentConstructorArg(prop))].join(
         ",\n      "
       )}})${
@@ -44,22 +44,25 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
   }
 
   buildFromJson(model: Model) {
-    return `${model.name}.fromJson(Map<String, dynamic> json) : super.fromJson(json);`;
+    return `_${model.name}.fromJson(Map<String, dynamic> json) : super.fromJson(json);`;
   }
 
   generateModel(model: Model) {
     const { name } = model;
     const imports = buildImports(model);
     const snakeName = toSnakeCase(name);
-    const mobxImport = model.allProps.some((prop) => prop.array)
-      ? "import 'package:mobx/mobx.dart';\n"
-      : "";
+    const mobxImport = "import 'package:mobx/mobx.dart';\n";
 
     return `${mobxImport}import '../gen/basic_${snakeName}.dart';
 ${imports.length ? `${imports.join("\n")}\n` : ""}  
-class ${name} extends Basic${name} {
+part '${snakeName}.g.dart';
+
+class ${name} = _${name} with _$${name};
+
+abstract class _${name} extends Basic${name} with Store {
   ${this.buildConstructor(model)}
 
+  // ignore: unused_element
   ${this.buildFromJson(model)}
 }
 `;
