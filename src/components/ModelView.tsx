@@ -51,6 +51,16 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
           ✕
         </button>
       </div>
+      <label>
+        Datenbank-Tabelle{" "}
+        <input
+          type="checkbox"
+          checked={model.hasDatabaseCollection}
+          onChange={(e) => {
+            model.hasDatabaseCollection = e.target.checked;
+          }}
+        />
+      </label>
       <ul className="grow">
         {model.properties.map((prop, i) => (
           <PropertyView
