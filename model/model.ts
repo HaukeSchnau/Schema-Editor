@@ -45,9 +45,9 @@ export default class Model {
   }
 
   link() {
+    const root = this.findRoot();
     this.children.forEach((model) => {
       model.properties.forEach((prop) => {
-        const root = this.findRoot();
         const linkedType = root.findLinkedOrPrimitiveType(prop.type);
         if (linkedType) {
           prop.type = linkedType;

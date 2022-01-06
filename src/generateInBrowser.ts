@@ -2,6 +2,15 @@ import Schema from "../model/schema";
 import Generators from "../generator/Generators";
 import verifyPermission from "./verifyPermission";
 
+async function exists(baseDir: FileSystemDirectoryHandle, fileName: string) {
+  try {
+    await baseDir.getFileHandle(fileName);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export default async (
   schema: Schema,
   gens: string[],
@@ -22,6 +31,11 @@ export default async (
       }
       await Promise.all(
         generatedFiles.map(async (generatedFile) => {
+          if (
+            generator.ignoreIfExists &&
+            (await exists(baseDir, generatedFile.name))
+          )
+            return;
           const outFile = await baseDir.getFileHandle(generatedFile.name, {
             create: true,
           });

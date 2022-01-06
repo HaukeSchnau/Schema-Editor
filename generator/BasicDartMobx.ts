@@ -1,7 +1,8 @@
 import Model from "../model/model";
 import Property from "../model/property";
+import Schema from "../model/schema";
 import CodeGenerator from "./CodeGenerator";
-import { buildImports } from "./dartUtil";
+import { buildImport, buildImports } from "./dartUtil";
 import { toSnakeCase } from "./stringUtil";
 
 const propTypeMap = {
@@ -76,12 +77,12 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
   }
 
   buildToJson(model: Model) {
-    const isRoot = !model.parent;
-    return `${isRoot ? "" : "@override\n  "}Map<String, dynamic> toJson() {
+    return `@override
+  Map<String, dynamic> toJson() {
     return {
       ${model.properties
         .map((prop) => this.buildToJsonProp(prop))
-        .join(",\n      ")}${isRoot ? "" : `,\n      ...super.toJson()`}
+        .join(",\n      ")},\n      ...super.toJson()
     };
   }`;
   }
@@ -124,14 +125,30 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
     };`;
   }
 
+  generateMetaFile(schema: Schema) {
+    return `import 'package:schema_util/schema_util.dart';
+${schema.models.map(buildImport).join("\n")}
+
+EntityCreators creators = {
+${schema.models
+  .map((model) => `  "${model.id}": (json) => ${model.name}.fromJson(json),`)
+  .join("\n")}
+};
+`;
+  }
+
   generateModel(model: Model) {
+    const isRoot = !model.parent;
+    if (isRoot) return null;
+
     const imports = buildImports(model);
     const name = `Basic${model.name}`;
     const snakeName = toSnakeCase(name);
 
     return `import 'package:mobx/mobx.dart';
+import 'package:schema_util/schema_util.dart';
 ${
-  model.parent
+  model.parent && model.parent.parent
     ? `import '../model/${toSnakeCase(model.parent.name)}.dart';`
     : ""
 }

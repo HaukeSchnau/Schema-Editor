@@ -12,7 +12,7 @@ export const propTypeMap = {
 };
 
 export function buildImport(type: DataType) {
-  if (typeof type === "string") return null;
+  if (typeof type === "string" || !type.parent) return null;
 
   return `import '../model/${toSnakeCase(type.name)}.dart';`;
 }

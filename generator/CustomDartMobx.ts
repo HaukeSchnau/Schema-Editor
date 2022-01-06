@@ -48,6 +48,9 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
   }
 
   generateModel(model: Model) {
+    const isRoot = !model.parent;
+    if (isRoot) return null;
+    
     const { name } = model;
     const imports = buildImports(model);
     const snakeName = toSnakeCase(name);

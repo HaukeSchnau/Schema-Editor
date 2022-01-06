@@ -26,7 +26,13 @@ export default class CodeGenerator {
   }
 
   generate(schema: Schema): GeneratedFile[] {
-    return this.generateSubModels(schema.root);
+    const metaFileContents = this.generateMetaFile(schema);
+    return [
+      ...this.generateSubModels(schema.root),
+      metaFileContents
+        ? { name: "meta.dart", contents: metaFileContents }
+        : null,
+    ].filter(isNotNull);
   }
 
   generateSubModels(parent: Model): GeneratedFile[] {
@@ -46,6 +52,10 @@ export default class CodeGenerator {
 
   generateModel(_model: Model): string | null {
     return "";
+  }
+
+  generateMetaFile(_schema: Schema): string | null {
+    return null;
   }
 
   getFileName(model: Model) {
