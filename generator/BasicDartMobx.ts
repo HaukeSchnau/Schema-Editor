@@ -91,11 +91,12 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
     const defaultValue = prop.defaultValue ? ` ?? ${prop.defaultValue}` : "";
 
     const deserialize = (varPath: string) => {
+      const nullCheck = prop.optional ? `${varPath} == null ? null : ` : "";
       if (prop.type === "Date")
-        return `DateTime.fromMillisecondsSinceEpoch(${varPath})`;
+        return `${nullCheck}DateTime.fromMillisecondsSinceEpoch(${varPath})`;
       if (typeof prop.type === "string") return varPath;
 
-      return `${prop.type.name}.fromJson(${varPath})`;
+      return `${nullCheck}${prop.type.name}.fromJson(${varPath})`;
     };
 
     const value = prop.array
