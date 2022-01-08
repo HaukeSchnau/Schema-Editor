@@ -127,10 +127,10 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
 
   generateMetaFile(schema: Schema) {
     return `import 'package:schema_util/schema_util.dart';
-${schema.models.map(buildImport).join("\n")}
+${schema.allModels.map(buildImport).join("\n")}
 
 EntityCreators creators = {
-${schema.models
+${schema.allModels
   .map((model) => `  "${model.id}": (json) => ${model.name}.fromJson(json),`)
   .join("\n")}
 };
