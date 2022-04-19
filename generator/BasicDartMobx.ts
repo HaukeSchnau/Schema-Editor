@@ -1,5 +1,5 @@
 import Model from "../model/model";
-import Property from "../model/property";
+import Property, { DataType } from "../model/property";
 import Schema from "../model/schema";
 import CodeGenerator from "./CodeGenerator";
 import { buildImport, buildImports } from "./dartUtil";
@@ -87,6 +87,12 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
   }`;
   }
 
+  getDartDataType(type: DataType) {
+    if (type === "Date") return "DateTime";
+    if (typeof type === "string") return type;
+    return type.name;
+  }
+
   buildFromJsonValue(prop: Property) {
     const defaultValue = prop.defaultValue ? ` ?? ${prop.defaultValue}` : "";
 
@@ -100,9 +106,9 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
     };
 
     const value = prop.array
-      ? `ObservableList.of(json["${prop.name}"].map((e) => ${deserialize(
-          "e"
-        )}))`
+      ? `ObservableList.of(json["${prop.name}"].map<${this.getDartDataType(
+          prop.type
+        )}>((e) => ${deserialize("e")}))`
       : deserialize(`json["${prop.name}"]`);
     return `${value}${defaultValue}`;
   }
