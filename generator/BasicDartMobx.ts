@@ -126,23 +126,21 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
       : ${model.properties
         .map((prop) => this.buildFromJsonProp(prop))
         .join(",\n        ")}${
-      model.parent
-        ? `,\n        super.fromJson(json)`
-        : ""
+      model.parent ? `,\n        super.fromJson(json)` : ""
     };`;
   }
 
-  generateMetaFile(schema: Schema) {
-    return `import 'package:schema_util/schema_util.dart';
-${schema.allModels.map(buildImport).join("\n")}
+  //   generateMetaFile(schema: Schema) {
+  //     return `import 'package:schema_util/schema_util.dart';
+  // ${schema.allModels.map(buildImport).join("\n")}
 
-EntityCreators creators = {
-${schema.allModels
-  .map((model) => `  "${model.id}": (json) => ${model.name}.fromJson(json),`)
-  .join("\n")}
-};
-`;
-  }
+  // EntityCreators creators = {
+  // ${schema.allModels
+  //   .map((model) => `  "${model.id}": (json) => ${model.name}.fromJson(json),`)
+  //   .join("\n")}
+  // };
+  // `;
+  //   }
 
   generateModel(model: Model) {
     const isRoot = !model.parent;
