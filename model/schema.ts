@@ -34,6 +34,7 @@ export default class Schema {
 
   constructor() {
     makeAutoObservable(this);
+    this.root.hasDatabaseCollection = false;
   }
 
   addModel() {
