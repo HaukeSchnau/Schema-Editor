@@ -4,11 +4,13 @@ import CodeGenerator from "./CodeGenerator";
 import CustomDartMobxGenerator from "./CustomDartMobx";
 import TypeScriptMongooseGenerator from "./TypeScriptMongoose";
 
+const generators: typeof CodeGenerator[] = [
+  BasicTypescript,
+  TypeScriptMongooseGenerator,
+  BasicDartMobxGenerator,
+  CustomDartMobxGenerator,
+];
+
 export default new Map<string, typeof CodeGenerator>(
-  Object.entries({
-    tsbasic: BasicTypescript,
-    tsmongoose: TypeScriptMongooseGenerator,
-    basicdartmobx: BasicDartMobxGenerator,
-    customdartmobx: CustomDartMobxGenerator,
-  })
+  generators.map((gen) => [gen.generatorId, gen])
 );

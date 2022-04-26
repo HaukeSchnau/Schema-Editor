@@ -17,6 +17,8 @@ const propTypeMap = {
 export default class BasicDartMobxGenerator extends CodeGenerator {
   static generatorName = "Basic Dart-Klassen mit MobX für Flutter";
 
+  static generatorId = "basicdartmobx";
+
   static defaultBaseDir = "dart/gen";
 
   buildPropTypeString(prop: Property) {

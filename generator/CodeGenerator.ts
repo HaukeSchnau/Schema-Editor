@@ -1,3 +1,4 @@
+import GeneratorMetaData from "../model/generatorMetaData";
 import Model from "../model/model";
 import Schema from "../model/schema";
 
@@ -6,29 +7,25 @@ export type GeneratedFile = {
   contents: string;
 };
 
-function isNotNull(
-  arg: GeneratedFile | null
-): arg is Exclude<GeneratedFile, null> {
+function isNotNull(arg: GeneratedFile | null): arg is GeneratedFile {
   return arg !== null;
 }
 
 export default class CodeGenerator {
-  baseDir = "";
-
-  ignoreIfExists = false;
+  public ignoreIfExists = false;
 
   static generatorName = "Generator";
 
+  static generatorId = "generator";
+
   static defaultBaseDir = "gen";
 
-  constructor(baseDir: string) {
-    this.baseDir = baseDir;
-  }
+  constructor(public schema: Schema) {}
 
-  generate(schema: Schema): GeneratedFile[] {
-    const metaFileContents = this.generateMetaFile(schema);
+  generate(): GeneratedFile[] {
+    const metaFileContents = this.generateMetaFile(this.schema);
     return [
-      ...this.generateSubModels(schema.root),
+      ...this.generateSubModels(this.schema.root),
       metaFileContents
         ? { name: "meta.dart", contents: metaFileContents }
         : null,
@@ -60,5 +57,15 @@ export default class CodeGenerator {
 
   getFileName(model: Model) {
     return model.name;
+  }
+
+  get baseDir() {
+    const generator = <typeof CodeGenerator>this.constructor;
+    return this.metaData?.outDir || generator.defaultBaseDir;
+  }
+
+  get metaData() {
+    const generator = <typeof CodeGenerator>this.constructor;
+    return this.schema.generators.get(generator.generatorId);
   }
 }

@@ -5,14 +5,13 @@ import { buildImports, propTypeMap } from "./dartUtil";
 import { toSnakeCase } from "./stringUtil";
 
 export default class CustomDartMobxGenerator extends CodeGenerator {
-  constructor(baseDir: string) {
-    super(baseDir);
-    this.ignoreIfExists = true;
-  }
-
   static generatorName = "Editierbare Dart-Klassen mit MobX für Flutter";
 
+  static generatorId = "customdartmobx";
+
   static defaultBaseDir = "dart/model";
+
+  public ignoreIfExists = true;
 
   buildPropTypeString(prop: Property) {
     const basicPropType =
@@ -50,7 +49,7 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
   generateModel(model: Model) {
     const isRoot = !model.parent;
     if (isRoot) return null;
-    
+
     const { name } = model;
     const imports = buildImports(model);
     const snakeName = toSnakeCase(name);

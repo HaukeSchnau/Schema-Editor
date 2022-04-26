@@ -8,10 +8,13 @@
     "generate": "ts-node generator/generate.ts"
   },
   "dependencies": {
+    "@types/path-browserify": "^1.0.0",
     "classnames": "^2.3.1",
     "idb-keyval": "^6.0.3",
     "mobx": "^6.3.8",
     "mobx-react": "^7.2.1",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
     "react": "^17.0.0",
     "react-dnd": "^14.0.4",
     "react-dnd-html5-backend": "^14.0.2",

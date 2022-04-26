@@ -1,7 +1,9 @@
 import Model from "../model/model";
 import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
+import BasicTypescript from "./BasicTypescript";
 import { pluralize } from "./stringUtil";
+import p from "path";
 
 const propTypeMap = {
   Mixed: "Mixed",
@@ -14,6 +16,8 @@ const propTypeMap = {
 
 export default class TypeScriptMongooseGenerator extends CodeGenerator {
   static generatorName = "Mongoose mit TypeScript";
+
+  static generatorId = "tsmongoose";
 
   static defaultBaseDir = "ts/mongoose";
 
@@ -41,6 +45,10 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
   generateModel(model: Model): string | null {
     if (!model.hasDatabaseCollection) return null;
 
+    const basicMetadata = this.schema.generators.get("tsbasic");
+    const basicOutDir = basicMetadata?.outDir ?? BasicTypescript.defaultBaseDir;
+    const relativeBasicOutDir = p.relative(this.baseDir, basicOutDir);
+
     const document = `export interface ${model.name} extends Document, Basic${model.name} {}`;
 
     const mongooseSchema = `const ${model.name}Schema = new Schema<Basic${
@@ -51,7 +59,7 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
 
     const imports = `import type { Document } from "mongoose";
 import { Schema, model } from "mongoose";
-import type Basic${model.name} from "../base/Basic${model.name}";`;
+import type Basic${model.name} from "${relativeBasicOutDir}/Basic${model.name}";`;
 
     return `${imports}
 

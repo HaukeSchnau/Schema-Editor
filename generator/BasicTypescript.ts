@@ -14,16 +14,19 @@ const propTypeMap = {
 export default class BasicTypescriptGenerator extends CodeGenerator {
   static generatorName = "Basic TypeScript";
 
+  static generatorId = "tsbasic";
+
   static defaultBaseDir = "ts/base";
 
-  buildImport(type: DataType) {
+  buildImport(type?: DataType) {
+    if (!type) return null;
     if (typeof type === "string") return null;
 
     return `import type Basic${type.name} from "./Basic${type.name}";`;
   }
 
   buildImports(model: Model) {
-    return model.uniquePropTypes
+    return [...model.uniquePropTypes, model.parent]
       .map((type) => this.buildImport(type))
       .filter((imp) => !!imp);
   }
@@ -42,10 +45,17 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
   generateModel(model: Model) {
     const imports = this.buildImports(model).join("\n");
 
+    const { parent } = model;
+    const parentImport = parent
+      ? `import type ${parent.name} from "./${parent.name}"`
+      : null;
+
     return `${imports}${
       imports.length ? "\n\n" : ""
     }// Generated file. DO NOT EDIT!
-export default interface Basic${model.name} {
+export default interface Basic${model.name}${
+      parent ? ` extends Basic${parent.name}` : ""
+    } {
   ${model.properties.map(this.buildProp).join("\n  ")}
 }
 `;

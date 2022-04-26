@@ -15,6 +15,16 @@
   <body>
     <div id="root"></div>
     <div id="__modal"></div>
+    <script>
+      window.global = window;
+    </script>
+    <script type="module">
+      import process from "process";
+      import path from "path";
+
+      window.path = path;
+      window.process = process;
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
