@@ -34,7 +34,7 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
 
   generateModelSchema(model: Model): string {
     return `{
-  ${model.properties.map(this.buildProp).join(",\n  ")}
+  ${model.properties.map((prop) => this.buildProp(prop)).join(",\n  ")}
 }`;
   }
 
@@ -46,7 +46,7 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
     const mongooseSchema = `const ${model.name}Schema = new Schema<Basic${
       model.name
     }>({
-  ${model.properties.map(this.buildProp).join(",\n  ")}
+  ${model.properties.map((prop) => this.buildProp(prop)).join(",\n  ")}
 });`;
 
     const imports = `import type { Document } from "mongoose";
