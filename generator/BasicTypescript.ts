@@ -44,19 +44,19 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
 
   generateModel(model: Model) {
     const imports = this.buildImports(model).join("\n");
+    const isRoot = !model.parent;
 
     const { parent } = model;
-    const parentImport = parent
-      ? `import type ${parent.name} from "./${parent.name}"`
-      : null;
 
-    return `${imports}${
-      imports.length ? "\n\n" : ""
-    }// Generated file. DO NOT EDIT!
+    return `${
+      isRoot ? `import { ObjectId } from "mongodb";\n\n` : ""
+    }${imports}${imports.length ? "\n\n" : ""}// Generated file. DO NOT EDIT!
 export default interface Basic${model.name}${
       parent ? ` extends Basic${parent.name}` : ""
     } {
-  ${model.properties.map(this.buildProp).join("\n  ")}
+  ${isRoot ? `_id: ObjectId;\n  ` : ""}${model.properties
+      .map(this.buildProp)
+      .join("\n  ")}
 }
 `;
   }
