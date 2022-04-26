@@ -13,8 +13,6 @@ function checkFileExists(file: string) {
     .catch(() => false);
 }
 
-console.log("ddasdf");
-
 (async () => {
   const filename = process.argv[2] || "schema.json";
   const outDir = process.argv[3] || ".";

@@ -61,7 +61,6 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
     const referenceDependenciesRequires = referenceDependencies.map(
       (model) => `require("./${model.name}");`
     );
-    console.log(referenceDependenciesRequires);
 
     const basicMetadata = this.schema.generators.get("tsbasic");
     const basicOutDir = basicMetadata?.outDir ?? BasicTypescript.defaultBaseDir;

@@ -48,6 +48,6 @@
     "vite": "^2.6.4"
   },
   "bin": {
-    "generate-models": "./generator/generate.ts"
+    "generate-models": "./generate.sh"
   }
 }
