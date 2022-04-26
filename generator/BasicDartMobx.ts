@@ -127,9 +127,7 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
         .map((prop) => this.buildFromJsonProp(prop))
         .join(",\n        ")}${
       model.parent
-        ? `,\n        super(${parentProps.map(
-            (prop) => `${prop.name}: ${this.buildFromJsonValue(prop)}`
-          )})`
+        ? `,\n        super.fromJson(json)`
         : ""
     };`;
   }
