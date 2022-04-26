@@ -21,7 +21,7 @@ export default async (
     gens.map(async (generatorId) => {
       const Generator = Generators.get(generatorId);
       if (!Generator) return;
-      const generator = new Generator(schema, generatorId);
+      const generator = new Generator(schema);
       const generatedFiles = generator.generate();
       let baseDir = rootDir;
       for (const subdir of generator.baseDir.split("/")) {
