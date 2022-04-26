@@ -66,8 +66,6 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
     const basicOutDir = basicMetadata?.outDir ?? BasicTypescript.defaultBaseDir;
     const relativeBasicOutDir = p.relative(this.baseDir, basicOutDir);
 
-    const document = `export interface ${model.name} extends Document, Basic${model.name} {}`;
-
     const mongooseSchema = `const ${model.name}Schema = new Schema<Basic${
       model.name
     }>({
@@ -84,8 +82,6 @@ ${referenceDependenciesRequires.join("\n")}
 const { Mixed, ObjectId } = Schema.Types;
 
 // Generated file. DO NOT EDIT!
-
-${document}
     
 ${mongooseSchema}
 
