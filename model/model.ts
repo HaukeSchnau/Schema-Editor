@@ -126,3 +126,5 @@ export default class Model {
     return [...this.properties, ...(this.parent?.allProps ?? [])];
   }
 }
+
+export const isModelGuard = (o: unknown): o is Model => o instanceof Model;

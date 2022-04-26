@@ -1,4 +1,4 @@
-import Model from "../model/model";
+import Model, { isModelGuard } from "../model/model";
 import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
 import BasicTypescript from "./BasicTypescript";
@@ -42,8 +42,26 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
 }`;
   }
 
+  getReferenceDependencies(model: Model): Model[] {
+    return model.properties
+      .map((prop) => {
+        const { type } = prop;
+        if (typeof type === "string") return null;
+        if (type.hasDatabaseCollection) return type;
+        return this.getReferenceDependencies(type);
+      })
+      .flat()
+      .filter(isModelGuard);
+  }
+
   generateModel(model: Model): string | null {
     if (!model.hasDatabaseCollection) return null;
+
+    const referenceDependencies = this.getReferenceDependencies(model);
+    const referenceDependenciesRequires = referenceDependencies.map(
+      (model) => `require("./${model.name}");`
+    );
+    console.log(referenceDependenciesRequires);
 
     const basicMetadata = this.schema.generators.get("tsbasic");
     const basicOutDir = basicMetadata?.outDir ?? BasicTypescript.defaultBaseDir;
@@ -62,6 +80,7 @@ import { Schema, model } from "mongoose";
 import type Basic${model.name} from "${relativeBasicOutDir}/Basic${model.name}";`;
 
     return `${imports}
+${referenceDependenciesRequires.join("\n")}
 
 const { Mixed, ObjectId } = Schema.Types;
 
@@ -75,9 +94,9 @@ ${model.name}Schema.set('toJSON', {
   virtuals: true
 });
 
-export const ${pluralize(model.name)} = model<Basic${model.name}>("${
+export const ${model.name}DB = model<Basic${model.name}>("${model.name}", ${
       model.name
-    }", ${model.name}Schema);
+    }Schema);
 `;
   }
 
