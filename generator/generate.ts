@@ -1,3 +1,5 @@
+#!/usr/bin/env -S npx ts-node
+
 import { promises as fs, constants as fsConstants } from "fs";
 import { deserialize } from "serializr";
 import p from "path";
@@ -11,26 +13,29 @@ function checkFileExists(file: string) {
     .catch(() => false);
 }
 
+console.log("ddasdf");
+
 (async () => {
   const filename = process.argv[2] || "schema.json";
-  const outDir = process.argv[3] || "model/gen";
-  const targets = process.argv.slice(4) || ["tsbasic"];
+  const outDir = process.argv[3] || ".";
 
   const json = await fs.readFile(filename, { encoding: "utf-8" });
   const schema = deserialize<Schema>(Schema, JSON.parse(json));
   schema.root.link();
+
+  const targets = Array.from(schema.generators.entries())
+    .filter(([id, meta]) => meta.export)
+    .map(([id]) => id);
 
   await Promise.all(
     targets.map(async (target) => {
       const Generator = Generators.get(target);
       if (!Generator) throw new Error("Invalid target");
 
-      const generator = new Generator(
-        schema.generators.get(target)?.outDir ?? Generator.defaultBaseDir
-      );
+      const generator = new Generator(schema);
       const baseDir = p.join(outDir, generator.baseDir);
       await fs.mkdir(baseDir, { recursive: true });
-      const generatedFiles = generator.generate(schema);
+      const generatedFiles = generator.generate();
       await Promise.all(
         generatedFiles.map(async (file) => {
           const path = p.join(baseDir, file.name);
