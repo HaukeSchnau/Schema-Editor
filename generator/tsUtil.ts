@@ -28,7 +28,7 @@ export const buildImport = (
 
   return `import ${useTypeImports ? "type " : ""}${definedPrefix}${
     type.name
-  } from "${baseDir}/${definedPrefix}${type.name}";`;
+  } from "${baseDir || "."}/${definedPrefix}${type.name}";`;
 };
 
 export const buildImports = (model: Model, options?: ImportOptions) => {
