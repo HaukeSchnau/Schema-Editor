@@ -1,15 +1,7 @@
 import Model from "../model/model";
-import Property, { DataType } from "../model/property";
+import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
-
-const propTypeMap = {
-  Mixed: "unknown",
-  int: "number",
-  double: "number",
-  string: "string",
-  boolean: "boolean",
-  Date: "Date",
-};
+import { buildImports, propTypeMap } from "./tsUtil";
 
 export default class BasicTypescriptGenerator extends CodeGenerator {
   static generatorName = "Basic TypeScript";
@@ -17,19 +9,6 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
   static generatorId = "tsbasic";
 
   static defaultBaseDir = "ts/base";
-
-  buildImport(type?: DataType) {
-    if (!type) return null;
-    if (typeof type === "string") return null;
-
-    return `import type Basic${type.name} from "./Basic${type.name}";`;
-  }
-
-  buildImports(model: Model) {
-    return [...model.uniquePropTypes, model.parent]
-      .map((type) => this.buildImport(type))
-      .filter((imp) => !!imp);
-  }
 
   buildProp(prop: Property) {
     const propTypeStr =
@@ -43,7 +22,10 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
   }
 
   generateModel(model: Model) {
-    const imports = this.buildImports(model).join("\n");
+    const imports = buildImports(model, {
+      prefix: "Basic",
+      useTypeImports: true,
+    }).join("\n");
     const isRoot = !model.parent;
 
     const { parent } = model;

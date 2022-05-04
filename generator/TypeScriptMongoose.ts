@@ -2,7 +2,6 @@ import Model, { isModelGuard } from "../model/model";
 import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
 import BasicTypescript from "./BasicTypescript";
-import { pluralize } from "./stringUtil";
 import p from "path";
 
 const propTypeMap = {
