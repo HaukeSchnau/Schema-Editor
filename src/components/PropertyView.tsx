@@ -1,15 +1,27 @@
-import React, { useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  KeyboardEvent,
+  useRef,
+  useState,
+} from "react";
 import { observer } from "mobx-react";
 import Property, { PRIMITIVES } from "../../model/property";
 import { useStore } from "../../model/rootStore";
 import useClickAway from "../hooks/useClickAway";
+import Model from "../../model/model";
 
 interface PropertyViewProps {
   prop: Property;
+  addProperty: () => void;
   onDelete: () => void;
 }
 
-const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
+const PropertyView: React.FC<PropertyViewProps> = ({
+  prop,
+  onDelete,
+  addProperty,
+}) => {
   const { loadedSchema } = useStore();
   const [typeEditorOpen, setTypeEditorOpen] = useState(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -37,8 +49,14 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
     prop.type = typeOptions[index];
   };
 
-  const onChangeName = (e: any) => {
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     prop.name = e.target.value;
+  };
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      addProperty();
+    }
   };
 
   return (
@@ -47,7 +65,9 @@ const PropertyView: React.FC<PropertyViewProps> = ({ prop, onDelete }) => {
         value={prop.name}
         placeholder="(kein Name)"
         onChange={onChangeName}
+        onKeyDown={onKeyDown}
         size={1}
+        autoFocus
       />
       <button
         type="button"

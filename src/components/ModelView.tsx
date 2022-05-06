@@ -30,6 +30,8 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
     model.deleteFromTree();
   };
 
+  const addProperty = () => model.properties.push(new Property(""));
+
   return (
     <Card ref={drop}>
       <div className="input-row">
@@ -67,13 +69,14 @@ const ModelView: React.FC<ModelViewProps> = ({ model }) => {
             key={prop.id}
             prop={prop}
             onDelete={() => model.properties.splice(i, 1)}
+            addProperty={addProperty}
           />
         ))}
       </ul>
       <button
         type="button"
         className="raised right dense mt-4"
-        onClick={() => model.properties.push(new Property(""))}
+        onClick={addProperty}
       >
         + Eigenschaft hinzufügen
       </button>
