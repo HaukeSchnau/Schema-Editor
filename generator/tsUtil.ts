@@ -2,7 +2,7 @@ import Model from "../model/model";
 import { DataType } from "../model/property";
 
 export const propTypeMap = {
-  Mixed: "unknown",
+  Mixed: "any",
   int: "number",
   double: "number",
   string: "string",

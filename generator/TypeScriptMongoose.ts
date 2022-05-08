@@ -23,7 +23,9 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
   buildProp(prop: Property) {
     let propTypeStr: string;
     if (typeof prop.type === "string") {
-      propTypeStr = propTypeMap[prop.type];
+      propTypeStr = `{ type: ${propTypeMap[prop.type]}, unique: ${
+        prop.unique ?? false
+      } }`;
     } else if (prop.type.hasDatabaseCollection) {
       propTypeStr = `{ type: ObjectId, ref: "${prop.type.name}" }`;
     } else {

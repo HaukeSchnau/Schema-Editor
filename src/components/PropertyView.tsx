@@ -111,6 +111,16 @@ const PropertyView: React.FC<PropertyViewProps> = ({
               />
               Schlüssel
             </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={prop.unique}
+                onChange={(e) => {
+                  prop.unique = e.target.checked;
+                }}
+              />
+              Einzigartig
+            </label>
             <select
               onChange={(e) => onChangeDataType(parseInt(e.target.value, 10))}
             >
