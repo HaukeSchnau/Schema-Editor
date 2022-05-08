@@ -28,6 +28,10 @@ export default class BasicTypescriptMobx extends CodeGenerator {
         return "new Date(0)";
     }
 
+    if (typeof prop.type !== "string") {
+      return `new ${prop.type.name}()`;
+    }
+
     return null;
   }
 
