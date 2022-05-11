@@ -12,6 +12,8 @@ export default class CustomTypescriptMobx extends CodeGenerator {
 
   static defaultBaseDir = "ts/mobxcustom";
 
+  public ignoreIfExists = true;
+
   buildConstructor(model: Model) {
     const isRoot = !model.parent;
     return `constructor() {
