@@ -20,21 +20,40 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
 
   static defaultBaseDir = "ts/mongoose";
 
-  buildProp(prop: Property) {
-    let propTypeStr: string;
-    if (typeof prop.type === "string") {
-      propTypeStr = `{ type: ${propTypeMap[prop.type]}, unique: ${
-        prop.unique ?? false
-      }, required: ${!prop.optional} }`;
-    } else if (prop.type.hasDatabaseCollection) {
-      propTypeStr = `{ type: ObjectId, ref: "${prop.type.name}", unique: ${
-        prop.unique ?? false
-      }, required: ${!prop.optional} }`;
-    } else {
-      propTypeStr = `{ type: ${this.generateModelSchema(prop.type)}, unique: ${
-        prop.unique ?? false
-      }, required: ${!prop.optional} }`;
+  buildDefaultValue(prop: Property) {
+    if (prop.optional) return null;
+    if (prop.array) return "[]";
+
+    switch (prop.type) {
+      case "string":
+        return `""`;
+      case "boolean":
+        return "false";
+      case "double":
+      case "int":
+        return "0";
+      case "Date":
+        return "new Date(0)";
     }
+
+    return null;
+  }
+
+  buildProp(prop: Property) {
+    let typeStr: string;
+    if (typeof prop.type === "string") {
+      typeStr = propTypeMap[prop.type];
+    } else if (prop.type.hasDatabaseCollection) {
+      typeStr = `ObjectId, ref: "${prop.type.name}"`;
+    } else {
+      typeStr = this.generateModelSchema(prop.type);
+    }
+
+    const propTypeStr = `{ type: ${typeStr}, unique: ${
+      prop.unique ?? false
+    }, required: ${!prop.optional}, default: ${
+      this.buildDefaultValue(prop) ?? "undefined"
+    } }`;
 
     const arrayedPropType = prop.array ? `[${propTypeStr}]` : propTypeStr;
 
