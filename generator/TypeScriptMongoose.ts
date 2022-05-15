@@ -96,12 +96,12 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
   ${model.properties.map((prop) => this.buildProp(prop)).join(",\n  ")}
 });`;
 
-    const imports = `import type { Document } from "mongoose";
-import { Schema, model } from "mongoose";
+    const imports = `import type { Document, Model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import type Basic${model.name} from "${relativeBasicOutDir}/Basic${model.name}";`;
 
     return `${imports}
-${referenceDependenciesRequires.join("\n")}
+${Array.from(new Set(referenceDependenciesRequires)).join("\n")}
 
 const { Mixed, ObjectId } = Schema.Types;
 
@@ -113,9 +113,9 @@ ${model.name}Schema.set('toJSON', {
   virtuals: true
 });
 
-export const ${model.name}DB = model<Basic${model.name}>("${model.name}", ${
+export const ${model.name}DB: Model<Basic${model.name}> = mongoose.models.${
       model.name
-    }Schema);
+    } || model<Basic${model.name}>("${model.name}", ${model.name}Schema);
 `;
   }
 
