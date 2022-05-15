@@ -33,6 +33,9 @@ export default class Property {
   unique = false;
 
   @serializable
+  lazy = false;
+
+  @serializable
   defaultValue: string | null = null;
 
   @serializable(

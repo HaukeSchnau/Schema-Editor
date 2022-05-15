@@ -39,6 +39,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({
     const formatted = `${typeName}${prop.array ? "[]" : ""}${
       prop.optional ? "?" : ""
     }`;
+    if (prop.lazy) return `Lazy<${formatted}>`;
     if (prop.key) return <u>{formatted}</u>;
     return formatted;
   };
@@ -100,6 +101,16 @@ const PropertyView: React.FC<PropertyViewProps> = ({
                 }}
               />
               Optional
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={prop.lazy}
+                onChange={(e) => {
+                  prop.lazy = e.target.checked;
+                }}
+              />
+              Lazy
             </label>
             <label>
               <input

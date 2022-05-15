@@ -14,16 +14,20 @@ type ImportOptions = {
   prefix?: string;
   useTypeImports?: boolean;
   baseDir?: string;
+  rootImport?: string;
 };
 
 export const buildImport = (
   type?: DataType,
   options: ImportOptions = { baseDir: "." }
 ) => {
-  const { prefix, useTypeImports, baseDir } = options;
+  const { prefix, useTypeImports, baseDir, rootImport } = options;
 
   if (!type) return null;
   if (typeof type === "string") return null;
+
+  if (!type.parent && rootImport) return rootImport;
+
   const definedPrefix = prefix ?? "";
 
   return `import ${useTypeImports ? "type " : ""}${definedPrefix}${

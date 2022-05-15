@@ -39,6 +39,8 @@ export default class BasicTypescriptMobx extends CodeGenerator {
     const propTypeStr =
       typeof prop.type === "string"
         ? propTypeMap[prop.type]
+        : prop.lazy
+        ? `Lazy<${prop.type.name}>`
         : `${prop.type.name}`;
 
     const defaultValue = this.buildDefaultValue(prop);
@@ -59,19 +61,23 @@ export default class BasicTypescriptMobx extends CodeGenerator {
   }
 
   generateModel(model: Model) {
+    const { parent } = model;
+    const isRoot = !parent;
+
+    if (isRoot) return null;
+
     const basicMetadata = this.schema.generators.get("customtypescriptmobx");
     const basicOutDir =
       basicMetadata?.outDir ?? CustomTypescriptMobx.defaultBaseDir;
     const relativeBasicOutDir = p.relative(this.baseDir, basicOutDir);
 
-    const imports = buildImports(model, { baseDir: relativeBasicOutDir }).join(
-      "\n"
-    );
-    const isRoot = !model.parent;
-
-    const { parent } = model;
+    const imports = buildImports(model, {
+      baseDir: relativeBasicOutDir,
+      rootImport: `import { Entity } from "login-solutions-common-frontend";`,
+    }).join("\n");
 
     return `import { observable, makeObservable } from "mobx";
+import { Lazy } from "login-solutions-common-frontend";
 ${imports}${imports.length ? "\n\n" : "\n"}// Generated file. DO NOT EDIT!
 export default abstract class Generated${model.name}${
       parent ? ` extends ${parent.name}` : ""
