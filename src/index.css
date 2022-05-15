@@ -186,6 +186,22 @@ input.heading {
   font-size: 1.2rem;
 }
 
+select {
+  all: unset;
+  transition: all 0.2s ease;
+  background-color: #c9ada7;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 4px 4px 32px rgba(0, 0, 0, 0.1);
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+}
+
+select:hover {
+  background-color: #b8a29d;
+}
+
 ul,
 li {
   list-style: none;
