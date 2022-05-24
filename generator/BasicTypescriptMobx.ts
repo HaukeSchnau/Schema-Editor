@@ -82,6 +82,10 @@ ${imports}${imports.length ? "\n\n" : "\n"}// Generated file. DO NOT EDIT!
 export default abstract class Generated${model.name}${
       parent ? ` extends ${parent.name}` : ""
     } {
+  
+  protected readonly __$classname: string = "${model.name}";
+  protected static readonly __$classname: string = "${model.name}";
+
   ${isRoot ? `@observable _id: string = "";\n  ` : ""}${model.properties
       .map((prop) => this.buildProp(prop))
       .join("\n  ")}
