@@ -1,7 +1,6 @@
 import Model from "../model/model";
-import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
-import { buildImport, buildImports, propTypeMap } from "./tsUtil";
+import { buildImport } from "./tsUtil";
 import p from "path";
 import BasicTypescriptMobx from "./BasicTypescriptMobx";
 
@@ -13,13 +12,6 @@ export default class CustomTypescriptMobx extends CodeGenerator {
   static defaultBaseDir = "ts/mobxcustom";
 
   public ignoreIfExists = true;
-
-  buildConstructor(model: Model) {
-    const isRoot = !model.parent;
-    return `constructor() {
-    super();
-  }`;
-  }
 
   generateModel(model: Model) {
     const basicMetadata = this.schema.generators.get("basictypescriptmobx");
@@ -36,7 +28,6 @@ export default class CustomTypescriptMobx extends CodeGenerator {
 
 export default class ${model.name} extends Generated${model.name} {
 
-  ${this.buildConstructor(model)} 
 }
 `;
   }
