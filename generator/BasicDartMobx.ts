@@ -100,8 +100,7 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
 
     const deserialize = (varPath: string) => {
       const nullCheck = prop.optional ? `${varPath} == null ? null : ` : "";
-      if (prop.type === "Date")
-        return `${nullCheck}DateTime.fromMillisecondsSinceEpoch(${varPath})`;
+      if (prop.type === "Date") return `${nullCheck}DateTime.parse(${varPath})`;
       if (typeof prop.type === "string") return varPath;
 
       return `${nullCheck}${prop.type.name}.fromJson(${varPath})`;
