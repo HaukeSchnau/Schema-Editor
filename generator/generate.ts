@@ -1,4 +1,4 @@
-#!/usr/bin/env -S npx ts-node
+#!/usr/bin/env node
 
 import { promises as fs, constants as fsConstants } from "fs";
 import { deserialize } from "serializr";
