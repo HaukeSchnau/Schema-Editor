@@ -14,6 +14,9 @@ export default class CustomTypescriptMobx extends CodeGenerator {
   public ignoreIfExists = true;
 
   generateModel(model: Model) {
+    const isRoot = !model.parent;
+    if (isRoot) return null;
+
     const basicMetadata = this.schema.generators.get("basictypescriptmobx");
     const basicOutDir =
       basicMetadata?.outDir ?? BasicTypescriptMobx.defaultBaseDir;

@@ -1,13 +1,12 @@
 {
   "name": "modell",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "scripts": {
     "dev": "vite",
     "build": "tsc",
     "buildfull": "tsc && vite build",
     "serve": "vite preview",
-    "generate": "ts-node generator/generate.ts",
-    "prepare": "npm run build"
+    "generate": "ts-node generator/generate.ts"
   },
   "description": "Domain model editor",
   "main": "lib/generator/generate.js",
