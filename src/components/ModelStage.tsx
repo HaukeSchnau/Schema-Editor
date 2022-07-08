@@ -10,7 +10,7 @@ interface ModelStageProps {
 
 const ModelStage: React.FC<ModelStageProps> = ({ parent }) => {
   return (
-    <div className="model-stage mt-4">
+    <div className="sub-model-stage mt-4">
       {parent.children.map((model) => (
         <Draggable type="model" key={model.id} item={model}>
           <ModelView model={model} />

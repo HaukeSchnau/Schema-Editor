@@ -18,6 +18,12 @@ export default class Model {
   @serializable
   hasDatabaseCollection = true;
 
+  @serializable
+  x = 0;
+
+  @serializable
+  y = 0;
+
   @serializable(list(object(Property)))
   properties: Property[] = [];
 
@@ -124,6 +130,11 @@ export default class Model {
 
   get allProps(): Property[] {
     return [...this.properties, ...(this.parent?.allProps ?? [])];
+  }
+
+  sortChildren() {
+    this.children.sort((a, b) => a.id.localeCompare(b.id));
+    this.children.forEach((child) => child.sortChildren());
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useDrop } from "react-dnd";
 import { useStore } from "../model/rootStore";
@@ -13,6 +13,8 @@ import RecentFiles from "./components/RecentFiles";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Center from "./components/Center";
+import MainModelStage from "./components/MainModelStage";
+import { reaction } from "mobx";
 
 const App = () => {
   const store = useStore();
@@ -46,7 +48,11 @@ const App = () => {
       schema.name = parent.name;
       return schema;
     },
-    store.loadedSchema
+    store.loadedSchema,
+    (schema) => {
+      if (schema) schema.root.sortChildren();
+    },
+    1000
   );
 
   const openFilePicker = async () => {
@@ -72,7 +78,7 @@ const App = () => {
   if (loadedSchema) {
     body = (
       <>
-        <header className="mt-4">
+        <header className="mt-4 h-padding">
           <h2>Alle Models</h2>
           <button
             type="button"
@@ -82,7 +88,7 @@ const App = () => {
             Neues Model
           </button>
         </header>
-        <ModelStage parent={loadedSchema.root} />
+        <MainModelStage parent={loadedSchema.root} />
         <SelectGeneratorsModal
           generatorsMetaData={loadedSchema.generators}
           isOpen={isModalOpen}

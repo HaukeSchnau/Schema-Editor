@@ -1,11 +1,18 @@
+:root {
+  --clr-bg: #22223b;
+  --clr-surface: #f2e9e4;
+  --clr-btn: #c9ada7;
+  --clr-btn-txt: #111;
+}
+
 body {
   font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #22223b;
-  color: #f2e9e4;
+  background-color: var(--clr-bg);
+  color: var(--clr-surface);
 }
 
 html,
@@ -34,7 +41,9 @@ body,
 
 .app > header {
   padding: 0 12vw;
-  padding-top: 2rem;
+  padding-block: 2rem;
+  background-color: #1b1b2f;
+  /* box-shadow: 0 8px 8px rgba(0, 0, 0, 0.12); */
 }
 
 header {
@@ -44,15 +53,16 @@ header {
 }
 
 main {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  padding: 0 12vw;
-  padding-bottom: 4rem;
+  /* padding: 0 12vw; */
+  /* padding-bottom: 4rem; */
 }
 
 footer {
   background-color: rgba(0, 0, 0, 0.2);
   padding: 2rem 12vw;
-  color: #fff;
   display: flex;
   justify-content: center;
 }
@@ -101,13 +111,13 @@ button {
 
 button.secondary {
   padding: 1em 2em;
-  color: #111;
+  color: var(--clr-btn-txt);
 }
 
 button.raised {
   padding: 1em 2em;
-  background-color: #c9ada7;
-  color: #111;
+  background-color: var(--clr-btn);
+  color: var(--clr-btn-txt);
   transition: background-color 0.2s ease;
 }
 
@@ -119,7 +129,23 @@ button.large {
   font-size: 1.5rem;
 }
 
+.h-padding {
+  padding-inline: 12vw;
+}
+
+.model-stage-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-grow: 1;
+}
+
 .model-stage {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.sub-model-stage {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -133,9 +159,9 @@ button.large {
 }
 
 .card {
-  background-color: #f2e9e4;
+  background-color: var(--clr-surface);
   padding: 1rem 2rem;
-  color: #22223b;
+  color: var(--clr-bg);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -189,7 +215,7 @@ input.heading {
 select {
   all: unset;
   transition: all 0.2s ease;
-  background-color: #c9ada7;
+  background-color: var(--clr-btn);
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
   border-radius: 8px;
@@ -268,8 +294,8 @@ li {
   margin-right: -50%;
   transform: translate(-50%, -50%);
   padding: 2rem;
-  background-color: #f2e9e4;
-  color: #111;
+  background-color: var(--clr-surface);
+  color: var(--clr-btn-txt);
   border-radius: 16px;
 }
 
@@ -308,7 +334,7 @@ button.icon {
 }
 
 button.icon:hover {
-  background-color: #c9ada7;
+  background-color: var(--clr-btn);
 }
 
 li.generator-config {

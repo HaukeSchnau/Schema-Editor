@@ -13,8 +13,8 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ onOpen }) => {
 
   return (
     <>
-      <h3 className="mt-4">Letzte Dateien</h3>
-      <ul className="grid mt-4">
+      <h3 className="mt-4 h-padding">Letzte Dateien</h3>
+      <ul className="grid mt-4 h-padding">
         {recentFiles.map((recentFile) => (
           <Card
             key={recentFile.file.name}

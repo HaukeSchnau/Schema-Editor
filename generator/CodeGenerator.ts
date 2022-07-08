@@ -48,9 +48,6 @@ export default class CodeGenerator {
     const sourceCode = this.generateModel(model);
     if (!sourceCode) return null;
 
-    console.log(this.language);
-    if (this.language)
-      console.log(prettier.format(sourceCode, { parser: this.language }));
     return {
       name: this.getFileName(model),
       contents: this.language
