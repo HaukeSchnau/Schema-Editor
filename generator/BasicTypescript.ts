@@ -1,3 +1,4 @@
+import { LiteralUnion, BuiltInParserName } from "prettier";
 import Model from "../model/model";
 import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
@@ -9,6 +10,8 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
   static generatorId = "tsbasic";
 
   static defaultBaseDir = "ts/base";
+
+  static language: LiteralUnion<BuiltInParserName, string> = "typescript";
 
   buildProp(prop: Property) {
     const propTypeStr =

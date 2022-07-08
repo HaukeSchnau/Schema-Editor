@@ -3,6 +3,7 @@ import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
 import BasicTypescript from "./BasicTypescript";
 import p from "path";
+import { LiteralUnion, BuiltInParserName } from "prettier";
 
 const propTypeMap = {
   Mixed: "Mixed",
@@ -19,6 +20,8 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
   static generatorId = "tsmongoose";
 
   static defaultBaseDir = "ts/mongoose";
+
+  static language: LiteralUnion<BuiltInParserName, string> = "typescript";
 
   buildDefaultValue(prop: Property) {
     if (prop.optional) return null;

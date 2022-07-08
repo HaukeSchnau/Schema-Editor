@@ -4,6 +4,7 @@ import CodeGenerator from "./CodeGenerator";
 import CustomTypescriptMobx from "./CustomTypescriptMobx";
 import { buildImports, propTypeMap } from "./tsUtil";
 import p from "path";
+import { BuiltInParserName, LiteralUnion } from "prettier";
 
 export default class BasicTypescriptMobx extends CodeGenerator {
   static generatorName = "Typescript-Klassen mit MobX";
@@ -11,6 +12,8 @@ export default class BasicTypescriptMobx extends CodeGenerator {
   static generatorId = "basictypescriptmobx";
 
   static defaultBaseDir = "ts/mobx";
+
+  static language: LiteralUnion<BuiltInParserName, string> = "typescript";
 
   buildDefaultValue(prop: Property) {
     if (prop.optional) return null;

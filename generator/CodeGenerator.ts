@@ -1,6 +1,7 @@
 import GeneratorMetaData from "../model/generatorMetaData";
 import Model from "../model/model";
 import Schema from "../model/schema";
+import prettier, { BuiltInParserName, LiteralUnion } from "prettier";
 
 export type GeneratedFile = {
   name: string;
@@ -19,6 +20,8 @@ export default class CodeGenerator {
   static generatorId = "generator";
 
   static defaultBaseDir = "gen";
+
+  static language: LiteralUnion<BuiltInParserName>;
 
   constructor(public schema: Schema) {}
 
@@ -42,9 +45,18 @@ export default class CodeGenerator {
   }
 
   generateFile(model: Model): GeneratedFile | null {
-    const str = this.generateModel(model);
-    if (!str) return null;
-    return { name: this.getFileName(model), contents: str };
+    const sourceCode = this.generateModel(model);
+    if (!sourceCode) return null;
+
+    console.log(this.language);
+    if (this.language)
+      console.log(prettier.format(sourceCode, { parser: this.language }));
+    return {
+      name: this.getFileName(model),
+      contents: this.language
+        ? prettier.format(sourceCode, { parser: this.language })
+        : sourceCode,
+    };
   }
 
   generateModel(_model: Model): string | null {
@@ -57,6 +69,11 @@ export default class CodeGenerator {
 
   getFileName(model: Model) {
     return model.name;
+  }
+
+  get language() {
+    const generator = <typeof CodeGenerator>this.constructor;
+    return generator.language;
   }
 
   get baseDir() {

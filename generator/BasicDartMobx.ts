@@ -1,8 +1,8 @@
+import { LiteralUnion, BuiltInParserName } from "prettier";
 import Model from "../model/model";
 import Property, { DataType } from "../model/property";
-import Schema from "../model/schema";
 import CodeGenerator from "./CodeGenerator";
-import { buildImport, buildImports } from "./dartUtil";
+import { buildImports } from "./dartUtil";
 import { toSnakeCase } from "./stringUtil";
 
 const propTypeMap = {
@@ -20,6 +20,7 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
   static generatorId = "basicdartmobx";
 
   static defaultBaseDir = "dart/gen";
+  static language: LiteralUnion<BuiltInParserName, string> = "dart";
 
   buildPropTypeString(prop: Property) {
     const basicPropType =

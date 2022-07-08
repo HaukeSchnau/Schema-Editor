@@ -3,6 +3,7 @@ import CodeGenerator from "./CodeGenerator";
 import { buildImport } from "./tsUtil";
 import p from "path";
 import BasicTypescriptMobx from "./BasicTypescriptMobx";
+import { LiteralUnion, BuiltInParserName } from "prettier";
 
 export default class CustomTypescriptMobx extends CodeGenerator {
   static generatorName = "Benutzerdefinierte Typescript-Klassen mit MobX";
@@ -12,6 +13,8 @@ export default class CustomTypescriptMobx extends CodeGenerator {
   static defaultBaseDir = "ts/mobxcustom";
 
   public ignoreIfExists = true;
+
+  static language: LiteralUnion<BuiltInParserName, string> = "typescript";
 
   generateModel(model: Model) {
     const isRoot = !model.parent;
