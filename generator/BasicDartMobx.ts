@@ -120,7 +120,6 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
   }
 
   buildFromJson(model: Model) {
-    const parentProps = model.getAllParentProps();
     return `// ignore: unused_element
   _Basic${model.name}.fromJson(Map<String, dynamic> json) 
       : ${model.properties

@@ -6,3 +6,4 @@ dist-ssr
 tmp
 schema.json
 lib
+out

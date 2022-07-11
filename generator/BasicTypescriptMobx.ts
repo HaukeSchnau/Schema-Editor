@@ -16,7 +16,7 @@ export default class BasicTypescriptMobx extends CodeGenerator {
   static language: LiteralUnion<BuiltInParserName, string> = "typescript";
 
   buildDefaultValue(prop: Property) {
-    if (prop.optional) return null;
+    if (prop.optional) return "undefined";
     if (prop.array) return "[]";
 
     switch (prop.type) {
@@ -35,10 +35,10 @@ export default class BasicTypescriptMobx extends CodeGenerator {
       return `new ${prop.type.name}()`;
     }
 
-    return null;
+    return "undefined";
   }
 
-  buildProp(prop: Property) {
+  getPropTypeStr(prop: Property) {
     const propTypeStr =
       typeof prop.type === "string"
         ? propTypeMap[prop.type]
@@ -46,20 +46,45 @@ export default class BasicTypescriptMobx extends CodeGenerator {
         ? `Lazy<${prop.type.name}>`
         : `${prop.type.name}`;
 
-    const defaultValue = this.buildDefaultValue(prop);
+    return `${propTypeStr}${prop.array ? "[]" : ""}`;
+  }
 
+  buildProp(prop: Property) {
     return `@observable ${prop.name}${
       prop.optional ? "?" : ""
-    }: ${propTypeStr}${prop.array ? "[]" : ""}${
-      defaultValue ? `= ${defaultValue}` : ""
-    };`;
+    }: ${this.getPropTypeStr(prop)};`;
   }
 
   buildConstructor(model: Model) {
     const isRoot = !model.parent;
-    return `constructor() {
-    ${!isRoot && "super()"};
+
+    const { allProps } = model;
+
+    const dataType = `{
+      ${allProps.map((prop) => `${prop.name}?: ${this.getPropTypeStr(prop)}`)}
+    }`;
+
+    const constructorArg = `{
+      ${allProps.map((prop) => prop.name).join(", ")}
+    }: ${dataType} = {}`;
+    const superArgs = model.parent?.allProps
+      .map((prop) => prop.name)
+      .join(", ");
+
+    const assignments = allProps
+      .map(
+        (prop) =>
+          `this.${prop.name} = ${prop.name} ?? ${this.buildDefaultValue(prop)};`
+      )
+      .join("\n");
+
+    return `constructor();
+    constructor(data: ${dataType});
+    constructor(${constructorArg}) {
+    ${!isRoot && `super(${!model.parent?.parent ? "" : `{${superArgs}}`})`};
     makeObservable(this);
+    ${assignments}
+    this.init();
   }`;
   }
 
@@ -94,6 +119,8 @@ export default abstract class Generated${model.name}${
       .join("\n  ")}
 
   ${this.buildConstructor(model)} 
+
+  init() {}
 }
 `;
   }

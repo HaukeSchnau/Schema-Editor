@@ -28,13 +28,13 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
   }
 
   buildConstructor(model: Model) {
-    const parentProps = model.getAllParentProps();
-    const allProps = [...model.properties, ...parentProps];
+    const isRoot = !model.parent;
+    const { allProps } = model;
     return `_${model.name}(
       {${[...allProps.map((prop) => this.buildParentConstructorArg(prop))].join(
         ",\n      "
       )}})${
-      allProps.length
+      isRoot
         ? ` : super(${allProps
             .map((prop) => `${prop.name}: ${prop.name}`)
             .join(", ")})`

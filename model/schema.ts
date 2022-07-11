@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import Generators from "../generator/Generators";
 import Model from "./model";
 import GeneratorMetaData from "./generatorMetaData";
+import Property from "./property";
 
 export default class Schema {
   @serializable
@@ -35,6 +36,10 @@ export default class Schema {
   constructor() {
     makeAutoObservable(this);
     this.root.hasDatabaseCollection = false;
+    const idProp = new Property("_id");
+    idProp.key = true;
+    idProp.unique = true;
+    this.root.properties.push(idProp);
   }
 
   addModel() {
