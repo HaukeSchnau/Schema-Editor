@@ -129,12 +129,12 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
     };`;
   }
 
-  //   generateMetaFile(schema: Schema) {
+  //   generateMetaFile() {
   //     return `import 'package:schema_util/schema_util.dart';
-  // ${schema.allModels.map(buildImport).join("\n")}
+  // ${this.schema.allModels.map(buildImport).join("\n")}
 
   // EntityCreators creators = {
-  // ${schema.allModels
+  // ${this.schema.allModels
   //   .map((model) => `  "${model.id}": (json) => ${model.name}.fromJson(json),`)
   //   .join("\n")}
   // };

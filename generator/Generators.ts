@@ -4,6 +4,7 @@ import BasicTypescriptMobx from "./BasicTypescriptMobx";
 import CodeGenerator from "./CodeGenerator";
 import CustomDartMobxGenerator from "./CustomDartMobx";
 import CustomTypescriptMobx from "./CustomTypescriptMobx";
+import Prisma from "./Prisma";
 import TypeScriptMongooseGenerator from "./TypeScriptMongoose";
 
 const generators: typeof CodeGenerator[] = [
@@ -13,6 +14,7 @@ const generators: typeof CodeGenerator[] = [
   CustomDartMobxGenerator,
   BasicTypescriptMobx,
   CustomTypescriptMobx,
+  Prisma,
 ];
 
 export default new Map<string, typeof CodeGenerator>(

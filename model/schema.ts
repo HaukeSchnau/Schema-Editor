@@ -51,10 +51,6 @@ export default class Schema {
   }
 
   get allModels() {
-    return [
-      this.root,
-      ...this.root.children,
-      ...this.root.children.map((child) => child.allChildren),
-    ].flat();
+    return [this.root, ...this.root.allChildren].flat();
   }
 }

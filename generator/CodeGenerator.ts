@@ -26,7 +26,7 @@ export default class CodeGenerator {
   constructor(public schema: Schema) {}
 
   generate(): GeneratedFile[] {
-    const metaFileContents = this.generateMetaFile(this.schema);
+    const metaFileContents = this.generateMetaFile();
     return [
       ...this.generateSubModels(this.schema.root),
       metaFileContents
@@ -60,7 +60,7 @@ export default class CodeGenerator {
     return "";
   }
 
-  generateMetaFile(_schema: Schema): string | null {
+  generateMetaFile(): string | null {
     return null;
   }
 
