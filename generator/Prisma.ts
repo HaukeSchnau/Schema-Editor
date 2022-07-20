@@ -26,7 +26,7 @@ const buildProp = (prop: Property) => {
   if (prop.name === "_id")
     return `id String @id @default(auto()) @map("_id") @db.ObjectId`;
   if (typeof prop.type === "string") {
-    return `${prop.name} ${propTypeMap[prop.type]}`;
+    return `${prop.name} ${propTypeMap[prop.type]}${prop.array ? "[]" : ""}`;
   }
 
   const isCompositeType = !prop.type.hasDatabaseCollection;
