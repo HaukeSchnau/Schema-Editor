@@ -1,7 +1,7 @@
 import { get, set } from "idb-keyval";
 import { toJS } from "mobx";
 import { useEffect } from "react";
-import { useStore } from "../../model/rootStore";
+import { useStore } from "../model/rootStore";
 
 export type RecentFile = {
   file: FileSystemDirectoryHandle;

@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useDrag } from "react-dnd";
-import Model from "../../model/model";
+import Model from "../model/model";
 
 interface DraggableProps {
   item: Model;

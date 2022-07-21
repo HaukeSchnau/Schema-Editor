@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useDrop } from "react-dnd";
-import { useStore } from "../model/rootStore";
+import { useStore } from "./model/rootStore";
 import useAutoSave from "./hooks/useAutoSave";
-import Schema from "../model/schema";
+import Schema from "./model/schema";
 import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
 import generateInBrowser from "./generateInBrowser";
-import Model from "../model/model";
+import Model from "./model/model";
 import useRecentFiles from "./hooks/useRecentFiles";
 import RecentFiles from "./components/RecentFiles";
 import Footer from "./components/Footer";

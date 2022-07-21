@@ -1,5 +1,5 @@
-import Schema from "../model/schema";
-import Generators from "../generator/Generators";
+import Schema from "./model/schema";
+import Generators from "./generator/Generators";
 import verifyPermission from "./verifyPermission";
 
 async function exists(baseDir: FileSystemDirectoryHandle, fileName: string) {

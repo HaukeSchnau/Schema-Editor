@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useLocalObservable } from "mobx-react";
 import { makeAutoObservable } from "mobx";
 import Schema from "./schema";
-import { RecentFile } from "../src/hooks/useRecentFiles";
+import { RecentFile } from "../hooks/useRecentFiles";
 
 export class RootStore {
   loadedSchema: Schema | null = null;

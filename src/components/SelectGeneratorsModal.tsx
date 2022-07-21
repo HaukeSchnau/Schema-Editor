@@ -1,8 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
-import Generators from "../../generator/Generators";
+import Generators from "../generator/Generators";
 import DialogModal from "./DialogModal";
-import GeneratorMetaData from "../../model/generatorMetaData";
+import GeneratorMetaData from "../model/generatorMetaData";
 import Divider from "./Divider";
 
 interface SelectGeneratorsModalProps {

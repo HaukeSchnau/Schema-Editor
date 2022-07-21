@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import Model from "../../model/model";
+import Model from "../model/model";
 import ModelView from "./ModelView";
 import Draggable from "./Draggable";
 

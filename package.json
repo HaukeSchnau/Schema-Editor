@@ -6,10 +6,10 @@
     "build-cli": "tsc",
     "build": "vite build",
     "serve": "vite preview",
-    "generate": "ts-node generator/generate.ts"
+    "generate": "ts-node src/generator/generate.ts"
   },
   "description": "Domain model editor",
-  "main": "lib/generator/generate.js",
+  "main": "lib/src/generator/generate.js",
   "files": [
     "lib/**/*"
   ],
@@ -56,6 +56,6 @@
     "vite": "^2.6.4"
   },
   "bin": {
-    "generate-models": "./lib/generator/generate.js"
+    "generate-models": "./lib/src/generator/generate.js"
   }
 }

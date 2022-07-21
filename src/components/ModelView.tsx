@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useDrop } from "react-dnd";
-import Model from "../../model/model";
-import Property from "../../model/property";
+import Model from "../model/model";
+import Property from "../model/property";
 import PropertyView from "./PropertyView";
-import { useStore } from "../../model/rootStore";
+import { useStore } from "../model/rootStore";
 import ModelStage from "./ModelStage";
 import DialogModal from "./DialogModal";
 import Card from "./Card";
