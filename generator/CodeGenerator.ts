@@ -1,7 +1,6 @@
-import GeneratorMetaData from "../model/generatorMetaData";
+import prettier, { BuiltInParserName, LiteralUnion } from "prettier";
 import Model from "../model/model";
 import Schema from "../model/schema";
-import prettier, { BuiltInParserName, LiteralUnion } from "prettier";
 
 export type GeneratedFile = {
   name: string;
@@ -23,6 +22,7 @@ export default class CodeGenerator {
 
   static language: LiteralUnion<BuiltInParserName>;
 
+  // eslint-disable-next-line no-useless-constructor, no-unused-vars, no-empty-function
   constructor(public schema: Schema) {}
 
   generate(): GeneratedFile[] {

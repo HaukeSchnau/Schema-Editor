@@ -20,6 +20,7 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
   static generatorId = "basicdartmobx";
 
   static defaultBaseDir = "dart/gen";
+
   static language: LiteralUnion<BuiltInParserName, string> = "dart";
 
   buildPropTypeString(prop: Property) {

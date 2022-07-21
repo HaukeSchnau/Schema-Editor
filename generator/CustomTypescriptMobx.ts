@@ -1,9 +1,9 @@
+import p from "path";
+import { LiteralUnion, BuiltInParserName } from "prettier";
 import Model from "../model/model";
 import CodeGenerator from "./CodeGenerator";
 import { buildImport } from "./tsUtil";
-import p from "path";
 import BasicTypescriptMobx from "./BasicTypescriptMobx";
-import { LiteralUnion, BuiltInParserName } from "prettier";
 
 export default class CustomTypescriptMobx extends CodeGenerator {
   static generatorName = "Benutzerdefinierte Typescript-Klassen mit MobX";

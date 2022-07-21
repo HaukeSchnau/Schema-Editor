@@ -1,9 +1,9 @@
+import p from "path";
+import { LiteralUnion, BuiltInParserName } from "prettier";
 import Model, { isModelGuard } from "../model/model";
 import Property from "../model/property";
 import CodeGenerator from "./CodeGenerator";
 import BasicTypescript from "./BasicTypescript";
-import p from "path";
-import { LiteralUnion, BuiltInParserName } from "prettier";
 
 const propTypeMap = {
   Mixed: "Mixed",
@@ -37,6 +37,7 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
         return "0";
       case "Date":
         return "new Date(0)";
+      default:
     }
 
     return null;
@@ -86,7 +87,7 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
 
     const referenceDependencies = this.getReferenceDependencies(model);
     const referenceDependenciesRequires = referenceDependencies.map(
-      (model) => `require("./${model.name}");`
+      (depedency) => `require("./${depedency.name}");`
     );
 
     const basicMetadata = this.schema.generators.get("tsbasic");

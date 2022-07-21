@@ -1,5 +1,4 @@
 import CodeGenerator, { GeneratedFile } from "./CodeGenerator";
-import { LiteralUnion, BuiltInParserName } from "prettier";
 import Model from "../model/model";
 import Property from "../model/property";
 import { pluralize, singularize, toCamelCase } from "./stringUtil";
@@ -36,11 +35,10 @@ const buildProp = (prop: Property) => {
   if (prop.array) {
     // Many-to-many
     return buildManyToMany(prop.name, prop.type, prop.name);
-  } else {
-    // One-to-many
-    return `${prop.name} ${prop.type.name} @relation("${prop.name}", fields: [${prop.name}Id], references: [id])
-  ${prop.name}Id String @db.ObjectId`;
   }
+  // One-to-many
+  return `${prop.name} ${prop.type.name} @relation("${prop.name}", fields: [${prop.name}Id], references: [id])
+  ${prop.name}Id String @db.ObjectId`;
 };
 
 export default class Prisma extends CodeGenerator {
@@ -64,7 +62,7 @@ export default class Prisma extends CodeGenerator {
       );
     if (!isReal) return null;
 
-    const relations = this.schema.allModels
+    const relatedModels = this.schema.allModels
       .map((relatedModel) => ({
         model: relatedModel,
         relations: relatedModel.properties.filter(
@@ -78,20 +76,20 @@ export default class Prisma extends CodeGenerator {
     .filter((prop) => model.hasDatabaseCollection || prop.name !== "_id")
     .map(buildProp)
     .join("\n  ")}${
-      model.hasDatabaseCollection && relations.length
+      model.hasDatabaseCollection && relatedModels.length
         ? "\n  " +
-          relations
-            .map(({ model, relations }) =>
+          relatedModels
+            .map(({ model: relatedModel, relations }) =>
               relations.map((relation) =>
                 relation.array
                   ? buildManyToMany(
-                      singularize(relation.name) + model.name,
-                      model,
+                      singularize(relation.name) + relatedModel.name,
+                      relatedModel,
                       relation.name
                     )
-                  : `${toCamelCase(relation.name + pluralize(model.name))} ${
-                      model.name
-                    }[] @relation("${relation.name}")`
+                  : `${toCamelCase(
+                      relation.name + pluralize(relatedModel.name)
+                    )} ${relatedModel.name}[] @relation("${relation.name}")`
               )
             )
             .flat()

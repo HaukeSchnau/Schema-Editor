@@ -1,8 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
+import { useDrop } from "react-dnd";
 import Model from "../../model/model";
 import ModelView from "./ModelView";
-import { useDrop } from "react-dnd";
 import DragAround from "./DragAround";
 
 interface MainModelStageProps {

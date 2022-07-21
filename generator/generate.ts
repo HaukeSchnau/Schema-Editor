@@ -22,7 +22,7 @@ function checkFileExists(file: string) {
   schema.root.link();
 
   const targets = Array.from(schema.generators.entries())
-    .filter(([id, meta]) => meta.export)
+    .filter(([, meta]) => meta.export)
     .map(([id]) => id);
 
   await Promise.all(

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 export default async function verifyPermission(fileHandle: FileSystemHandle) {
   // Check if permission was already granted. If so, return true.
   if ((await fileHandle.queryPermission({ mode: "readwrite" })) === "granted") {

@@ -1,10 +1,10 @@
+import p from "path";
+import { BuiltInParserName, LiteralUnion } from "prettier";
 import Model from "../model/model";
-import Property from "../model/property";
+import Property, { DataType } from "../model/property";
 import CodeGenerator from "./CodeGenerator";
 import CustomTypescriptMobx from "./CustomTypescriptMobx";
 import { buildImports, propTypeMap } from "./tsUtil";
-import p from "path";
-import { BuiltInParserName, LiteralUnion } from "prettier";
 
 export default class BasicTypescriptMobx extends CodeGenerator {
   static generatorName = "Typescript-Klassen mit MobX";
@@ -29,6 +29,7 @@ export default class BasicTypescriptMobx extends CodeGenerator {
         return "0";
       case "Date":
         return "new Date(0)";
+      default:
     }
 
     if (typeof prop.type !== "string") {
@@ -38,15 +39,20 @@ export default class BasicTypescriptMobx extends CodeGenerator {
     return "undefined";
   }
 
-  getPropTypeStr(prop: Property) {
-    const propTypeStr =
-      typeof prop.type === "string"
-        ? propTypeMap[prop.type]
-        : prop.lazy
-        ? `Lazy<${prop.type.name}>`
-        : `${prop.type.name}`;
+  getDataTypeStr(type: DataType) {
+    if (typeof type === "string") {
+      return propTypeMap[type];
+    }
 
-    return `${propTypeStr}${prop.array ? "[]" : ""}`;
+    return type.name;
+  }
+
+  getPropTypeStr(prop: Property) {
+    const dataTypeStr = this.getDataTypeStr(prop.type);
+
+    return `${prop.lazy ? `Lazy<${dataTypeStr}>` : dataTypeStr}${
+      prop.array ? "[]" : ""
+    }`;
   }
 
   buildProp(prop: Property) {

@@ -12,7 +12,7 @@ export default function useAutoSave<T>(
   onLoad: (_obj: T | null) => void,
   createDefaultObject: (_parent: FileSystemDirectoryHandle) => T,
   item?: T,
-  beforeSerialize?: (item: T) => void,
+  beforeSerialize?: (_item: T) => void,
   interval = 1000
 ) {
   const parentDirectory = useRef<FileSystemDirectoryHandle | null>(null);

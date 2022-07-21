@@ -23,6 +23,9 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "prettier", "unused-imports"],
   rules: {
+    "import/no-extraneous-dependencies": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "prefer-template": "off",
     "class-methods-use-this": "off",
     "import/extensions": [
       "error",

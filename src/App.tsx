@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useDrop } from "react-dnd";
 import { useStore } from "../model/rootStore";
@@ -6,7 +6,6 @@ import useAutoSave from "./hooks/useAutoSave";
 import Schema from "../model/schema";
 import SelectGeneratorsModal from "./components/SelectGeneratorsModal";
 import generateInBrowser from "./generateInBrowser";
-import ModelStage from "./components/ModelStage";
 import Model from "../model/model";
 import useRecentFiles from "./hooks/useRecentFiles";
 import RecentFiles from "./components/RecentFiles";
@@ -14,7 +13,6 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Center from "./components/Center";
 import MainModelStage from "./components/MainModelStage";
-import { reaction } from "mobx";
 
 const App = () => {
   const store = useStore();
