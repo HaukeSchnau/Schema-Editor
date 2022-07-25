@@ -1,5 +1,5 @@
-import Model from "../model/model";
-import { DataType } from "../model/property";
+import Model from "../../model/model";
+import { DataType } from "../../model/property";
 import { toSnakeCase } from "./stringUtil";
 
 export const propTypeMap = {

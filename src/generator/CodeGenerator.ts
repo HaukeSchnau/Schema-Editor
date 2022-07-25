@@ -1,9 +1,12 @@
 import prettier, { BuiltInParserName, LiteralUnion } from "prettier";
+import p from "path";
+import { z, ZodSchema } from "zod";
 import Model from "../model/model";
 import Schema from "../model/schema";
+import { availableGenerators, GeneratorId } from "./Generators";
 
 export type GeneratedFile = {
-  name: string;
+  path: string;
   contents: string;
 };
 
@@ -11,31 +14,49 @@ function isNotNull(arg: GeneratedFile | null): arg is GeneratedFile {
   return arg !== null;
 }
 
-export default class CodeGenerator {
+export type GetConfig<C extends CodeGenerator> = C extends CodeGenerator<
+  infer T
+>
+  ? T
+  : unknown;
+
+export type GetConfigForGenerator<key extends GeneratorId> = GetConfig<
+  InstanceType<typeof availableGenerators[key]>
+>;
+
+export const baseConfigSchema = z.object({
+  baseDir: z.string().describe("Ausgabeordner").default("src"),
+});
+
+export type BaseGeneratorConfig = z.infer<typeof baseConfigSchema>;
+
+export default class CodeGenerator<
+  Config extends BaseGeneratorConfig = BaseGeneratorConfig
+> {
   public ignoreIfExists = false;
 
-  static generatorName = "Generator";
-
-  static generatorId = "generator";
-
-  static defaultBaseDir = "gen";
+  static generatorName = "";
 
   static language: LiteralUnion<BuiltInParserName>;
 
-  // eslint-disable-next-line no-useless-constructor, no-unused-vars, no-empty-function
-  constructor(public schema: Schema) {}
+  static readonly configSchema: ZodSchema = baseConfigSchema;
 
-  generate(): GeneratedFile[] {
+  constructor(public schema: Schema, public config: Config) {}
+
+  public generate(): GeneratedFile[] {
     const metaFileContents = this.generateMetaFile();
     return [
       ...this.generateSubModels(this.schema.root),
       metaFileContents
-        ? { name: "meta.dart", contents: metaFileContents }
+        ? {
+            path: p.join(this.config.baseDir, "meta.dart"),
+            contents: metaFileContents,
+          }
         : null,
     ].filter(isNotNull);
   }
 
-  generateSubModels(parent: Model): GeneratedFile[] {
+  protected generateSubModels(parent: Model): GeneratedFile[] {
     return [
       this.generateFile(parent),
       ...parent.children.map((child) => this.generateSubModels(child)),
@@ -44,42 +65,35 @@ export default class CodeGenerator {
       .filter(isNotNull);
   }
 
-  generateFile(model: Model): GeneratedFile | null {
+  protected generateFile(model: Model): GeneratedFile | null {
     const sourceCode = this.generateModel(model);
     if (!sourceCode) return null;
 
     return {
-      name: this.getFileName(model),
-      contents: this.language
-        ? prettier.format(sourceCode, { parser: this.language })
-        : sourceCode,
+      path: p.join(this.config.baseDir, this.getFileName(model)),
+      contents:
+        this.language === "typescript" && typeof window === "undefined"
+          ? prettier.format(sourceCode, {
+              parser: this.language,
+            })
+          : sourceCode,
     };
   }
 
-  generateModel(_model: Model): string | null {
+  protected generateModel(_model: Model): string | null {
     return "";
   }
 
-  generateMetaFile(): string | null {
+  protected generateMetaFile(): string | null {
     return null;
   }
 
-  getFileName(model: Model) {
+  protected getFileName(model: Model) {
     return model.name;
   }
 
-  get language() {
+  protected get language() {
     const generator = <typeof CodeGenerator>this.constructor;
     return generator.language;
-  }
-
-  get baseDir() {
-    const generator = <typeof CodeGenerator>this.constructor;
-    return this.metaData?.outDir || generator.defaultBaseDir;
-  }
-
-  get metaData() {
-    const generator = <typeof CodeGenerator>this.constructor;
-    return this.schema.generators.get(generator.generatorId);
   }
 }

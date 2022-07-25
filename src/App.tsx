@@ -88,11 +88,11 @@ const App = () => {
         </header>
         <MainModelStage parent={loadedSchema.root} />
         <SelectGeneratorsModal
-          generatorsMetaData={loadedSchema.generators}
+          generators={loadedSchema.generators}
           isOpen={isModalOpen}
           onRequestClose={() => setModalOpen(false)}
-          onGenerate={(gens) =>
-            generateInBrowser(loadedSchema, gens, parentDirectory.current!)
+          onGenerate={() =>
+            generateInBrowser(loadedSchema, parentDirectory.current!)
           }
         />
       </>

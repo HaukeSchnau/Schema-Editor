@@ -1,9 +1,9 @@
 import p from "path";
 import { LiteralUnion, BuiltInParserName } from "prettier";
-import Model, { isModelGuard } from "../model/model";
-import Property from "../model/property";
-import CodeGenerator from "./CodeGenerator";
-import BasicTypescript from "./BasicTypescript";
+import { z } from "zod";
+import Model, { isModelGuard } from "../../model/model";
+import Property from "../../model/property";
+import CodeGenerator, { baseConfigSchema } from "../CodeGenerator";
 
 const propTypeMap = {
   Mixed: "Mixed",
@@ -14,14 +14,17 @@ const propTypeMap = {
   Date: "Date",
 };
 
-export default class TypeScriptMongooseGenerator extends CodeGenerator {
-  static generatorName = "Mongoose mit TypeScript";
+const configSchema = baseConfigSchema.extend({
+  basicBaseDir: z.string(),
+});
 
-  static generatorId = "tsmongoose";
+export default class TypeScriptMongooseGenerator extends CodeGenerator<
+  z.infer<typeof configSchema>
+> {
+  static readonly language: LiteralUnion<BuiltInParserName, string> =
+    "typescript";
 
-  static defaultBaseDir = "ts/mongoose";
-
-  static language: LiteralUnion<BuiltInParserName, string> = "typescript";
+  static readonly configSchema = configSchema;
 
   buildDefaultValue(prop: Property) {
     if (prop.optional) return null;
@@ -90,9 +93,8 @@ export default class TypeScriptMongooseGenerator extends CodeGenerator {
       (depedency) => `require("./${depedency.name}");`
     );
 
-    const basicMetadata = this.schema.generators.get("tsbasic");
-    const basicOutDir = basicMetadata?.outDir ?? BasicTypescript.defaultBaseDir;
-    const relativeBasicOutDir = p.relative(this.baseDir, basicOutDir);
+    const basicOutDir = this.config.basicBaseDir;
+    const relativeBasicOutDir = p.relative(this.config.baseDir, basicOutDir);
 
     const mongooseSchema = `const ${model.name}Schema = new Schema<Basic${
       model.name

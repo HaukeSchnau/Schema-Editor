@@ -1,5 +1,5 @@
-import Model from "../model/model";
-import { DataType } from "../model/property";
+import Model from "../../model/model";
+import { DataType } from "../../model/property";
 
 export const propTypeMap = {
   Mixed: "any",

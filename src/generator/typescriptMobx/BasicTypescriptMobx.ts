@@ -1,19 +1,22 @@
 import p from "path";
-import { BuiltInParserName, LiteralUnion } from "prettier";
-import Model from "../model/model";
-import Property, { DataType } from "../model/property";
-import CodeGenerator from "./CodeGenerator";
-import CustomTypescriptMobx from "./CustomTypescriptMobx";
-import { buildImports, propTypeMap } from "./tsUtil";
+import { LiteralUnion, BuiltInParserName } from "prettier";
+import { z } from "zod";
+import Model from "../../model/model";
+import Property, { DataType } from "../../model/property";
+import CodeGenerator, { baseConfigSchema } from "../CodeGenerator";
+import { propTypeMap, buildImports } from "../util/tsUtil";
 
-export default class BasicTypescriptMobx extends CodeGenerator {
-  static generatorName = "Typescript-Klassen mit MobX";
+const configSchema = baseConfigSchema.extend({
+  customBaseDir: z.string(),
+});
 
-  static generatorId = "basictypescriptmobx";
+export default class BasicTypescriptMobx extends CodeGenerator<
+  z.infer<typeof configSchema>
+> {
+  static readonly language: LiteralUnion<BuiltInParserName, string> =
+    "typescript";
 
-  static defaultBaseDir = "ts/mobx";
-
-  static language: LiteralUnion<BuiltInParserName, string> = "typescript";
+  static readonly configSchema = configSchema;
 
   buildDefaultValue(prop: Property) {
     if (prop.optional) return "undefined";
@@ -100,10 +103,8 @@ export default class BasicTypescriptMobx extends CodeGenerator {
 
     if (isRoot) return null;
 
-    const basicMetadata = this.schema.generators.get("customtypescriptmobx");
-    const basicOutDir =
-      basicMetadata?.outDir ?? CustomTypescriptMobx.defaultBaseDir;
-    const relativeBasicOutDir = p.relative(this.baseDir, basicOutDir);
+    const basicOutDir = this.config.customBaseDir;
+    const relativeBasicOutDir = p.relative(this.config.baseDir, basicOutDir);
 
     const imports = buildImports(model, {
       baseDir: relativeBasicOutDir,

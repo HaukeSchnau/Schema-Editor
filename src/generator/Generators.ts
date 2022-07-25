@@ -1,22 +1,33 @@
-import BasicDartMobxGenerator from "./BasicDartMobx";
-import BasicTypescript from "./BasicTypescript";
-import BasicTypescriptMobx from "./BasicTypescriptMobx";
-import CodeGenerator from "./CodeGenerator";
-import CustomDartMobxGenerator from "./CustomDartMobx";
-import CustomTypescriptMobx from "./CustomTypescriptMobx";
-import Prisma from "./Prisma";
-import TypeScriptMongooseGenerator from "./TypeScriptMongoose";
+import BasicDartMobxGenerator from "./dartMobx/BasicDartMobx";
+import CustomDartMobxGenerator from "./dartMobx/CustomDartMobx";
+import DartMobxGenerator from "./dartMobx/DartMobx";
+import BasicTypescript from "./mongoose/BasicTypescript";
+import MongooseGenerator from "./mongoose/Mongoose";
+import TypeScriptMongooseGenerator from "./mongoose/TypeScriptMongoose";
+import PrismaGenerator from "./prisma/Prisma";
+import PrismaMongo from "./prisma/PrismaMongo";
+import PrismaPostgres from "./prisma/PrismaPostgres";
+import BasicTypescriptMobx from "./typescriptMobx/BasicTypescriptMobx";
+import CustomTypescriptMobx from "./typescriptMobx/CustomTypescriptMobx";
+import TypeScriptMobxGenerator from "./typescriptMobx/TypeScriptMobx";
 
-const generators: typeof CodeGenerator[] = [
-  BasicTypescript,
-  TypeScriptMongooseGenerator,
-  BasicDartMobxGenerator,
-  CustomDartMobxGenerator,
-  BasicTypescriptMobx,
-  CustomTypescriptMobx,
-  Prisma,
-];
+export const availableGenerators = {
+  // Dart MobX
+  dartMobx: DartMobxGenerator,
+  basicDartMobx: BasicDartMobxGenerator,
+  customDartMobx: CustomDartMobxGenerator,
+  // Mongoose
+  mongoose: MongooseGenerator,
+  typescriptMongoose: TypeScriptMongooseGenerator,
+  tsBasic: BasicTypescript,
+  // Prisma
+  prisma: PrismaGenerator,
+  prismaMongo: PrismaMongo,
+  prismaPostgres: PrismaPostgres,
+  // Typescript MobX
+  typescriptMobx: TypeScriptMobxGenerator,
+  basicTypescriptMobx: BasicTypescriptMobx,
+  customTypescriptMobx: CustomTypescriptMobx,
+};
 
-export default new Map<string, typeof CodeGenerator>(
-  generators.map((gen) => [gen.generatorId, gen])
-);
+export type GeneratorId = keyof typeof availableGenerators;

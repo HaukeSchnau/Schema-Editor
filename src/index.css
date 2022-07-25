@@ -224,6 +224,10 @@ select {
   cursor: pointer;
 }
 
+select option {
+  padding: 1rem;
+}
+
 select:hover {
   background-color: #b8a29d;
 }
@@ -305,7 +309,7 @@ li {
   align-items: center;
 }
 
-.input-row input {
+.input-row :is(input, select) {
   flex-grow: 1;
 }
 

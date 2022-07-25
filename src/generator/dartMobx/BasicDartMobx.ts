@@ -1,9 +1,8 @@
-import { LiteralUnion, BuiltInParserName } from "prettier";
-import Model from "../model/model";
-import Property, { DataType } from "../model/property";
-import CodeGenerator from "./CodeGenerator";
-import { buildImports } from "./dartUtil";
-import { toSnakeCase } from "./stringUtil";
+import Model from "../../model/model";
+import Property, { DataType } from "../../model/property";
+import CodeGenerator from "../CodeGenerator";
+import { toSnakeCase } from "../util/stringUtil";
+import { buildImports } from "../util/dartUtil";
 
 const propTypeMap = {
   Mixed: "dynamic",
@@ -15,14 +14,6 @@ const propTypeMap = {
 };
 
 export default class BasicDartMobxGenerator extends CodeGenerator {
-  static generatorName = "Basic Dart-Klassen mit MobX für Flutter";
-
-  static generatorId = "basicdartmobx";
-
-  static defaultBaseDir = "dart/gen";
-
-  static language: LiteralUnion<BuiltInParserName, string> = "dart";
-
   buildPropTypeString(prop: Property) {
     const basicPropType =
       typeof prop.type === "string" ? propTypeMap[prop.type] : prop.type.name;

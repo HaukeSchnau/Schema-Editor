@@ -1,7 +1,8 @@
-import CodeGenerator, { GeneratedFile } from "./CodeGenerator";
-import Model from "../model/model";
-import Property from "../model/property";
-import { pluralize, singularize, toCamelCase } from "./stringUtil";
+import p from "path";
+import Model from "../../model/model";
+import Property from "../../model/property";
+import CodeGenerator, { GeneratedFile } from "../CodeGenerator";
+import { toCamelCase, pluralize, singularize } from "../util/stringUtil";
 
 const propTypeMap = {
   Mixed: "Json",
@@ -12,44 +13,33 @@ const propTypeMap = {
   Date: "DateTime",
 };
 
-const buildManyToMany = (name: string, type: Model, relationName: string) => {
-  return `${toCamelCase(singularize(name))}Ids String[] @db.ObjectId
-  ${toCamelCase(pluralize(name))} ${
-    type.name
-  }[] @relation("${relationName}", fields: [${toCamelCase(
-    singularize(name)
-  )}Ids], references: [id])`;
+const buildManyToMany = (name: string, type: Model) => {
+  return `${toCamelCase(pluralize(name))} ${type.name}[] `;
 };
 
 const buildProp = (prop: Property) => {
-  if (prop.name === "_id")
-    return `id String @id @default(auto()) @map("_id") @db.ObjectId`;
+  if (prop.name === "_id") return `id Int @id @default(autoincrement())`;
   if (typeof prop.type === "string") {
     return `${prop.name} ${propTypeMap[prop.type]}${prop.array ? "[]" : ""}`;
   }
 
-  const isCompositeType = !prop.type.hasDatabaseCollection;
-  if (isCompositeType)
-    return `${prop.name} ${prop.type.name}${prop.array ? "[]" : ""}`;
-
   if (prop.array) {
     // Many-to-many
-    return buildManyToMany(prop.name, prop.type, prop.name);
+    return buildManyToMany(prop.name, prop.type);
   }
   // One-to-many
   return `${prop.name} ${prop.type.name} @relation("${prop.name}", fields: [${prop.name}Id], references: [id])
-  ${prop.name}Id String @db.ObjectId`;
+  ${prop.name}Id Int`;
 };
 
-export default class Prisma extends CodeGenerator {
-  static generatorName = "Prisma-Schema";
-
-  static generatorId = "prisma";
-
-  static defaultBaseDir = "prisma";
-
+export default class PrismaPostgres extends CodeGenerator {
   generate(): GeneratedFile[] {
-    return [{ name: "schema.prisma", contents: this.generatePrismaFile() }];
+    return [
+      {
+        path: p.join(this.config.baseDir, "schema.prisma"),
+        contents: this.generatePrismaFile(),
+      },
+    ];
   }
 
   buildPrismaModel = (model: Model) => {
@@ -71,12 +61,9 @@ export default class Prisma extends CodeGenerator {
       }))
       .filter(({ relations }) => relations.length);
 
-    return `${model.hasDatabaseCollection ? "model" : "type"} ${model.name} {
-  ${model.allProps
-    .filter((prop) => model.hasDatabaseCollection || prop.name !== "_id")
-    .map(buildProp)
-    .join("\n  ")}${
-      model.hasDatabaseCollection && relatedModels.length
+    return `model ${model.name} {
+  ${model.allProps.map(buildProp).join("\n  ")}${
+      relatedModels.length
         ? "\n  " +
           relatedModels
             .map(({ model: relatedModel, relations }) =>
@@ -84,8 +71,7 @@ export default class Prisma extends CodeGenerator {
                 relation.array
                   ? buildManyToMany(
                       singularize(relation.name) + relatedModel.name,
-                      relatedModel,
-                      relation.name
+                      relatedModel
                     )
                   : `${toCamelCase(
                       relation.name + pluralize(relatedModel.name)
@@ -102,7 +88,7 @@ export default class Prisma extends CodeGenerator {
   generatePrismaFile() {
     return `datasource db {
   url      = env("DATABASE_URL")
-  provider = "mongodb"
+  provider = "postgresql"
 }
 
 generator client {

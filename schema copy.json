@@ -1,0 +1,1211 @@
+{
+  "name": "Maleant",
+  "generators": {
+    "mongoose": {
+      "outDir": "backend/src/gen"
+    },
+    "dartmobx": {
+      "outDir": "mobile/lib/gen"
+    },
+    "tsmobx": {
+      "outDir": "web/src/gen"
+    },
+    "prisma": {
+      "outDir": "prisma",
+      "variant": "postgresql"
+    }
+  },
+  "root": {
+    "name": "Entity",
+    "id": "d96ee5c1-7e4e-4453-b6d0-234ce925ef50",
+    "hasDatabaseCollection": false,
+    "x": 0,
+    "y": 0,
+    "properties": [
+      {
+        "id": "0324e142-63bb-409d-a98a-95f986d1c2c1",
+        "name": "_id",
+        "optional": false,
+        "array": false,
+        "key": true,
+        "unique": true,
+        "lazy": false,
+        "defaultValue": null,
+        "type": "string"
+      }
+    ],
+    "children": [
+      {
+        "name": "Video",
+        "id": "0a4afbfa-9b16-4bbd-82e1-f84d6591aad4",
+        "hasDatabaseCollection": true,
+        "x": 1452,
+        "y": 1090,
+        "properties": [
+          {
+            "id": "e1933ee6-c56d-4af0-ab59-84e42159369b",
+            "name": "title",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "d634c6a0-7c08-477c-b17e-a9b6d55c5918",
+            "name": "author",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "e81d6795-0f29-4dbe-8f9f-3ffb42bff30e",
+            "name": "videoId",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "d4e4d61e-9a84-4587-ab0f-e9458a82383c",
+            "name": "videoDuration",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "double"
+          },
+          {
+            "id": "aa26ca5f-de46-4a80-8b20-4f88f0fd350f",
+            "name": "questions",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "143daf44-7e31-434b-8f98-55cac3508e1e"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "TocEntry",
+        "id": "1427d984-5b4e-46fb-8021-46aa93d0edcc",
+        "hasDatabaseCollection": false,
+        "x": 507,
+        "y": 975,
+        "properties": [
+          {
+            "id": "c5db85ca-bdcc-4349-b819-a91681098845",
+            "name": "text",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "923c5a12-ab12-4342-827a-e8008839c8dc",
+            "name": "secondaryId",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Question",
+        "id": "143daf44-7e31-434b-8f98-55cac3508e1e",
+        "hasDatabaseCollection": false,
+        "x": 1452,
+        "y": 1594,
+        "properties": [
+          {
+            "id": "a7f2d0ef-0cf6-43e5-8663-d297b66d239a",
+            "name": "question",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "901cadf9-1dd2-45fb-98d9-56b9f76ec403",
+            "name": "answers",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "bfcc8550-fbb6-4a6e-a3ef-308df46c2012",
+            "name": "correctAnswerIndex",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Permission",
+        "id": "4bf8da1a-5626-4252-b3fd-89df11adaa5b",
+        "hasDatabaseCollection": true,
+        "x": 484,
+        "y": 375,
+        "properties": [
+          {
+            "id": "f2369d4c-dfbb-4fed-a66f-cca2f64171e6",
+            "name": "secondaryId",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "f84d326f-8d57-4a1e-86c7-83af71befd62",
+            "name": "description",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "c187755e-a263-45a4-b209-b0384f3d327b",
+            "name": "category",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "ClassDatetime",
+        "id": "5d0dab17-dad1-4203-ae8e-f1f41eb73b1f",
+        "hasDatabaseCollection": false,
+        "x": 1332,
+        "y": 528,
+        "properties": [
+          {
+            "id": "36c75413-717b-4c3c-b0e1-e1af0fed29dd",
+            "name": "weekday",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "8fc9a406-2dce-4d69-b63e-7e6666243466",
+            "name": "weeks",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "f7d7465b-1166-4cf3-a0e8-ad4c9468a03e",
+            "name": "period",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "63378480-8467-4576-b1c4-edfe0c4aa5ac",
+            "name": "length",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Quote",
+        "id": "630462fb-5056-4316-b17d-2f49fd6d04a8",
+        "hasDatabaseCollection": false,
+        "x": 1127,
+        "y": 1682,
+        "properties": [
+          {
+            "id": "e38c7ea2-b7c3-4310-8bed-beeb72bab7ce",
+            "name": "text",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "a4fe2724-00a9-44cb-8bd7-b99fd9f08533",
+            "name": "author",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Role",
+        "id": "6bca1645-e35c-468c-990a-5087003c321c",
+        "hasDatabaseCollection": true,
+        "x": 486,
+        "y": 7,
+        "properties": [
+          {
+            "id": "4b7487c7-c302-45cb-b3cc-0f885d2dffc7",
+            "name": "permissions",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "4bf8da1a-5626-4252-b3fd-89df11adaa5b"
+          },
+          {
+            "id": "ed629cf2-7a02-4a3a-8f98-32eeed263bd6",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "904cb819-3560-43c4-9386-3d3ff3ee2999",
+            "name": "isSuperuser",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "boolean"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "TeamMember",
+        "id": "743f6598-64a2-4176-b3d5-55fff61e9569",
+        "hasDatabaseCollection": true,
+        "x": 2747,
+        "y": 918,
+        "properties": [
+          {
+            "id": "f8390207-b52c-4094-aaba-7c3426157250",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "c37d702f-412a-42f3-b0d0-d344eb147335",
+            "name": "role",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "8e28fd9c-5469-4e32-866d-0d4a0b638b7f",
+            "name": "imgUrl",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "23c95d5b-a443-4b91-839a-265263de5aa4",
+            "name": "category",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "9a9272ab-8325-4c0b-a58f-f1dbbc0d0487",
+            "name": "y",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "double"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "User",
+        "id": "771f9144-7911-47d9-a174-a6cbdb4a55e1",
+        "hasDatabaseCollection": true,
+        "x": 154,
+        "y": 0,
+        "properties": [
+          {
+            "id": "c597f647-e209-4a71-a141-9ca5efad4d88",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "65be46bb-d22b-4c48-8c05-fadb99a35e16",
+            "name": "email",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": true,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "8fa9389d-6ae6-4091-baf5-2270a935fbac",
+            "name": "username",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": true,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "58e4798a-18ae-470b-a94a-ac489bb06213",
+            "name": "password",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "ec9043e8-c3c8-4fdb-8709-dd8721e84103",
+            "name": "initialPassword",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "b2d460c2-0639-48cd-ab81-248ad1270a2e",
+            "name": "iservAuthKey",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "42f2939d-c3d0-4504-8535-bae3f45e8409",
+            "name": "year",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "e5998600-1afe-4cd9-989a-8f2e94cddf46",
+            "name": "notificationKey",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "a68bb521-af47-47db-9fe6-03bebabed13f",
+            "name": "setupCompleted",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "boolean"
+          },
+          {
+            "id": "a3d54a2e-0e97-4aba-bbe3-d436e29b22b5",
+            "name": "role",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "6bca1645-e35c-468c-990a-5087003c321c"
+          },
+          {
+            "id": "f011e65a-8cd3-4092-9c5c-199add22083b",
+            "name": "permissions",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "4bf8da1a-5626-4252-b3fd-89df11adaa5b"
+          },
+          {
+            "id": "4c567bd5-491d-4bf2-a287-3e93af574734",
+            "name": "isSuperuser",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "boolean"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Article",
+        "id": "7bff3e55-43ab-48f4-8001-9e5dc38c54d7",
+        "hasDatabaseCollection": true,
+        "x": 193,
+        "y": 979,
+        "properties": [
+          {
+            "id": "2023279d-ce29-4d8b-8261-2104ab60196f",
+            "name": "title",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "952e8550-5dcf-4afc-9a58-4179ba8e09f5",
+            "name": "content",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "Mixed"
+          },
+          {
+            "id": "441f9873-3b34-410d-b17d-5279e33a5ba6",
+            "name": "contentHtml",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "9315a837-54e9-46e7-811f-9cd8d0289b1a",
+            "name": "previewText",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "4c9a21eb-2ebc-44f0-9d17-a11992d56d07",
+            "name": "previewImg",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "088afe33-5b3b-4a51-ba53-1d3c70e6ba9c",
+            "name": "date",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "Date"
+          },
+          {
+            "id": "095fb2bf-2253-41ca-b1a5-74edf6db4e6e",
+            "name": "author",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "771f9144-7911-47d9-a174-a6cbdb4a55e1"
+          },
+          {
+            "id": "b135f62b-da33-4ec9-8791-e68f0730f377",
+            "name": "tags",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "149656b7-742b-4d3d-b95a-87cebe1126ce",
+            "name": "articleType",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "dd106605-afdd-408d-84b3-0bb8a5614bc4",
+            "name": "tableOfContents",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "1427d984-5b4e-46fb-8021-46aa93d0edcc"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Class",
+        "id": "7e3ee223-c637-4202-9b07-dffc3263af2a",
+        "hasDatabaseCollection": true,
+        "x": 1314,
+        "y": 0,
+        "properties": [
+          {
+            "id": "5874633e-19b0-4707-b95e-a44f2229dd3b",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "ac07d9ff-8b5b-4f9a-9ed7-fc97d5b4436c",
+            "name": "secondaryId",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "3707cb75-26bd-4814-bdf2-8c87f4d9908f",
+            "name": "years",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "486937d9-855b-4111-be76-b40a0b3370e4",
+            "name": "students",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "771f9144-7911-47d9-a174-a6cbdb4a55e1"
+          },
+          {
+            "id": "c3e39a4b-2204-4be4-b236-bc370eef1740",
+            "name": "teacher",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "771f9144-7911-47d9-a174-a6cbdb4a55e1"
+          },
+          {
+            "id": "69e5ea1c-d310-4e88-b2c0-c404e8547f2e",
+            "name": "datetimes",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "5d0dab17-dad1-4203-ae8e-f1f41eb73b1f"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "UploadedFile",
+        "id": "80784691-d074-4bd6-b6fb-e92bc94df075",
+        "hasDatabaseCollection": true,
+        "x": 2303,
+        "y": 36,
+        "properties": [
+          {
+            "id": "24d08b3c-d5fb-4539-b1a7-34b7c76641a1",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "279a5df3-151f-4d1d-a858-3a3de940994a",
+            "name": "url",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "b7551fee-5902-4e38-8426-380b24ee192f",
+            "name": "thumbnailUrl",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "cf4b1ebc-84a1-4ba5-803c-19f40bcb4270",
+            "name": "originalName",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "VplanEntry",
+        "id": "8a9ca915-89c3-4866-a61f-c991d96676db",
+        "hasDatabaseCollection": true,
+        "x": 1650,
+        "y": 0,
+        "properties": [
+          {
+            "id": "afd2cc44-c2e4-45bf-99f2-cce9d557c9dd",
+            "name": "secondaryId",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "e4d324ed-84ce-415b-8e18-42af756060b4",
+            "name": "date",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "Date"
+          },
+          {
+            "id": "21ac53ee-b863-4e23-abaa-b23a8c8c2f85",
+            "name": "stundeStart",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "08e2100c-154a-4077-a680-ee31145a1a42",
+            "name": "stundeEnd",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "b0f9ede9-2dc8-402c-a4e6-aeda19e0dd44",
+            "name": "klassen",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "e30db160-1ea8-4776-89b2-af508e6d004c",
+            "name": "fach",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "43fe7496-562f-404c-bb95-f887ec1eecb6",
+            "name": "raum",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "7b38719d-a367-4112-86e9-e644d7f4515a",
+            "name": "art",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Download",
+        "id": "c4f2d16f-7131-41e9-97be-56e3a1d7b6ef",
+        "hasDatabaseCollection": true,
+        "x": 2639,
+        "y": 1426,
+        "properties": [
+          {
+            "id": "bd092459-2394-4099-9bdb-f92e957476eb",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "b0fe48bd-3d89-478c-be8d-2d93b75f0fe1",
+            "name": "category",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "ce1bceb0-a5dc-4a66-8893-8ca3a83ade2e",
+            "name": "file",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "80784691-d074-4bd6-b6fb-e92bc94df075"
+          },
+          {
+            "id": "603604c8-43d7-4e5e-8c25-febb0ac22f53",
+            "name": "years",
+            "optional": false,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "5b5f0ea8-1a76-4b52-bb6b-42aba9821017",
+            "name": "updatedAt",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "Date"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Subject",
+        "id": "d4152299-ba83-41db-bb1b-69648526ee2d",
+        "hasDatabaseCollection": true,
+        "x": 1138,
+        "y": 1135,
+        "properties": [
+          {
+            "id": "aa373fad-433a-4f81-9231-44ddce15aee1",
+            "name": "secondaryId",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "a63318fc-8480-45c6-970d-09ffa5281dac",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "5f9ca0ca-a1f0-4c0c-9d0d-00a0e3d41ae5",
+            "name": "category",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "e7b6afa5-06a7-4135-a8a9-9a6d0b56a35a",
+            "name": "quote",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "630462fb-5056-4316-b17d-2f49fd6d04a8"
+          },
+          {
+            "id": "b7d504f2-6692-4e08-8ff1-e02b4b63ed00",
+            "name": "imgUrl",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "fd1c98db-42ec-44da-95f1-a9fd95dafb5a",
+            "name": "article",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "7bff3e55-43ab-48f4-8001-9e5dc38c54d7"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "Project",
+        "id": "e88a93cd-baf0-4c46-910c-d93235d0474c",
+        "hasDatabaseCollection": false,
+        "x": 2287,
+        "y": 840,
+        "properties": [
+          {
+            "id": "c7339a54-0f41-42ee-a698-61073daa40ec",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "c6cd8735-a6cc-48d8-a702-9eb7ded4132b",
+            "name": "minYear",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "874a1945-1271-41cd-9b79-f9b82c1cf485",
+            "name": "maxYear",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "9d1c13b7-cf93-4012-811c-57d3ca8abbc0",
+            "name": "img",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "b2681287-3405-42e6-9cd8-2c4b270e7c06",
+            "name": "optional",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "boolean"
+          },
+          {
+            "id": "2c985670-361c-4c3e-9609-24caf0007077",
+            "name": "tags",
+            "optional": true,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "7695ca85-30cb-4015-9083-ce7e23cb444c",
+            "name": "years",
+            "optional": true,
+            "array": true,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "int"
+          },
+          {
+            "id": "0d51aa92-0c37-4ea3-9f95-961f5f808f40",
+            "name": "category",
+            "optional": true,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "ContactEntry",
+        "id": "ee0d7ff4-ae6f-48ef-b282-c54063674858",
+        "hasDatabaseCollection": true,
+        "x": 3106,
+        "y": 940,
+        "properties": [
+          {
+            "id": "8266957b-c5a4-4caf-949e-933b3b7d2203",
+            "name": "name",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "f656eaeb-fc74-42a0-9c8a-0345d4826968",
+            "name": "subtitle",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "82c4be72-0aec-4b47-bd3c-5892d9534d62",
+            "name": "tel",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "6ebfd1bf-c669-4a20-a07f-d80b17163569",
+            "name": "email",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          },
+          {
+            "id": "6f063ae6-6a3d-44e2-a4e0-cf53311edccb",
+            "name": "address",
+            "optional": false,
+            "array": false,
+            "key": false,
+            "unique": false,
+            "lazy": false,
+            "defaultValue": null,
+            "type": "string"
+          }
+        ],
+        "children": []
+      }
+    ]
+  }
+}

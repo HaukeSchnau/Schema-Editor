@@ -1,4 +1,4 @@
-export function toSnakeCase(string: String) {
+export function toSnakeCase(string: string) {
   return string
     .split(/(?=[A-Z])/)
     .join("_")

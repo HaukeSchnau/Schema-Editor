@@ -9,6 +9,8 @@ module.exports = {
     FileSystemFileHandle: "readonly",
   },
   extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "airbnb",
     "plugin:prettier/recommended",
@@ -23,6 +25,14 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "prettier", "unused-imports"],
   rules: {
+    "no-return-assign": "off",
+    "import/prefer-default-export": "off",
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": ["error"],
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": ["error"],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/no-autofocus": "off",
     "prefer-template": "off",
@@ -37,7 +47,6 @@ module.exports = {
         tsx: "never",
       },
     ],
-    "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "no-restricted-syntax": [
       "error",
       "ForInStatement",

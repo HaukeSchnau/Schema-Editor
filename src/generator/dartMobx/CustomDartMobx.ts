@@ -1,16 +1,10 @@
-import Model from "../model/model";
-import Property from "../model/property";
-import CodeGenerator from "./CodeGenerator";
-import { buildImports, propTypeMap } from "./dartUtil";
-import { toSnakeCase } from "./stringUtil";
+import Model from "../../model/model";
+import Property from "../../model/property";
+import CodeGenerator from "../CodeGenerator";
+import { propTypeMap, buildImports } from "../util/dartUtil";
+import { toSnakeCase } from "../util/stringUtil";
 
 export default class CustomDartMobxGenerator extends CodeGenerator {
-  static generatorName = "Editierbare Dart-Klassen mit MobX für Flutter";
-
-  static generatorId = "customdartmobx";
-
-  static defaultBaseDir = "dart/model";
-
   public ignoreIfExists = true;
 
   buildPropTypeString(prop: Property) {
