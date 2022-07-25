@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react";
 import { useDrop } from "react-dnd";
 import Model from "../model/model";
@@ -10,6 +10,7 @@ interface MainModelStageProps {
 }
 
 const MainModelStage: React.FC<MainModelStageProps> = ({ parent }) => {
+  const $wrapper = useRef<HTMLDivElement>(null!);
   const [, drop] = useDrop(() => ({
     accept: "model",
     drop: (item: Model, monitor) => {
@@ -22,6 +23,10 @@ const MainModelStage: React.FC<MainModelStageProps> = ({ parent }) => {
       item.y = Math.max(item.y, 0);
     },
   }));
+
+  useEffect(() => {
+    $wrapper.current.scrollTo({ left: 0 });
+  }, [parent]);
 
   const { allChildren } = parent;
 
@@ -37,7 +42,7 @@ const MainModelStage: React.FC<MainModelStageProps> = ({ parent }) => {
     : 0;
 
   return (
-    <div className="model-stage-wrapper">
+    <div className="model-stage-wrapper" ref={$wrapper}>
       <div className="model-stage mt-4" ref={drop} style={{ width, height }}>
         {parent.children.map((model) => (
           <DragAround

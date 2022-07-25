@@ -224,10 +224,6 @@ select {
   cursor: pointer;
 }
 
-select option {
-  padding: 1rem;
-}
-
 select:hover {
   background-color: #b8a29d;
 }

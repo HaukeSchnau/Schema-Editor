@@ -57,7 +57,7 @@ const SelectGeneratorsModal: React.FC<SelectGeneratorsModalProps> = ({
             const Generator = availableGenerators[selectedGenerator];
             if (!(selectedGenerator in generators)) {
               const configSchema = Generator.configSchema as ZodSchema<
-                any,
+                never,
                 ZodObjectDef
               >;
               const shape = configSchema._def.shape();
@@ -69,7 +69,7 @@ const SelectGeneratorsModal: React.FC<SelectGeneratorsModalProps> = ({
                 ])
               );
 
-              generators[selectedGenerator] = defaults as any;
+              generators[selectedGenerator] = defaults as never;
             }
           }}
           className="raised"

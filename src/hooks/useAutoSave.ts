@@ -4,7 +4,7 @@ import verifyPermission from "../verifyPermission";
 import useInterval from "./useInterval";
 
 type ClassConstructor<T> = {
-  new (..._args: any[]): T;
+  new (..._args: unknown[]): T;
 };
 
 export default function useAutoSave<T>(

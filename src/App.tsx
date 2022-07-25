@@ -37,6 +37,9 @@ const App = () => {
       if (storedSchema) {
         storedSchema.root.link();
         store.loadedSchema = storedSchema;
+        document.querySelector("html")?.scrollTo({
+          top: 0,
+        });
       } else {
         store.loadedSchema = null;
       }
