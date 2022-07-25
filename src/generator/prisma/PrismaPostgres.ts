@@ -18,7 +18,7 @@ const buildManyToMany = (name: string, type: Model) => {
 };
 
 const buildProp = (prop: Property) => {
-  if (prop.name === "_id") return `id Int @id @default(autoincrement())`;
+  if (prop.name === "_id") return `id String @id @default(cuid())`;
   if (typeof prop.type === "string") {
     return `${prop.name} ${propTypeMap[prop.type]}${prop.array ? "[]" : ""}`;
   }
@@ -29,7 +29,7 @@ const buildProp = (prop: Property) => {
   }
   // One-to-many
   return `${prop.name} ${prop.type.name} @relation("${prop.name}", fields: [${prop.name}Id], references: [id])
-  ${prop.name}Id Int`;
+  ${prop.name}Id String`;
 };
 
 export default class PrismaPostgres extends CodeGenerator {
