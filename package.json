@@ -1,6 +1,6 @@
 {
   "name": "modell",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "vite",
     "build-cli": "tsc",
@@ -9,7 +9,7 @@
     "generate": "ts-node src/generator/generate.ts"
   },
   "description": "Domain model editor",
-  "main": "lib/src/generator/generate.js",
+  "main": "lib/generator/generate.js",
   "files": [
     "lib/**/*"
   ],
@@ -57,6 +57,6 @@
     "vite": "^2.6.4"
   },
   "bin": {
-    "generate-models": "./lib/src/generator/generate.js"
+    "generate-models": "./lib/generator/generate.js"
   }
 }
