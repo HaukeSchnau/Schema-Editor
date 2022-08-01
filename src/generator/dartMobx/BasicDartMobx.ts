@@ -45,7 +45,9 @@ export default class BasicDartMobxGenerator extends CodeGenerator {
   }
 
   buildConstructor(model: Model) {
-    const parentProps = model.getAllParentProps();
+    const parentProps = model
+      .getAllParentProps()
+      .filter((prop) => prop.name !== "_id");
     const name = `Basic${model.name}`;
     return `_${name}(
       {${[
