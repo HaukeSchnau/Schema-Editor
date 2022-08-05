@@ -45,8 +45,7 @@ function checkFileExists(file: string) {
           const baseDir = p.dirname(filePath);
           await fs.mkdir(baseDir, { recursive: true });
 
-          if (generator.ignoreIfExists && (await checkFileExists(filePath)))
-            return;
+          if (file.ignoreIfExists && (await checkFileExists(filePath))) return;
           await fs.writeFile(filePath, file.contents);
         })
       );

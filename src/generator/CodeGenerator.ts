@@ -8,10 +8,11 @@ import { availableGenerators, GeneratorId } from "./Generators";
 export type GeneratedFile = {
   path: string;
   contents: string;
+  ignoreIfExists?: boolean;
 };
 
-function isNotNull(arg: GeneratedFile | null): arg is GeneratedFile {
-  return arg !== null;
+function isNotNull<T>(arg: T | null | undefined): arg is T {
+  return arg !== null && arg !== undefined;
 }
 
 export type GetConfig<C extends CodeGenerator> = C extends CodeGenerator<
@@ -33,7 +34,7 @@ export type BaseGeneratorConfig = z.infer<typeof baseConfigSchema>;
 export default class CodeGenerator<
   Config extends BaseGeneratorConfig = BaseGeneratorConfig
 > {
-  public ignoreIfExists = false;
+  protected ignoreIfExists = false;
 
   static generatorName = "";
 
@@ -51,6 +52,7 @@ export default class CodeGenerator<
         ? {
             path: p.join(this.config.baseDir, "meta.dart"),
             contents: metaFileContents,
+            ignoreIfExists: this.ignoreIfExists,
           }
         : null,
     ].filter(isNotNull);
@@ -77,6 +79,7 @@ export default class CodeGenerator<
               parser: this.language,
             })
           : sourceCode,
+      ignoreIfExists: this.ignoreIfExists,
     };
   }
 

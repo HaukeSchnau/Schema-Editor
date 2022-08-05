@@ -28,15 +28,17 @@ export default class BasicTypescriptGenerator extends CodeGenerator {
 
     const { parent } = model;
 
+    const props = model.properties.filter(
+      (prop) => !isRoot || prop.name !== "_id"
+    );
+
     return `${
       isRoot ? `import { ObjectId } from "mongodb";\n\n` : ""
     }${imports}${imports.length ? "\n\n" : ""}// Generated file. DO NOT EDIT!
 export default interface Basic${model.name}${
       parent ? ` extends Basic${parent.name}` : ""
     } {
-  ${isRoot ? `_id: ObjectId;\n  ` : ""}${model.properties
-      .map(this.buildProp)
-      .join("\n  ")}
+  ${isRoot ? `_id: ObjectId;\n  ` : ""}${props.map(this.buildProp).join("\n  ")}
 }
 `;
   }

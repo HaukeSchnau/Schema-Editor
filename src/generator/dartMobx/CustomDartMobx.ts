@@ -5,7 +5,7 @@ import { propTypeMap, buildImports } from "../util/dartUtil";
 import { toSnakeCase } from "../util/stringUtil";
 
 export default class CustomDartMobxGenerator extends CodeGenerator {
-  public ignoreIfExists = true;
+  protected ignoreIfExists = true;
 
   buildPropTypeString(prop: Property) {
     const basicPropType =
@@ -23,16 +23,16 @@ export default class CustomDartMobxGenerator extends CodeGenerator {
 
   buildConstructor(model: Model) {
     const isRoot = !model.parent;
-    const { allProps } = model;
+    const allProps = model.allProps.filter((prop) => prop.name !== "_id");
     return `_${model.name}(
       {${[...allProps.map((prop) => this.buildParentConstructorArg(prop))].join(
         ",\n      "
       )}})${
       isRoot
-        ? ` : super(${allProps
+        ? ""
+        : ` : super(${allProps
             .map((prop) => `${prop.name}: ${prop.name}`)
             .join(", ")})`
-        : ""
     };`;
   }
 

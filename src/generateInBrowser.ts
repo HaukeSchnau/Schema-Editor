@@ -38,12 +38,17 @@ export default async (schema: Schema, rootDir: FileSystemDirectoryHandle) => {
           const name = p.basename(generatedFile.path);
           const baseDirPath = p.dirname(generatedFile.path);
           const baseDirHandle = await getDir(rootDir, baseDirPath);
-          if (generator.ignoreIfExists && (await exists(baseDirHandle, name)))
+
+          if (
+            generatedFile.ignoreIfExists &&
+            (await exists(baseDirHandle, name))
+          )
             return;
 
           const outFile = await baseDirHandle.getFileHandle(name, {
             create: true,
           });
+
           const writable = await outFile.createWritable();
           await writable.write(generatedFile.contents);
           await writable.close();

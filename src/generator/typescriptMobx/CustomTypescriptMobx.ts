@@ -12,7 +12,7 @@ const configSchema = baseConfigSchema.extend({
 export default class CustomTypescriptMobx extends CodeGenerator<
   z.infer<typeof configSchema>
 > {
-  public ignoreIfExists = true;
+  protected ignoreIfExists = true;
 
   static readonly language: LiteralUnion<BuiltInParserName, string> =
     "typescript";
