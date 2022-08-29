@@ -91,8 +91,8 @@ export default class BasicTypescriptMobx extends CodeGenerator<
     constructor(data: ${dataType});
     constructor(${constructorArg}) {
     ${!isRoot && `super(${!model.parent?.parent ? "" : `{${superArgs}}`})`};
-    makeObservable(this);
     ${assignments}
+    makeObservable(this);
     this.init();
   }`;
   }
